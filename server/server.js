@@ -3,7 +3,7 @@ var knex = require('knex')
 var path = require('path');
 
 var db = require('./db/database.js')
-var app = express()
+var app = express()	
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
