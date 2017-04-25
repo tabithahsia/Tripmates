@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 
 class App extends React.Component {
   constructor(props) {
-    console.log('test');
     super(props);
   }
 
   render() {
     return (
-      <div id="main">hello</div>
+      <div id="main">React app is rendering</div>
     )
   }
 }
