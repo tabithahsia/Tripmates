@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
-import Login from './Login.jsx';
-import App from './App.jsx'
 
 var Signup = () => (
   <div>Signup Page</div>
 )
-
 
 class Header extends React.Component {
   constructor(props) {
@@ -16,7 +13,7 @@ class Header extends React.Component {
 
   render() {
     return (
-    <Router>
+
       <div id="headercontainer">
         <h1>Tripmates</h1>
         <h6>It's Trippy Mayne!</h6>
@@ -25,7 +22,6 @@ class Header extends React.Component {
             <li><Link to="/signup">Signup</Link></li>
         </ul>
       </div>
-    </Router>
 
     )
   }
