@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Header from"./components/Header.jsx"
 
 class App extends React.Component {
   constructor(props) {
@@ -8,7 +9,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="main">React app is rendering</div>
+      <div>
+        <Header />
+        <div id="frontpic"><img src="images/Front_page_pic.jpg"></img></div>
+      </div>
     )
   }
 }
