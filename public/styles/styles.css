@@ -1,0 +1,18 @@
+#headercontainer {
+    height: 150px;
+    background-color: #82C5E9;
+}
+
+
+#login {
+    float: right;
+}
+
+#signup {
+    float: right;
+}
+
+#frontpic {
+    text-align: center;
+    margin: auto;
+}
