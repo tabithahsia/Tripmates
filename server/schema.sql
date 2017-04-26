@@ -1,5 +1,5 @@
 
-drop table if exists tripmates_db;
+drop database if exists tripmates_db;
 
 CREATE DATABASE IF NOT EXISTS tripmates_db;
 
@@ -21,7 +21,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
 
  CREATE TABLE dates (
  	id INT NOT NULL AUTO_INCREMENT,
- 	dateOption DATE, /*may have to be in a specific format*/
+ 	dateOption VARCHAR(255),
  	trip_id INT,
  	PRIMARY KEY(id),
  	FOREIGN KEY(trip_id) REFERENCES trips(id)
@@ -41,7 +41,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  CREATE TABLE comments (
  	id INT NOT NULL AUTO_INCREMENT,
  	comment VARCHAR(500),
- 	createdAt DATE, /*may have to be in a specific format*/
+ 	createdAt TIMESTAMP, 
  	user_id INT,
  	trip_id INT,
  	PRIMARY KEY (id),
@@ -49,6 +49,35 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	FOREIGN KEY (trip_id) REFERENCES trips(id)
  );
 
+ CREATE TABLE user_trips (
+ 	id INT NOT NULL AUTO_INCREMENT,
+ 	user_id INT,
+ 	trip_id INT,
+ 	PRIMARY KEY (id),
+ 	FOREIGN KEY (user_id) REFERENCES users(id),
+ 	FOREIGN KEY (trip_id) REFERENCES trips(id)
+ );
+
+ CREATE TABLE activityVotes (
+ 	id INT NOT NULL AUTO_INCREMENT,
+ 	user_id INT,
+ 	activity_id INT,
+ 	PRIMARY KEY (id),
+ 	FOREIGN KEY (user_id) REFERENCES users(id),
+ 	FOREIGN KEY (activity_id) REFERENCES activities(id)
+ );
+
+ 
+ CREATE TABLE dateVotes (
+ 	id INT NOT NULL AUTO_INCREMENT,
+ 	user_id INT,
+ 	date_id INT,
+ 	PRIMARY KEY (id),
+ 	FOREIGN KEY (user_id) REFERENCES users(id),
+ 	FOREIGN KEY (date_id) REFERENCES dates(id)
+ );
+
+ 
 
 
 
