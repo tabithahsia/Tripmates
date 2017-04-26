@@ -2,7 +2,7 @@
   "name": "Tripmates",
   "version": "1.0.0",
   "description": "> An app that makes it easy for friends to plan a trip together.",
-  "main": "./client/src/app.js",
+  "main": "./client/src/index.js",
   "scripts": {
     "start": "nodemon ./server/server.js",
     "build": "webpack",
@@ -26,7 +26,9 @@
     "knex": "^0.12.9",
     "mysql": "^2.13.0",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
