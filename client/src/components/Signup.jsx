@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import Header from"./Header";
 
-class Landing extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
   }
 
+
   render() {
     return (
-        <div id="frontpic">
-            <img src="images/Front_page_pic.jpg"></img>
-        </div>
+      <div>
+        <Header />
+        Sign up page contents
+      </div>
     )
   }
 }
 
-export default Landing;
-
-        
-    
+export default Signup;
