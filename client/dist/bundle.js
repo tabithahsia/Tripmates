@@ -11209,7 +11209,28 @@ var Login = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(_Header2.default, null),
-        'Login page'
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Login Page'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(
+            'label',
+            null,
+            'Username:',
+            _react2.default.createElement('input', { type: 'text' })
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Password:',
+            _react2.default.createElement('input', { type: 'text' })
+          ),
+          _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+        )
       );
     }
   }]);

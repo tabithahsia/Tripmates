@@ -12,7 +12,21 @@ class Login extends React.Component {
     return (
       <div>
         <Header />
-        Login page
+
+        <h4>Login Page</h4>
+
+        <form>
+        <label>
+          Username:
+          <input type="text" />
+        </label>
+        <label>
+          Password:
+          <input type="text" />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+
       </div>
     )
   }
