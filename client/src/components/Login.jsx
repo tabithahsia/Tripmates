@@ -18,8 +18,8 @@ class Login extends React.Component {
     this.updateInputs = this.updateInputs.bind(this);
   }
 
-  submitLogin(login) {
-    console.log('got into submit login')
+  submitLogin(login, e) {
+    e.preventDefault();
     axios.post('/login', {username: login.username, password: login.password})
       .then(({response}) => {
         console.log(response);
@@ -32,16 +32,10 @@ class Login extends React.Component {
   updateInputs(e) {
     var formEntries = this.state.formEntries;
     var name = e.target.name;
-    console.log(name)
     var value = e.target.value;
 
     formEntries[name] = value;
     this.setState({formEntries});
-
-  }
-
-  submitLoginn() {
-    this.submitLogin(this.state.formEntries)
   }
 
   render() {
@@ -50,8 +44,7 @@ class Login extends React.Component {
         <Header />
 
         <h4>Login Page</h4>
-        {console.log('this ', this)}
-        <form onSubmit={this.submitLoginn}>
+        <form onSubmit={this.submitLogin.bind(this, this.state.formEntries)}>
         <label>
           Username:
           <input name="username" type="text" onChange={this.updateInputs}/>
