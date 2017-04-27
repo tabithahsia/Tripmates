@@ -11216,8 +11216,8 @@ var Login = function (_React$Component) {
 
   _createClass(Login, [{
     key: 'submitLogin',
-    value: function submitLogin(login) {
-      console.log('got into submit login');
+    value: function submitLogin(login, e) {
+      e.preventDefault();
       _axios2.default.post('/login', { username: login.username, password: login.password }).then(function (_ref) {
         var response = _ref.response;
 
@@ -11231,16 +11231,10 @@ var Login = function (_React$Component) {
     value: function updateInputs(e) {
       var formEntries = this.state.formEntries;
       var name = e.target.name;
-      console.log(name);
       var value = e.target.value;
 
       formEntries[name] = value;
       this.setState({ formEntries: formEntries });
-    }
-  }, {
-    key: 'submitLoginn',
-    value: function submitLoginn() {
-      this.submitLogin(this.state.formEntries);
     }
   }, {
     key: 'render',
@@ -11254,10 +11248,9 @@ var Login = function (_React$Component) {
           null,
           'Login Page'
         ),
-        console.log('this ', this),
         _react2.default.createElement(
           'form',
-          { onSubmit: this.submitLoginn },
+          { onSubmit: this.submitLogin.bind(this, this.state.formEntries) },
           _react2.default.createElement(
             'label',
             null,

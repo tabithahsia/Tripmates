@@ -12,12 +12,9 @@ var app = express();
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
 
-// app.get('/login', function(req, res){
-//   res.render("src/components/App.jsx");
-// })
-
 app.post('/login', function (req, res){
-  res.send("haaaai")
+  console.log("username", req.body.username);
+  res.send(req.body.username)
 })
 
 app.listen(3000, function () {
