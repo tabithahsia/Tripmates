@@ -13,10 +13,14 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
 
 app.post('/login', function (req, res){
-  console.log("username", req.body.username);
+  console.log("log in username", req.body.username);
   res.send(req.body.username)
 })
 
+app.post('/signup', function (req, res){
+  console.log("sign up username", req.body.username);
+  res.send(req.body.username)
+})
 app.listen(3000, function () {
   console.log('Listening on port 3000!')
 })

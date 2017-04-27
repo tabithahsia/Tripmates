@@ -11,7 +11,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      formEntries: {}
+      userInfo: {}
     }
 
     this.submitLogin = this.submitLogin.bind(this);
@@ -30,12 +30,12 @@ class Login extends React.Component {
   }
 
   updateInputs(e) {
-    var formEntries = this.state.formEntries;
+    var userInfo = this.state.userInfo;
     var name = e.target.name;
     var value = e.target.value;
 
-    formEntries[name] = value;
-    this.setState({formEntries});
+    userInfo[name] = value;
+    this.setState({userInfo});
   }
 
   render() {
@@ -43,8 +43,8 @@ class Login extends React.Component {
       <div>
         <Header />
 
-        <h4>Login Page</h4>
-        <form onSubmit={this.submitLogin.bind(this, this.state.formEntries)}>
+        <h4>Log in</h4>
+        <form onSubmit={this.submitLogin.bind(this, this.state.userInfo)}>
         <label>
           Username:
           <input name="username" type="text" onChange={this.updateInputs}/>
