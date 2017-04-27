@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Link, BrowserRouter as Router} from 'react-router-dom';
 import Header from"./Header";
 import axios from 'axios';
+import App from "./App";
+
 
 class Signup extends React.Component {
   constructor(props) {
@@ -20,11 +22,12 @@ class Signup extends React.Component {
     e.preventDefault();
     axios.post('/signup', {username: signup.username, password: signup.password})
       .then(({response}) => {
-        console.log(response);
+        this.props.history.push('/profile');
       })
       .catch(err => {
         console.error("error in post entries", err);
       })
+
   }
 
   updateInputs(e) {

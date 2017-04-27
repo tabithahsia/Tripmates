@@ -6,11 +6,15 @@ var bodyParser = require('body-parser');
 var db = require('./db/database.js');
 var app = express();
 
- app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
+
+app.get('/profile', function (req, res) {
+  res.send('hi')
+})
 
 app.post('/login', function (req, res){
   console.log("log in username", req.body.username);
@@ -20,7 +24,6 @@ app.post('/login', function (req, res){
 })
 
 app.post('/signup', function (req, res){
-  console.log("sign up username", req.body.username);
 
   var userName = req.body.username;
 
