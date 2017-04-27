@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/anyu/Tripmates#readme",
   "dependencies": {
+    "axios": "^0.16.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "knex": "^0.12.9",
