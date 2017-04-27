@@ -6,9 +6,9 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  USE tripmates_db;
 
  CREATE TABLE users (
- 	id INT NOT NULL AUTO_INCREMENT,
- 	username VARCHAR(255),
- 	PRIMARY KEY(id)
+  id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(255),
+  PRIMARY KEY(id)
  );
 
  CREATE TABLE trips (
@@ -46,7 +46,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	trip_id INT,
  	PRIMARY KEY (id),
  	FOREIGN KEY(user_id) REFERENCES users(id),
- 	FOREIGN KEY (trip_id) REFERENCES trips(id)
+ 	FOREIGN KEY(trip_id) REFERENCES trips(id)
  );
 
  CREATE TABLE user_trips (
