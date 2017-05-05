@@ -16,23 +16,36 @@ app.get('/profile', function (req, res) {
   res.send('hi')
 })
 
-app.post('/login', function (req, res){
-  console.log("log in username", req.body.username);
-  var userName = req.body.username;
-  var password = req.body.password;
-  res.send(req.body.username)
-})
+// app.post('/login', function (req, res){
+//   console.log("log in username", req.body.username);
+//   var userName = req.body.username;
+//   var password = req.body.password;
+//   res.send(req.body.username)
+// })
 
 app.post('/signup', function (req, res){
+  console.log("inpost request", req.body);
 
-  var userName = req.body.username;
+  var username = req.body.username;
+  var password = req.body.password;
 
-  var query = `INSERT INTO users(username) VALUES ('${userName}')`;
+  var query = `INSERT INTO users(username,password) VALUES('${username}', '${password}')`;
   db.dbConnection.query(query);
-
-  res.send(req.body.username)
+  res.send("Added to DB");
 })
 
+
+var addAlbum = function(album, cb) {
+  var query = `INSERT INTO kanyes(era,year,description,imageURL) VALUES('${album.era}','${album.year}','${album.description}','${album.imageURL}')`;
+  connection.query(query, (err,results,fields) => {
+    if (err) {
+      cb(err, false);
+    } else {
+      console.log('Added new album to db');
+      cb(null, true);
+    }
+  });
+}
 
 
 app.listen(3000, function () {
