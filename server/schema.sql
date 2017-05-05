@@ -8,6 +8,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(255),
+  password VARCHAR(255),
   PRIMARY KEY(id)
  );
 
@@ -33,7 +34,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	activityDescription VARCHAR(255),
  	est_cost INT,
  	vote_count INT,
- 	trip_id INT, 
+ 	trip_id INT,
  	PRIMARY KEY(id),
  	FOREIGN KEY(trip_id) REFERENCES trips(id)
  );
@@ -41,7 +42,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  CREATE TABLE comments (
  	id INT NOT NULL AUTO_INCREMENT,
  	comment VARCHAR(500),
- 	createdAt TIMESTAMP, 
+ 	createdAt TIMESTAMP,
  	user_id INT,
  	trip_id INT,
  	PRIMARY KEY (id),
@@ -67,7 +68,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	FOREIGN KEY (activity_id) REFERENCES activities(id)
  );
 
- 
+
  CREATE TABLE dateVotes (
  	id INT NOT NULL AUTO_INCREMENT,
  	user_id INT,
@@ -76,12 +77,3 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	FOREIGN KEY (user_id) REFERENCES users(id),
  	FOREIGN KEY (date_id) REFERENCES dates(id)
  );
-
- 
-
-
-
-
-
-
-

@@ -17,18 +17,34 @@ class Signup extends React.Component {
     this.submitSignup = this.submitSignup.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
   }
+  //
+  // submitSignup(signup, e) {
+  //   e.preventDefault();
+  //   console.log("user", signup.username);
+  //   console.log("pw", signup.password);
+  //   axios.post('/signup', {username: signup.username, password: signup.password})
+  //     .then((response) => {
+  //       console.log("response");
+  //       this.props.history.push('/profile');
+  //     })
+  //     .catch((err) => {
+  //       console.error("error in post entries", err);
+  //     })
+  //
+  // }
 
   submitSignup(signup, e) {
-    e.preventDefault();
-    axios.post('/signup', {username: signup.username, password: signup.password})
-      .then(({response}) => {
-        this.props.history.push('/profile');
-      })
-      .catch(err => {
-        console.error("error in post entries", err);
-      })
+   e.preventDefault();
+   axios.post('/signup', {username: signup.username, password: signup.password})
+     .then(({response}) => {
+       //this line will take you to /profile
+       this.props.history.push('/profile');
+     })
+     .catch(err => {
+       console.error("error in post entries", err);
+     })
 
-  }
+ }
 
   updateInputs(e) {
     var userInput = this.state.userInput;
@@ -53,7 +69,7 @@ class Signup extends React.Component {
           </label>
           <label>
             Password:
-            <input name="password" type="text" onChange={this.updateInputs}/>
+            <input name="password" type="password" onChange={this.updateInputs}/>
           </label>
           <input type="submit" value="Submit" />
         </form>
