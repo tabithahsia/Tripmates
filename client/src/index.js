@@ -6,6 +6,7 @@ import App from "./components/App";
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
+import CreateTrip from './components/CreateTrip';
 
 ReactDOM.render(
   <div>
@@ -15,6 +16,7 @@ ReactDOM.render(
             <Route path="/login" component={Login}/>
             <Route path="/signup" component={Signup}/>
             <Route path="/profile" component={Profile}/>
+            <Route path="/createTrip" component={CreateTrip}/> 
         </div>
     </Router>
   </div>
