@@ -42,20 +42,24 @@ class Login extends React.Component {
     return (
       <div>
         <Header />
+          <div id="content">
+              <div id="form_container">
+              <h3>Log in</h3>
 
-        <h4>Log in</h4>
-        <form onSubmit={this.submitLogin.bind(this, this.state.userInfo)}>
-        <label>
-          Username:
-          <input name="username" type="text" onChange={this.updateInputs}/>
-        </label>
-        <label>
-          Password:
-          <input name="password" type="text" onChange={this.updateInputs}/>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+              <form>
+                <div class="form_element">
+                  <label>Username</label>
+                    <input name="username" type="text" onChange={this.updateInputs}/>
+                </div>
 
+                <div class="form_element">
+                  <label>Password</label>
+                  <input name="password" type="password" onChange={this.updateInputs}/>
+                </div>
+                <button>Log In</button>
+              </form>
+            </div>
+          </div>
       </div>
     )
   }
