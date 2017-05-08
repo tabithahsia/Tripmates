@@ -240,10 +240,6 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -5448,36 +5444,39 @@ var Header = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'headercontainer' },
+        { id: 'header_container' },
         _react2.default.createElement(
-          'h1',
-          null,
-          'Tripmates'
-        ),
-        _react2.default.createElement(
-          'h6',
-          null,
-          'It\'s Trippy Mayne!'
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
+          'div',
+          { id: 'header_wrapper' },
           _react2.default.createElement(
-            'li',
-            null,
+            'div',
+            { id: 'logo' },
             _react2.default.createElement(
-              _reactRouterDom.Link,
-              { to: '/login' },
-              'Login'
+              'h1',
+              null,
+              'Tripmates'
             )
           ),
           _react2.default.createElement(
-            'li',
+            'nav',
             null,
             _react2.default.createElement(
-              _reactRouterDom.Link,
-              { to: '/signup' },
-              'Signup'
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/login' },
+                'Log in'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/signup' },
+                'Sign up'
+              )
             )
           )
         )
@@ -7939,18 +7938,28 @@ var App = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { id: 'main' },
         _react2.default.createElement(_Header2.default, null),
         _react2.default.createElement(
           'div',
-          { id: 'frontpic' },
-          _react2.default.createElement('img', { src: 'images/Front_page_pic.jpg' }),
+          { id: 'banner' },
           _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/createTrip' },
-            'Add a trip'
+            'div',
+            { id: 'tagline' },
+            'Explore the world with your trippy trippy mates'
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'mainCTA' },
+            'Create a trip'
           )
-        )
+        ),
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/createTrip' },
+          'Add a trip'
+        ),
+        _react2.default.createElement('div', { id: 'placeholderdiv' })
       );
     }
   }]);
