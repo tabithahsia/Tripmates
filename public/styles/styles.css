@@ -1,5 +1,9 @@
+
+
 #headercontainer {
     height: 150px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 
@@ -14,4 +18,25 @@
 #frontpic {
     text-align: center;
     margin: auto;
+}
+
+#createTripHeader {
+}
+
+#createTripSubheader {
+	color: grey;
+}
+#createTripParent {
+	padding: 0 auto;
+	width: 600px;
+}
+
+#firstHalf {
+	float: left;
+	width: 300px;
+}
+
+#secondHalf {
+	float: right;
+	width: 300px;
 }
