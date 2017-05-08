@@ -13,14 +13,16 @@ class Header extends React.Component {
 
   render() {
     return (
-
-      <div id="headercontainer">
-        <h1>Tripmates</h1>
-        <h6>It's Trippy Mayne!</h6>
-        <ul>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup">Signup</Link></li>
-        </ul>
+      <div id="header_container">
+          <div id="header_wrapper">
+          <div id="logo">
+            <h1>Tripmates</h1>
+          </div>
+          <nav>
+              <li><Link to="/login">Log in</Link></li>
+              <li><Link to="/signup">Sign up</Link></li>
+          </nav>
+        </div>
       </div>
 
     )

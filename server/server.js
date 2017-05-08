@@ -12,6 +12,11 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
 
+app.get('/signup', function (req, res) {
+  res.render('/Signup')
+})
+
+
 app.get('/profile', function (req, res) {
   res.send('hi')
 })
