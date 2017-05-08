@@ -54,6 +54,7 @@ button {
   padding-top: 10px;
 }
 
+<<<<<<< HEAD
 nav {
   margin-left: 400px;
   display: inline-block;
@@ -84,3 +85,30 @@ nav li {
 #placeholderdiv {
   height: 500px;
 }
+=======
+#frontpic {
+    text-align: center;
+    margin: auto;
+}
+
+#createTripHeader {
+}
+
+#createTripSubheader {
+	color: grey;
+}
+#createTripParent {
+	padding: 0 auto;
+	width: 600px;
+}
+
+#firstHalf {
+	float: left;
+	width: 300px;
+}
+
+#secondHalf {
+	float: right;
+	width: 300px;
+}
+>>>>>>> 71050fe4018c2e56f6741de415da278d98b7a8b4
