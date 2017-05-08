@@ -16,7 +16,7 @@ class Header extends React.Component {
       <div id="header_container">
           <div id="header_wrapper">
           <div id="logo">
-            <h1>Tripmates</h1>
+            <Link to="/"><h1>Tripmates</h1></Link>
           </div>
           <nav>
               <li><Link to="/login">Log in</Link></li>
