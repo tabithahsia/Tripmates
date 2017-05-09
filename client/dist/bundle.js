@@ -11898,22 +11898,51 @@ var Login = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
     _this.state = {
-      userInfo: {}
+      userInfo: {},
+      userTable: {}
     };
 
     _this.submitLogin = _this.submitLogin.bind(_this);
     _this.updateInputs = _this.updateInputs.bind(_this);
+    _this.getUserTable = _this.getUserTable.bind(_this);
+
     return _this;
   }
 
   _createClass(Login, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.getUserTable();
+    }
+  }, {
+    key: 'getUserTable',
+    value: function getUserTable() {
+      var _this2 = this;
+
+      _axios2.default.get('/userTable').then(function (result) {
+        console.log(result);
+        _this2.setState({
+          userTable: result.data
+        });
+      }).catch(function (error) {
+        console.log(error, 'error');
+      });
+    }
+  }, {
     key: 'submitLogin',
     value: function submitLogin(login, e) {
-      e.preventDefault();
-      _axios2.default.post('/login', { username: login.username, password: login.password }).then(function (_ref) {
-        var response = _ref.response;
+      var _this3 = this;
 
-        console.log(response);
+      e.preventDefault();
+      _axios2.default.post('/login', { username: login.username, password: login.password }).then(function (response) {
+        console.log(_this3.state.userTable);
+
+        //if to check if in database
+        for (var i = 0; i < _this3.state.userTable.length; i++) {
+          if (login.username === _this3.state.userTable[i].username && login.password === _this3.state.userTable[i].password) {
+            _this3.props.history.push('/profile');
+          }
+        }
       }).catch(function (err) {
         console.error("error in post entries", err);
       });
@@ -11953,7 +11982,7 @@ var Login = function (_React$Component) {
             'label',
             null,
             'Password:',
-            _react2.default.createElement('input', { name: 'password', type: 'text', onChange: this.updateInputs })
+            _react2.default.createElement('input', { name: 'password', type: 'password', onChange: this.updateInputs })
           ),
           _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
         )
@@ -12028,8 +12057,7 @@ var Profile = function (_React$Component) {
 
             _axios2.default.get('/profile').then(function (result) {
                 var userTrip = _this2.state.userTrip;
-                userTrip['tripName'] = result.data[0].tripName;
-                console.log(userTrip);
+                userTrip['username'] = result.data[0].username;
                 _this2.setState({ userTrip: userTrip });
             }).catch(function (error) {
                 console.error(error);
@@ -12042,14 +12070,14 @@ var Profile = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'h3',
+                    'h1',
                     null,
                     'Profile Page'
                 ),
                 _react2.default.createElement(
                     'div',
                     null,
-                    this.state.userTrip.tripName
+                    this.state.userTrip.username
                 )
             );
         }
