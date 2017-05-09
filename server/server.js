@@ -18,16 +18,17 @@ app.get('/profile', function (req, res) {
     if(error) {
       console.error(error)
     }
-    res.send(results)
-    var query1 = `SELECT id FROM users WHERE username = '${results[0].username}'`
-    db.dbConnection.query(query1, function(error1, results1, fields) {
+    // res.send(results)
+    var currentUserQuery = `SELECT id FROM users WHERE username = '${results[0].username}'`
+    db.dbConnection.query(currentUserQuery, function(error1, currentUser, fields) {
       if(error) {
         console.log(error1)
       }
-      console.log('result1', results1)
-      var query2 = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${results1[0].id}'`
-      db.dbConnection.query(query2, function(error,results2,fields){
-        console.log('result2', results2)
+      console.log('currentUser', currentUser)
+      var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
+      db.dbConnection.query(tripsQuery, function(error,tripList,fields){
+        console.log('tripList', tripList[0].tripName)
+        res.send(tripList);
       })
     })
   });

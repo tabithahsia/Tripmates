@@ -12057,7 +12057,9 @@ var Profile = function (_React$Component) {
 
             _axios2.default.get('/profile').then(function (result) {
                 var userTrip = _this2.state.userTrip;
-                userTrip['username'] = result.data[0].username;
+                console.log('resultss', result);
+                // userTrip['username'] = result.data[0].username;
+                userTrip['tripName'] = result.data[0].tripName;
                 _this2.setState({ userTrip: userTrip });
             }).catch(function (error) {
                 console.error(error);
@@ -12077,7 +12079,7 @@ var Profile = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     null,
-                    this.state.userTrip.username
+                    this.state.userTrip.tripName
                 )
             );
         }

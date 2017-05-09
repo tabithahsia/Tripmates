@@ -21,9 +21,11 @@ class Profile extends React.Component {
       axios.get('/profile')
         .then((result) => {
             var userTrip = this.state.userTrip;
-            userTrip['username'] = result.data[0].username;
+            console.log('resultss', result);
+            // userTrip['username'] = result.data[0].username;
+            userTrip['tripName'] = result.data[0].tripName; 
             this.setState({userTrip})
-        })
+        }) 
         .catch((error) => {
             console.error(error);
         })
@@ -33,7 +35,7 @@ class Profile extends React.Component {
     return (
         <div>
             <h1>Profile Page</h1>
-            <div>{this.state.userTrip.username}</div>
+            <div>{this.state.userTrip.tripName}</div>
         </div>
     )
   }
