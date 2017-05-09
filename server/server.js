@@ -19,6 +19,7 @@ app.get('/signup', function (req, res) {
 
 app.get('/profile', function (req, res) {
   var userData = {};
+  var tripArray = [];
 
   var query = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
   db.dbConnection.query(query, function(error,results,fields) {
@@ -33,31 +34,23 @@ app.get('/profile', function (req, res) {
       if(error) {
         console.log(error1)
       }
-      
-      console.log('currentUser', currentUser)
+    
+      var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
+      db.dbConnection.query(tripsQuery, function (error, tripList, fields) {
+        if (tripList[0]) {
+        console.log('tripList', tripList[0].tripName)
 
-        var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
-        db.dbConnection.query(tripsQuery, function (error, tripList, fields) {
-          if (tripList[0]) {
-          console.log('tripList', tripList[0].tripName)
-
-          userData['trips'] = tripList[0].tripName;
-          res.send(userData);
-          }
-        })
-      
+        for (var i = 0; i < tripList.length; i++) {
+          tripArray.push(tripList[i].tripName)
+        }
+        userData['trips'] = tripArray;
+        res.send(userData);
+        }
+      })    
     })
   });
 })
 
-
-
-// app.post('/login', function (req, res){
-//   console.log("log in username", req.body.username);
-//   var userName = req.body.username;
-//   var password = req.body.password;
-//   res.send(req.body.username)
-// })
 
 app.post('/signup', function (req, res){
   console.log("inpost request", req.body);
@@ -95,6 +88,8 @@ app.get('/userTable', function(req, res) {
   });
 })
 
+<<<<<<< HEAD
+=======
 app.post('/tripInfo', function(req, res) {
   console.log(req.body)
   //var query = '';
@@ -112,6 +107,7 @@ app.post('/tripInfo', function(req, res) {
 //   });
 // }
 
+>>>>>>> 692e4accceb4b3b7d47427b2a091a4029188bd43
 
 app.listen(3000, function () {
   console.log('Listening on port 3000!')

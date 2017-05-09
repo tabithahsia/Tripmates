@@ -15,16 +15,11 @@ class Profile extends React.Component {
     }
     this.getProfile = this.getProfile.bind(this);
   }
-
-  componentDidMount() {
-    this.getProfile();
-  }
-
+  
   getProfile() {
       axios.get('/profile')
         .then((result) => {
             var userTrip = this.state.userTrip;
-            console.log('resultss', result);
             userTrip['userName'] = result.data.user[0].username;
             userTrip['tripName'] = result.data.trips; 
             this.setState({userTrip})
@@ -34,13 +29,21 @@ class Profile extends React.Component {
         })
   }
 
+  componentDidMount() {
+    this.getProfile();
+  }
+
   render() {
+    var tripArray = this.state.userTrip.tripName;
+   
     return (
         <div>
             <Header />
             <h1>Profile Page</h1>
             <div>Hey {this.state.userTrip.userName}</div>
-            <div>Your Trips {this.state.userTrip.tripName}</div>
+            <div>Your Trips</div> 
+           
+            {tripArray ? tripArray.map((trip, index) => { return <div key={index}>{trip}</div> }): null}
         </div>
     )
   }
