@@ -36,7 +36,6 @@ app.get('/profile', function (req, res) {
       
       console.log('currentUser', currentUser)
 
-      
         var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
         db.dbConnection.query(tripsQuery, function (error, tripList, fields) {
           if (tripList[0]) {
@@ -94,6 +93,11 @@ app.get('/userTable', function(req, res) {
     }
     res.send(results)
   });
+})
+
+app.post('/tripInfo', function(req, res) {
+  console.log(req.body)
+  //var query = '';
 })
 
 // var addAlbum = function(album, cb) {

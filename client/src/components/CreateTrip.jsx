@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from"./Header";
+import axios from 'axios';
 
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
@@ -23,7 +24,7 @@ class CreateTrip extends React.Component {
 
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onDateSubmission = this.onDateSubmission.bind(this);
-
+    this.onaddTripClick = this.onaddTripClick.bind(this);
   }
 
   onActivityClick(e) {
@@ -50,6 +51,14 @@ class CreateTrip extends React.Component {
 
   onaddTripClick (e) {
     e.preventDefault();
+    axios.post('/tripInfo', {dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost})
+      .then(() => {
+        console.log('sucessful post')
+      })
+      .catch((error) => {
+        console.log('error in post for trip form', error)
+      })
+    //this.props.history.push('/contributeTrip')
     //push info to db
   }
 
@@ -86,7 +95,7 @@ class CreateTrip extends React.Component {
             <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
             <button id="secondary" onClick={this.onActivityClick}>+</button>
           </div>
-          <button id="primary">Add trip</button>
+          <button id="primary" onClick={this.onaddTripClick}>Add trip</button>
         </form>
         </div>
       </div>
