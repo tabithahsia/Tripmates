@@ -240,6 +240,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -1617,7 +1621,7 @@ var CallbackQueue = __webpack_require__(80);
 var PooledClass = __webpack_require__(20);
 var ReactFeatureFlags = __webpack_require__(85);
 var ReactReconciler = __webpack_require__(25);
-var Transaction = __webpack_require__(37);
+var Transaction = __webpack_require__(38);
 
 var invariant = __webpack_require__(1);
 
@@ -2585,7 +2589,7 @@ var _assign = __webpack_require__(4);
 var ReactCurrentOwner = __webpack_require__(15);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(40);
+var canDefineProperty = __webpack_require__(41);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(102);
@@ -3040,7 +3044,7 @@ module.exports = warning;
 
 
 var DOMNamespaces = __webpack_require__(48);
-var setInnerHTML = __webpack_require__(39);
+var setInnerHTML = __webpack_require__(40);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(55);
 var setTextContent = __webpack_require__(98);
@@ -3355,7 +3359,7 @@ var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var canDefineProperty = __webpack_require__(40);
+  var canDefineProperty = __webpack_require__(41);
   var ReactElementValidator = __webpack_require__(103);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3539,7 +3543,7 @@ var createPath = exports.createPath = function createPath(location) {
 
 var _prodInvariant = __webpack_require__(3);
 
-var EventPluginRegistry = __webpack_require__(34);
+var EventPluginRegistry = __webpack_require__(35);
 var EventPluginUtils = __webpack_require__(49);
 var ReactErrorUtils = __webpack_require__(53);
 
@@ -4066,6 +4070,108 @@ module.exports = SyntheticUIEvent;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(18);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactRouterDom = __webpack_require__(19);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Signup = function Signup() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'Signup Page'
+  );
+};
+
+var Header = function (_React$Component) {
+  _inherits(Header, _React$Component);
+
+  function Header(props) {
+    _classCallCheck(this, Header);
+
+    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+  }
+
+  _createClass(Header, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { id: 'header_container' },
+        _react2.default.createElement(
+          'div',
+          { id: 'header_wrapper' },
+          _react2.default.createElement(
+            'div',
+            { id: 'logo' },
+            _react2.default.createElement(
+              _reactRouterDom.Link,
+              { to: '/' },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Tripmates'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'nav',
+            null,
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/login' },
+                'Log in'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/signup' },
+                'Sign up'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Header;
+}(_react2.default.Component);
+
+exports.default = Header;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4121,7 +4227,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4382,7 +4488,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4400,7 +4506,7 @@ module.exports = EventPluginRegistry;
 
 var _assign = __webpack_require__(4);
 
-var EventPluginRegistry = __webpack_require__(34);
+var EventPluginRegistry = __webpack_require__(35);
 var ReactEventEmitterMixin = __webpack_require__(184);
 var ViewportMetrics = __webpack_require__(91);
 
@@ -4715,7 +4821,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4792,7 +4898,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5023,7 +5129,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5151,7 +5257,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5254,7 +5360,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5286,13 +5392,13 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(110);
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5390,104 +5496,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(18);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactRouterDom = __webpack_require__(19);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Signup = function Signup() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'Signup Page'
-  );
-};
-
-var Header = function (_React$Component) {
-  _inherits(Header, _React$Component);
-
-  function Header(props) {
-    _classCallCheck(this, Header);
-
-    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
-  }
-
-  _createClass(Header, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { id: 'header_container' },
-        _react2.default.createElement(
-          'div',
-          { id: 'header_wrapper' },
-          _react2.default.createElement(
-            'div',
-            { id: 'logo' },
-            _react2.default.createElement(
-              'h1',
-              null,
-              'Tripmates'
-            )
-          ),
-          _react2.default.createElement(
-            'nav',
-            null,
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/login' },
-                'Log in'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/signup' },
-                'Sign up'
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Header;
-}(_react2.default.Component);
-
-exports.default = Header;
 
 /***/ }),
 /* 44 */
@@ -5745,7 +5753,7 @@ var ReactDOMComponentTree = __webpack_require__(5);
 var ReactInstrumentation = __webpack_require__(12);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(55);
-var setInnerHTML = __webpack_require__(39);
+var setInnerHTML = __webpack_require__(40);
 var setTextContent = __webpack_require__(98);
 
 function getNodeAfter(parentNode, node) {
@@ -7476,7 +7484,7 @@ module.exports = validateDOMNesting;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -7684,7 +7692,7 @@ var _prodInvariant = __webpack_require__(22);
 
 var ReactNoopUpdateQueue = __webpack_require__(65);
 
-var canDefineProperty = __webpack_require__(40);
+var canDefineProperty = __webpack_require__(41);
 var emptyObject = __webpack_require__(27);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -7910,7 +7918,7 @@ var _reactDom = __webpack_require__(18);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Header = __webpack_require__(43);
+var _Header = __webpack_require__(33);
 
 var _Header2 = _interopRequireDefault(_Header);
 
@@ -7949,17 +7957,28 @@ var App = function (_React$Component) {
             'Explore the world with your trippy trippy mates'
           ),
           _react2.default.createElement(
-            'button',
-            { id: 'mainCTA' },
-            'Create a trip'
+            _reactRouterDom.Link,
+            { to: '/createTrip' },
+            _react2.default.createElement(
+              'button',
+              { id: 'mainCTA' },
+              'Create a trip'
+            )
           )
         ),
         _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/createTrip' },
-          'Add a trip'
-        ),
-        _react2.default.createElement('div', { id: 'placeholderdiv' })
+          'div',
+          { id: 'placeholderdiv' },
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/contributeTrip' },
+            _react2.default.createElement(
+              'button',
+              { id: 'mainCTA' },
+              'Contribute to a trip'
+            )
+          )
+        )
       );
     }
   }]);
@@ -10035,7 +10054,7 @@ var _prodInvariant = __webpack_require__(3);
 var DOMLazyTree = __webpack_require__(24);
 var DOMProperty = __webpack_require__(17);
 var React = __webpack_require__(26);
-var ReactBrowserEventEmitter = __webpack_require__(35);
+var ReactBrowserEventEmitter = __webpack_require__(36);
 var ReactCurrentOwner = __webpack_require__(15);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactDOMContainerInfo = __webpack_require__(167);
@@ -10051,7 +10070,7 @@ var ReactUpdates = __webpack_require__(14);
 var emptyObject = __webpack_require__(27);
 var instantiateReactComponent = __webpack_require__(96);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(39);
+var setInnerHTML = __webpack_require__(40);
 var shouldUpdateReactComponent = __webpack_require__(60);
 var warning = __webpack_require__(2);
 
@@ -11039,8 +11058,8 @@ module.exports = isTextInputElement;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(38);
-var setInnerHTML = __webpack_require__(39);
+var escapeTextContentForBrowser = __webpack_require__(39);
+var setInnerHTML = __webpack_require__(40);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -11562,7 +11581,7 @@ var ReactElement = __webpack_require__(21);
 
 var checkReactTypeSpec = __webpack_require__(251);
 
-var canDefineProperty = __webpack_require__(40);
+var canDefineProperty = __webpack_require__(41);
 var getIteratorFn = __webpack_require__(105);
 var warning = __webpack_require__(2);
 
@@ -11889,6 +11908,10 @@ var _reactDom = __webpack_require__(18);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _Header = __webpack_require__(33);
+
+var _Header2 = _interopRequireDefault(_Header);
+
 var _reactRouterDom = __webpack_require__(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -11914,10 +11937,87 @@ var CreateTrip = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(_Header2.default, null),
         _react2.default.createElement(
-          'h1',
-          null,
-          'Create a Trip'
+          'div',
+          { id: 'createTripParent' },
+          _react2.default.createElement(
+            'form',
+            null,
+            _react2.default.createElement(
+              'h3',
+              { id: 'pageheader' },
+              'Create a Trip'
+            ),
+            _react2.default.createElement(
+              'h4',
+              { id: 'subheader' },
+              'Get Trippy!'
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'firstHalf' },
+              _react2.default.createElement(
+                'label',
+                null,
+                'Trip Name'
+              ),
+              _react2.default.createElement('input', { name: 'tripName', type: 'text' }),
+              _react2.default.createElement(
+                'label',
+                null,
+                'Destination'
+              ),
+              _react2.default.createElement('input', { name: 'tripName', type: 'text' }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'label',
+                null,
+                'Date Range'
+              ),
+              _react2.default.createElement('input', { name: 'dateRange', type: 'text' }),
+              _react2.default.createElement(
+                'button',
+                { id: 'secondary' },
+                '+'
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'secondHalf' },
+              _react2.default.createElement(
+                'label',
+                null,
+                'Estimated Cost'
+              ),
+              _react2.default.createElement('input', { name: 'estimatedCost', type: 'text', placeholder: '$' }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'label',
+                null,
+                'Add an Activity'
+              ),
+              _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Activity name' }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Description/Link' }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Cost' }),
+              _react2.default.createElement(
+                'button',
+                { id: 'secondary' },
+                '+'
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { id: 'primary' },
+              'Add trip'
+            )
+          )
         )
       );
     }
@@ -11951,11 +12051,11 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouterDom = __webpack_require__(19);
 
-var _Header = __webpack_require__(43);
+var _Header = __webpack_require__(33);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _axios = __webpack_require__(41);
+var _axios = __webpack_require__(42);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -12014,26 +12114,46 @@ var Login = function (_React$Component) {
         null,
         _react2.default.createElement(_Header2.default, null),
         _react2.default.createElement(
-          'h4',
-          null,
-          'Log in'
-        ),
-        _react2.default.createElement(
-          'form',
-          { onSubmit: this.submitLogin.bind(this, this.state.userInfo) },
+          'div',
+          { id: 'content' },
           _react2.default.createElement(
-            'label',
-            null,
-            'Username:',
-            _react2.default.createElement('input', { name: 'username', type: 'text', onChange: this.updateInputs })
-          ),
-          _react2.default.createElement(
-            'label',
-            null,
-            'Password:',
-            _react2.default.createElement('input', { name: 'password', type: 'text', onChange: this.updateInputs })
-          ),
-          _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+            'div',
+            { id: 'form_container' },
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Log in'
+            ),
+            _react2.default.createElement(
+              'form',
+              null,
+              _react2.default.createElement(
+                'div',
+                { 'class': 'form_element' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'Username'
+                ),
+                _react2.default.createElement('input', { name: 'username', type: 'text', onChange: this.updateInputs })
+              ),
+              _react2.default.createElement(
+                'div',
+                { 'class': 'form_element' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'Password'
+                ),
+                _react2.default.createElement('input', { name: 'password', type: 'password', onChange: this.updateInputs })
+              ),
+              _react2.default.createElement(
+                'button',
+                null,
+                'Log In'
+              )
+            )
+          )
         )
       );
     }
@@ -12067,7 +12187,7 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouterDom = __webpack_require__(19);
 
-var _axios = __webpack_require__(41);
+var _axios = __webpack_require__(42);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -12161,11 +12281,11 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouterDom = __webpack_require__(19);
 
-var _Header = __webpack_require__(43);
+var _Header = __webpack_require__(33);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _axios = __webpack_require__(41);
+var _axios = __webpack_require__(42);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -12244,31 +12364,47 @@ var Signup = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(_Header2.default, null),
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement(_Header2.default, null),
+          { id: 'content' },
           _react2.default.createElement(
-            'h4',
-            null,
-            'Sign up'
-          ),
-          _react2.default.createElement(
-            'form',
-            { onSubmit: this.submitSignup.bind(this, this.state.userInput) },
+            'div',
+            { id: 'form_container' },
             _react2.default.createElement(
-              'label',
+              'h3',
               null,
-              'Username:',
-              _react2.default.createElement('input', { name: 'username', type: 'text', onChange: this.updateInputs })
+              'Sign up'
             ),
             _react2.default.createElement(
-              'label',
-              null,
-              'Password:',
-              _react2.default.createElement('input', { name: 'password', type: 'password', onChange: this.updateInputs })
-            ),
-            _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+              'form',
+              { onSubmit: this.submitSignup.bind(this, this.state.userInput) },
+              _react2.default.createElement(
+                'div',
+                { 'class': 'form_element' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'Username'
+                ),
+                _react2.default.createElement('input', { name: 'username', type: 'text', onChange: this.updateInputs })
+              ),
+              _react2.default.createElement(
+                'div',
+                { 'class': 'form_element' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  'Password'
+                ),
+                _react2.default.createElement('input', { name: 'password', type: 'password', onChange: this.updateInputs })
+              ),
+              _react2.default.createElement(
+                'button',
+                null,
+                'Sign Up'
+              )
+            )
           )
         )
       );
@@ -12290,7 +12426,7 @@ exports.default = Signup;
 var utils = __webpack_require__(9);
 var bind = __webpack_require__(71);
 var Axios = __webpack_require__(112);
-var defaults = __webpack_require__(42);
+var defaults = __webpack_require__(43);
 
 /**
  * Create an instance of Axios
@@ -12410,7 +12546,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(42);
+var defaults = __webpack_require__(43);
 var utils = __webpack_require__(9);
 var InterceptorManager = __webpack_require__(113);
 var dispatchRequest = __webpack_require__(114);
@@ -12564,7 +12700,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(9);
 var transformData = __webpack_require__(117);
 var isCancel = __webpack_require__(69);
-var defaults = __webpack_require__(42);
+var defaults = __webpack_require__(43);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -13154,6 +13290,10 @@ var _CreateTrip = __webpack_require__(106);
 
 var _CreateTrip2 = _interopRequireDefault(_CreateTrip);
 
+var _ContributeTrip = __webpack_require__(258);
+
+var _ContributeTrip2 = _interopRequireDefault(_ContributeTrip);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom2.default.render(_react2.default.createElement(
@@ -13169,7 +13309,8 @@ _reactDom2.default.render(_react2.default.createElement(
             _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _Signup2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/profile', component: _Profile2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/createTrip', component: _CreateTrip2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/createTrip', component: _CreateTrip2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/contributeTrip', component: _ContributeTrip2.default })
         )
     )
 ), document.getElementById('app'));
@@ -15848,7 +15989,7 @@ var _warning = __webpack_require__(23);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(33);
+var _invariant = __webpack_require__(34);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -16160,7 +16301,7 @@ var _warning = __webpack_require__(23);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(33);
+var _invariant = __webpack_require__(34);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -18105,7 +18246,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(30);
 var ReactDOMComponentTree = __webpack_require__(5);
-var SyntheticMouseEvent = __webpack_require__(36);
+var SyntheticMouseEvent = __webpack_require__(37);
 
 var eventTypes = {
   mouseEnter: {
@@ -19781,8 +19922,8 @@ var DOMNamespaces = __webpack_require__(48);
 var DOMProperty = __webpack_require__(17);
 var DOMPropertyOperations = __webpack_require__(81);
 var EventPluginHub = __webpack_require__(29);
-var EventPluginRegistry = __webpack_require__(34);
-var ReactBrowserEventEmitter = __webpack_require__(35);
+var EventPluginRegistry = __webpack_require__(35);
+var ReactBrowserEventEmitter = __webpack_require__(36);
 var ReactDOMComponentFlags = __webpack_require__(82);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactDOMInput = __webpack_require__(171);
@@ -19794,7 +19935,7 @@ var ReactMultiChild = __webpack_require__(190);
 var ReactServerRenderingTransaction = __webpack_require__(195);
 
 var emptyFunction = __webpack_require__(10);
-var escapeTextContentForBrowser = __webpack_require__(38);
+var escapeTextContentForBrowser = __webpack_require__(39);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(59);
 var shallowEqual = __webpack_require__(44);
@@ -21735,7 +21876,7 @@ var DOMChildrenOperations = __webpack_require__(47);
 var DOMLazyTree = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(5);
 
-var escapeTextContentForBrowser = __webpack_require__(38);
+var escapeTextContentForBrowser = __webpack_require__(39);
 var invariant = __webpack_require__(1);
 var validateDOMNesting = __webpack_require__(61);
 
@@ -22207,7 +22348,7 @@ module.exports = {
 
 
 var DOMProperty = __webpack_require__(17);
-var EventPluginRegistry = __webpack_require__(34);
+var EventPluginRegistry = __webpack_require__(35);
 var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
@@ -22692,7 +22833,7 @@ module.exports = ReactDebugTool;
 var _assign = __webpack_require__(4);
 
 var ReactUpdates = __webpack_require__(14);
-var Transaction = __webpack_require__(37);
+var Transaction = __webpack_require__(38);
 
 var emptyFunction = __webpack_require__(10);
 
@@ -23120,7 +23261,7 @@ var EventPluginHub = __webpack_require__(29);
 var EventPluginUtils = __webpack_require__(49);
 var ReactComponentEnvironment = __webpack_require__(52);
 var ReactEmptyComponent = __webpack_require__(84);
-var ReactBrowserEventEmitter = __webpack_require__(35);
+var ReactBrowserEventEmitter = __webpack_require__(36);
 var ReactHostComponent = __webpack_require__(86);
 var ReactUpdates = __webpack_require__(14);
 
@@ -23843,10 +23984,10 @@ var _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(80);
 var PooledClass = __webpack_require__(20);
-var ReactBrowserEventEmitter = __webpack_require__(35);
+var ReactBrowserEventEmitter = __webpack_require__(36);
 var ReactInputSelection = __webpack_require__(87);
 var ReactInstrumentation = __webpack_require__(12);
-var Transaction = __webpack_require__(37);
+var Transaction = __webpack_require__(38);
 var ReactUpdateQueue = __webpack_require__(54);
 
 /**
@@ -24120,7 +24261,7 @@ module.exports = ReactRef;
 var _assign = __webpack_require__(4);
 
 var PooledClass = __webpack_require__(20);
-var Transaction = __webpack_require__(37);
+var Transaction = __webpack_require__(38);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactServerUpdateQueue = __webpack_require__(196);
 
@@ -24891,7 +25032,7 @@ var SyntheticClipboardEvent = __webpack_require__(202);
 var SyntheticEvent = __webpack_require__(16);
 var SyntheticFocusEvent = __webpack_require__(205);
 var SyntheticKeyboardEvent = __webpack_require__(207);
-var SyntheticMouseEvent = __webpack_require__(36);
+var SyntheticMouseEvent = __webpack_require__(37);
 var SyntheticDragEvent = __webpack_require__(204);
 var SyntheticTouchEvent = __webpack_require__(208);
 var SyntheticTransitionEvent = __webpack_require__(209);
@@ -25242,7 +25383,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(36);
+var SyntheticMouseEvent = __webpack_require__(37);
 
 /**
  * @interface DragEvent
@@ -25549,7 +25690,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(36);
+var SyntheticMouseEvent = __webpack_require__(37);
 
 /**
  * @interface WheelEvent
@@ -26321,7 +26462,7 @@ module.exports = getVendorPrefixedEventName;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(38);
+var escapeTextContentForBrowser = __webpack_require__(39);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -26870,7 +27011,7 @@ Redirect.contextTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
@@ -29501,6 +29642,143 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+/* 258 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(18);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _Header = __webpack_require__(33);
+
+var _Header2 = _interopRequireDefault(_Header);
+
+var _reactRouterDom = __webpack_require__(19);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ContributeTrip = function (_React$Component) {
+  _inherits(ContributeTrip, _React$Component);
+
+  function ContributeTrip(props) {
+    _classCallCheck(this, ContributeTrip);
+
+    return _possibleConstructorReturn(this, (ContributeTrip.__proto__ || Object.getPrototypeOf(ContributeTrip)).call(this, props));
+  }
+
+  _createClass(ContributeTrip, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_Header2.default, null),
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Contribute To a Trip'
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'contributeTripParent' },
+          _react2.default.createElement(
+            'form',
+            null,
+            _react2.default.createElement(
+              'h4',
+              { id: 'subheader' },
+              'Stay Trippy!'
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'firstHalf' },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Destination:'
+              ),
+              _react2.default.createElement(
+                'h3',
+                null,
+                'Columbia'
+              ),
+              ' ',
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'label',
+                null,
+                'Date Range Options '
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('div', { id: 'dateRanges' }),
+              'Comments: ',
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('textarea', { rows: '4', cols: '30' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'secondHalf' },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Estimated Cost:'
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'label',
+                null,
+                'Activity Options'
+              ),
+              _react2.default.createElement('div', { id: 'activityOptions' }),
+              _react2.default.createElement(
+                'label',
+                null,
+                ' Add an Activity '
+              ),
+              _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Activity name' }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Description/Link' }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Cost' }),
+              _react2.default.createElement(
+                'button',
+                { id: 'secondary' },
+                '+'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ContributeTrip;
+}(_react2.default.Component);
+
+exports.default = ContributeTrip;
 
 /***/ })
 /******/ ]);

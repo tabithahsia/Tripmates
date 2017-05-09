@@ -17,7 +17,7 @@ class CreateTrip extends React.Component {
 
         <div id="createTripParent">
           <form>
-          <h3 id="pageheader">Add a Trip</h3>
+          <h3 id="pageheader">Create a Trip</h3>
           <h4 id="subheader">Get Trippy!</h4>
 
           <div id="firstHalf">

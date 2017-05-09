@@ -17,33 +17,34 @@ class ContributeTrip extends React.Component {
 
         <h1>Contribute To a Trip</h1>
 
-        <div id="createTripParent">
+        <div id="contributeTripParent">
           <form>
-          <h3 id="pageheader">Add a Trip</h3>
-          <h4 id="subheader">Get Trippy!</h4>
+          <h4 id="subheader">Stay Trippy!</h4>
 
           <div id="firstHalf">
-            <label>Trip Name</label>
-            <input name="tripName" type="text"/>
+            <h1>Destination:</h1>
+            <h3>Columbia</h3> <br/>
 
-            <label>Destination</label>
-            <input name="tripName" type="text" /><br/><br/>
-            <label>Date Range</label>
-            <input name="dateRange" type ="text"/>
-            <button id="secondary">+</button>
+            <label>Date Range Options </label><br/>
+            <div id='dateRanges'></div>
+
+            Comments: <br/>
+            <textarea rows="4" cols="30"></textarea>
           </div>
 
           <div id="secondHalf">
-            <label>Estimated Cost</label>
-            <input name="estimatedCost" type="text" placeholder="$"/><br/><br/>
+            <h1>Estimated Cost:</h1><br/>
+            
 
-            <label>Add an Activity</label>
+            <label>Activity Options</label>
+            <div id='activityOptions'></div>
+
+            <label> Add an Activity </label>  
             <input name="activity" type ="text" placeholder="Activity name"/><br/><br/>
             <input name="activity" type ="text" placeholder="Description/Link"/><br/><br/>
             <input name="activity" type ="text" placeholder="Cost"/>
             <button id="secondary">+</button>
           </div>
-          <button id="primary">Add trip</button>
         </form>
         </div>
       </div>
