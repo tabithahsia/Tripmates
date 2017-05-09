@@ -12,6 +12,11 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
 
+app.get('/signup', function (req, res) {
+  res.render('/Signup')
+})
+
+
 app.get('/profile', function (req, res) {
   var query = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
   db.dbConnection.query(query, function(error,results,fields) {

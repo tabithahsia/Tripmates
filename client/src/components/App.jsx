@@ -11,11 +11,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="main">
         <Header />
-        <div id="frontpic">
-            <img src="images/Front_page_pic.jpg"></img>
+        <div id="banner">
+          <div id="tagline">Explore the world with your trippy trippy mates</div>
+            <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
         </div>
+        <div id="placeholderdiv"><Link to="/contributeTrip"><button id="mainCTA">Contribute to a trip</button></Link></div>
+
       </div>
     )
   }
