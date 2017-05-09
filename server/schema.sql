@@ -77,3 +77,10 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	FOREIGN KEY (user_id) REFERENCES users(id),
  	FOREIGN KEY (date_id) REFERENCES dates(id)
  );
+
+ CREATE TABLE logIns (
+  id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(255),
+  password VARCHAR(255),
+  PRIMARY KEY(id)
+ );
