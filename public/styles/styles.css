@@ -1,3 +1,5 @@
+/************************* COMMON ACROSS APP *************************/
+
 body, p {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300px;
@@ -13,6 +15,14 @@ h3 {
   font-size: 24px;
   padding: 0px;
   margin: 0 0 30px 0;
+}
+
+h4 {
+  color: grey;
+}
+
+#subheader {
+  margin-bottom: 50px;
 }
 
 a {
@@ -41,6 +51,67 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background-color: #a23638;
+  border-color: #a23638;
+}
+
+button#secondary {
+  background-color: #6a6a6a;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+}
+
+button#secondary:hover {
+  background-color: #888888;
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+input {
+  font-size: 14px;
+  height: 40px;
+  width: 300px;
+  margin-bottom: 30px;
+  padding-left: 10px;
+  border-radius: 3px;
+  border: solid #dddddd 1px;
+  float: left;
+}
+
+#form_container {
+  width: 330px;
+  height: 330px;
+  background-color: white;
+  border: 1px #dddddd solid;
+  padding: 40px;
+  margin: auto;
+  text-align: center;
+}
+
+.form_element {
+  margin-top: 30px;
+  display: block;
+}
+
+#content {
+  background: #F7F8FA;
+  padding: 60px 0;
+}
+
+#content button {
+  float: left;
+}
+
+
+
+/************************* HEADER *************************/
+
 #header_container {
   height: 60px;
   background-color: white;
@@ -68,37 +139,15 @@ nav {
 
 nav li {
   display: inline;
-  padding-right: 30px;
+  padding-right: 40px;
   float: right;
 }
 
-#form_container {
-  width: 300px;
-  height: 330px;
-  background-color: white;
-  border: 1px #dddddd solid;
-  padding: 40px 40px 50px 40px;
-  margin: auto;
-  text-align: center;
-}
-
-.form_element {
-  margin-top: 30px;
-  display: block;
-}
-
-#content {
-  background: #F7F8FA;
-  padding: 60px 0;
-}
-
-#content button {
-  float: left;
-}
+/************************* HOMEPAGE *************************/
 
 #tagline {
   font-size: 36px;
-  padding-top: 135px;
+  padding-top: 155px;
   color: white;
   margin-bottom: 50px;
 }
@@ -111,35 +160,29 @@ nav li {
   height: 500px;
 }
 
-label {
-  display: block;
-  text-align: left;
-  margin-bottom: 10px;
-}
-
-input {
-  font-size: 14px;
-  height: 40px;
-  width: 300px;
-  margin-bottom: 30px;
-  padding-left: 10px;
-  border-radius: 3px;
-  border: solid #dddddd 1px;
-}
-
 #placeholderdiv {
   height: 500px;
 }
 
-#createTripHeader {
+
+/************************* CREATE TRIP PAGE *************************/
+
+#createTripParent {
+  position: relative;
+	width: 800px;
+  height: 640px;
+  margin: 30px auto;
+  padding: 40px 40px 50px 40px;
 }
 
-#createTripSubheader {
-	color: grey;
+#createTripParent button {
+  clear: both;
+  display: block;
+  float: right;
 }
-#createTripParent {
-	padding: 0 auto;
-	width: 600px;
+
+#createTripParent button#primary {
+  margin-top: 40px;
 }
 
 #firstHalf {

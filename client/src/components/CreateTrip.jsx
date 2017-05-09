@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Header from"./Header";
+
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class CreateTrip extends React.Component {
@@ -11,45 +13,38 @@ class CreateTrip extends React.Component {
     return (
 
       <div>
-        <h1 id="createTripHeader">Add a Trip</h1>
-        <h4 id="createTripSubheader">Get Trippy!</h4>
+        <Header />
 
-      <form id="createTripParent">
-      <div id="firstHalf">
-          <label>
-            Trip Name <br/>           
-            <input name="tripName" type="text" />
-          </label> <br/><br/>
+        <div id="createTripParent">
+          <form>
+          <h3 id="pageheader">Add a Trip</h3>
+          <h4 id="subheader">Get Trippy!</h4>
 
-          <label>
-            Destination <br/>
+          <div id="firstHalf">
+            <label>Trip Name</label>
+            <input name="tripName" type="text"/>
+
+            <label>Destination</label>
             <input name="tripName" type="text" /><br/><br/>
-          </label>
+            <label>Date Range</label>
+            <input name="dateRange" type ="text"/>
+            <button id="secondary">+</button>
+          </div>
 
-          <label>
-            Date Range <br/>
-            <input name="dateRange" type ="text"/><input type="submit" value="+"/><br/><br/>
-          </label>
-      </div>
-      <div id="secondHalf">
-           <label>
-            Estimated Cost <br/>
+          <div id="secondHalf">
+            <label>Estimated Cost</label>
             <input name="estimatedCost" type="text" placeholder="$"/><br/><br/>
-          </label>
 
-          <label>
-          Add an Activity <br/>
+            <label>Add an Activity</label>
             <input name="activity" type ="text" placeholder="Activity name"/><br/><br/>
             <input name="activity" type ="text" placeholder="Description/Link"/><br/><br/>
-            <input name="activity" type ="text" placeholder="Cost"/><input type="submit" value="+"/><br/><br/>
-          </label>
-      </div> <br/>
-   </form>
-
-          <input type="submit" value="Add a Trip" />       
+            <input name="activity" type ="text" placeholder="Cost"/>
+            <button id="secondary">+</button>
+          </div>
+          <button id="primary">Add trip</button>
+        </form>
+        </div>
       </div>
-
-
     )
   }
 }
