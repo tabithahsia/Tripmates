@@ -73,7 +73,7 @@ class Login extends React.Component {
               <div id="form_container">
               <h3>Log in</h3>
 
-              <form>
+              <form onSubmit={this.submitLogin.bind(this, this.state.userInfo)}>
                 <div class="form_element">
                   <label>Username</label>
                     <input name="username" type="text" onChange={this.updateInputs}/>
@@ -83,7 +83,7 @@ class Login extends React.Component {
                   <label>Password</label>
                   <input name="password" type="password" onChange={this.updateInputs}/>
                 </div>
-                <button>Log In</button>
+                <button >Log In</button>
               </form>
             </div>
           </div>
