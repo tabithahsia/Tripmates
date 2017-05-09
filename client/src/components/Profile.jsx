@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withRouter, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from "axios";
+import Header from "./Header";
+
+
 
 class Profile extends React.Component {
   constructor(props) {
@@ -22,8 +25,8 @@ class Profile extends React.Component {
         .then((result) => {
             var userTrip = this.state.userTrip;
             console.log('resultss', result);
-            // userTrip['username'] = result.data[0].username;
-            userTrip['tripName'] = result.data[0].tripName; 
+            userTrip['userName'] = result.data.user[0].username;
+            userTrip['tripName'] = result.data.trips; 
             this.setState({userTrip})
         }) 
         .catch((error) => {
@@ -34,8 +37,10 @@ class Profile extends React.Component {
   render() {
     return (
         <div>
+            <Header />
             <h1>Profile Page</h1>
-            <div>{this.state.userTrip.tripName}</div>
+            <div>Hey {this.state.userTrip.userName}</div>
+            <div>Your Trips {this.state.userTrip.tripName}</div>
         </div>
     )
   }

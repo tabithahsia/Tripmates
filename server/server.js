@@ -18,23 +18,34 @@ app.get('/signup', function (req, res) {
 
 
 app.get('/profile', function (req, res) {
+  var userData = {};
+
   var query = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
   db.dbConnection.query(query, function(error,results,fields) {
     if(error) {
       console.error(error)
     }
-    // res.send(results)
+
+    userData['user'] = results;
+
     var currentUserQuery = `SELECT id FROM users WHERE username = '${results[0].username}'`
     db.dbConnection.query(currentUserQuery, function(error1, currentUser, fields) {
       if(error) {
         console.log(error1)
       }
+      
       console.log('currentUser', currentUser)
-      var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
-      db.dbConnection.query(tripsQuery, function(error,tripList,fields){
-        // console.log('tripList', tripList[0].tripName)
-        res.send(tripList);
-      })
+
+        var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
+        db.dbConnection.query(tripsQuery, function (error, tripList, fields) {
+          if (tripList[0]) {
+          console.log('tripList', tripList[0].tripName)
+
+          userData['trips'] = tripList[0].tripName;
+          res.send(userData);
+          }
+        })
+      
     })
   });
 })
