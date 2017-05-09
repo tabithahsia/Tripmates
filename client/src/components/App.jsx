@@ -15,9 +15,8 @@ class App extends React.Component {
         <Header />
         <div id="banner">
           <div id="tagline">Explore the world with your trippy trippy mates</div>
-          <button id="mainCTA">Create a trip</button>
+            <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
         </div>
-          <Link to="/createTrip">Add a trip</Link>
         <div id="placeholderdiv"></div>
       </div>
     )

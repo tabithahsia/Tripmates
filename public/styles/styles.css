@@ -92,6 +92,10 @@ nav li {
   padding: 60px 0;
 }
 
+#content button {
+  float: left;
+}
+
 #tagline {
   font-size: 36px;
   padding-top: 135px;
