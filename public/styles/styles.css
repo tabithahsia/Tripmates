@@ -108,8 +108,6 @@ input {
   float: left;
 }
 
-
-
 /************************* HEADER *************************/
 
 #header_container {
@@ -164,6 +162,46 @@ nav li {
   height: 500px;
 }
 
+/************************* PROFILE *************************/
+
+#profileMain {
+  width: 980px;
+  padding: 0 40px 40px 40px;
+  margin: auto;
+}
+
+#profile #content {
+  height: 300px;
+}
+
+#yourTrips {
+  margin-top: 40px;
+}
+
+#tripCard {
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
+  text-align: center;
+  margin-right: 30px;
+  border: 1px #dddddd solid;
+  border-radius: 6px;
+  padding: 40px;
+  background-color: white;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#tripCard:hover {
+  box-shadow: 1px 1px 0 #dddddd;
+}
+
+#profile #mainCTA {
+  clear: both;
+  display: block;
+  float: none;
+  margin-top: 30px;
+}
 
 /************************* CREATE TRIP PAGE *************************/
 
@@ -212,6 +250,3 @@ nav li {
   height:  100px;
   width: 300px;
 }
-
-
-

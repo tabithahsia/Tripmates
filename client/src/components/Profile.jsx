@@ -15,6 +15,20 @@ class Profile extends React.Component {
     }
     this.postTrip = this.postTrip.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.capitalize = this.capitalize.bind(this);
+  }
+
+  getProfile() {
+    axios.get('/profile')
+      .then((result) => {
+          var userTrip = this.state.userTrip;
+          userTrip['userName'] = result.data.user[0].username;
+          userTrip['tripName'] = result.data.trips;
+          this.setState({userTrip})
+      })
+      .catch((error) => {
+          console.error(error);
+      })
   }
 
   componentDidMount() {
@@ -33,31 +47,48 @@ class Profile extends React.Component {
   } 
   
   getProfile() {
-      axios.get('/profile')
-        .then((result) => {
-            var userTrip = this.state.userTrip;
-            userTrip['userName'] = result.data.user[0].username;
-            userTrip['tripName'] = result.data.trips; 
-            this.setState({userTrip})
-        }) 
-        .catch((error) => {
-            console.error(error);
-        })
+    axios.get('/profile')
+      .then((result) => {
+          var userTrip = this.state.userTrip;
+          userTrip['userName'] = result.data.user[0].username;
+          userTrip['tripName'] = result.data.trips; 
+          this.setState({userTrip})
+      }) 
+      .catch((error) => {
+          console.error(error);
+      })
+  }
+  // Helper function for formatting
+  capitalize(word) {
+    console.log("word", word);
+    return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
 
   render() {
-    var tripArray = this.state.userTrip.tripName;
-   
+
+
+    var listOfTrips = this.state.userTrip.tripName;
+    var user = this.state.userTrip.userName;
+
     return (
-        <div>
-            <Header />
-            <h1>Profile Page</h1>
-            <div>Hey {this.state.userTrip.userName}</div>
-            <div>Your Trips</div> 
-           
-            {tripArray ? tripArray.map((trip, index) => { return <div onClick={this.postTrip.bind(this,trip)} key={index}>{trip}</div> }): null}
+      <div id="profile">
+        <Header />
+        <div id="content">
+          <div id="profileMain">
+            <h1>Welcome back, {user ? this.capitalize(user):null}!</h1>
+            <div id="yourTrips">
+              <h4>Your Trips</h4>
+            </div>
+            {listOfTrips ? listOfTrips.map((trip, index) => {
+              return (
+                <div onClick={this.postTrip.bind(this,trip)} id="tripCard" key={index}>{trip} </div>
+              )
+            }): null}
+            <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
+          </div>
         </div>
+      </div>
     )
   }
 }
