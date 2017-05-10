@@ -84,3 +84,9 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
   password VARCHAR(255),
   PRIMARY KEY(id)
  );
+
+  CREATE TABLE tripNames (
+  id INT NOT NULL AUTO_INCREMENT,
+  trip VARCHAR(255),
+  PRIMARY KEY(id)
+ );

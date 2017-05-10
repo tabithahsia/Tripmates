@@ -52,14 +52,13 @@ class CreateTrip extends React.Component {
   onaddTripClick (e) {
     e.preventDefault();
     axios.post('/tripInfo', {dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost})
-      .then(() => {
+      .then(({response}) => {
         console.log('sucessful post')
       })
       .catch((error) => {
         console.log('error in post for trip form', error)
       })
-    //this.props.history.push('/contributeTrip')
-    //push info to db
+      this.props.history.push('/profile')
   }
 
   render() {
