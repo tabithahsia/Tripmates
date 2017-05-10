@@ -13,6 +13,7 @@ class Profile extends React.Component {
     this.state = {
         userTrip: {}
     }
+    this.postTrip = this.postTrip.bind(this);
     this.getProfile = this.getProfile.bind(this);
   }
 
@@ -20,11 +21,21 @@ class Profile extends React.Component {
     this.getProfile();
   }
 
+  postTrip(trip) {
+    this.props.history.push('/contributeTrip')
+    axios.post('/tripName', {trip: trip})
+      .then(() => {
+        console.log('success')
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  } 
+  
   getProfile() {
       axios.get('/profile')
         .then((result) => {
             var userTrip = this.state.userTrip;
-            console.log('resultss', result);
             userTrip['userName'] = result.data.user[0].username;
             userTrip['tripName'] = result.data.trips; 
             this.setState({userTrip})
@@ -34,13 +45,18 @@ class Profile extends React.Component {
         })
   }
 
+
   render() {
+    var tripArray = this.state.userTrip.tripName;
+   
     return (
         <div>
             <Header />
             <h1>Profile Page</h1>
             <div>Hey {this.state.userTrip.userName}</div>
-            <div>Your Trips {this.state.userTrip.tripName}</div>
+            <div>Your Trips</div> 
+           
+            {tripArray ? tripArray.map((trip, index) => { return <div onClick={this.postTrip.bind(this,trip)} key={index}>{trip}</div> }): null}
         </div>
     )
   }
