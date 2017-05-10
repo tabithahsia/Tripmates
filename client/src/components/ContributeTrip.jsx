@@ -1,12 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from"./Header";
+import axios from "axios";
 
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class ContributeTrip extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+    	tripName: ""
+    };
+
+    this.getTripName = this.getTripName.bind(this);
+  }
+
+  componentDidMount() {
+  	this.getTripName();
+  }
+
+  getTripName() {
+  	axios.get('/tripName')
+	   .then((result) => {
+	        //console.log(result.data);
+	      this.setState({tripName: result.data[0].trip})
+	    }) 
+	    .catch((error) => {
+	      console.error(error);
+	    })
   }
 
   render() {
@@ -23,7 +45,7 @@ class ContributeTrip extends React.Component {
 
           <div id="firstHalf">
             <h1>Destination:</h1>
-            <h3>Columbia</h3> <br/>
+            <h3>{this.state.tripName}</h3> <br/>
 
             <label>Date Range Options </label><br/>
             <div id='dateRanges'></div>
