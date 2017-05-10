@@ -81,12 +81,8 @@ class Profile extends React.Component {
               <h4>Your Trips</h4>
             </div>
             {listOfTrips ? listOfTrips.map((trip, index) => {
-              return (<div id="tripCard" key={index}>{trip}</div>)
+              return (<div onClick={this.postTrip.bind(this,trip)} id="tripCard" key={index}>{trip}</div>)
             }):(<div id="emptyTrips">You have no trip plans.</div>)}
-              return (
-                <div onClick={this.postTrip.bind(this,trip)} id="tripCard" key={index}>{trip} </div>
-              )
-            }): (<div id="emptyTrips">You have no trip plans.</div>)}
             <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
           </div>
         </div>
