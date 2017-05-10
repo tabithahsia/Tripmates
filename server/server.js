@@ -34,7 +34,7 @@ app.get('/profile', function (req, res) {
       if(error) {
         console.log(error1)
       }
-    
+
       var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
       db.dbConnection.query(tripsQuery, function (error, tripList, fields) {
         if (tripList[0]) {
@@ -46,7 +46,7 @@ app.get('/profile', function (req, res) {
         userData['trips'] = tripArray;
         res.send(userData);
         }
-      })    
+      })
     })
   });
 })
@@ -88,26 +88,11 @@ app.get('/userTable', function(req, res) {
   });
 })
 
-<<<<<<< HEAD
-=======
+
 app.post('/tripInfo', function(req, res) {
   console.log(req.body)
   //var query = '';
 })
-
-// var addAlbum = function(album, cb) {
-//   var query = `INSERT INTO kanyes(era,year,description,imageURL) VALUES('${album.era}','${album.year}','${album.description}','${album.imageURL}')`;
-//   connection.query(query, (err,results,fields) => {
-//     if (err) {
-//       cb(err, false);
-//     } else {
-//       console.log('Added new album to db');
-//       cb(null, true);
-//     }
-//   });
-// }
-
->>>>>>> 692e4accceb4b3b7d47427b2a091a4029188bd43
 
 app.listen(3000, function () {
   console.log('Listening on port 3000!')
