@@ -17,21 +17,6 @@ class Signup extends React.Component {
     this.submitSignup = this.submitSignup.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
   }
-  //
-  // submitSignup(signup, e) {
-  //   e.preventDefault();
-  //   console.log("user", signup.username);
-  //   console.log("pw", signup.password);
-  //   axios.post('/signup', {username: signup.username, password: signup.password})
-  //     .then((response) => {
-  //       console.log("response");
-  //       this.props.history.push('/profile');
-  //     })
-  //     .catch((err) => {
-  //       console.error("error in post entries", err);
-  //     })
-  //
-  // }
 
   submitSignup(signup, e) {
    e.preventDefault();
@@ -43,7 +28,6 @@ class Signup extends React.Component {
      .catch(err => {
        console.error("error in post entries", err);
      })
-
  }
 
   updateInputs(e) {
@@ -67,7 +51,7 @@ class Signup extends React.Component {
                   <label>Username</label>
                     <input name="username" type="text" onChange={this.updateInputs}/>
                 </div>
-                
+
                 <div class="form_element">
                   <label>Password</label>
                   <input name="password" type="password" onChange={this.updateInputs}/>
