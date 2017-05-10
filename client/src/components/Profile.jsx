@@ -44,16 +44,16 @@ class Profile extends React.Component {
       .catch(() => {
         console.log('error')
       })
-  } 
-  
+  }
+
   getProfile() {
     axios.get('/profile')
       .then((result) => {
           var userTrip = this.state.userTrip;
           userTrip['userName'] = result.data.user[0].username;
-          userTrip['tripName'] = result.data.trips; 
+          userTrip['tripName'] = result.data.trips;
           this.setState({userTrip})
-      }) 
+      })
       .catch((error) => {
           console.error(error);
       })
@@ -81,10 +81,12 @@ class Profile extends React.Component {
               <h4>Your Trips</h4>
             </div>
             {listOfTrips ? listOfTrips.map((trip, index) => {
+              return (<div id="tripCard" key={index}>{trip}</div>)
+            }):(<div id="emptyTrips">You have no trip plans.</div>)}
               return (
                 <div onClick={this.postTrip.bind(this,trip)} id="tripCard" key={index}>{trip} </div>
               )
-            }): null}
+            }): (<div id="emptyTrips">You have no trip plans.</div>)}
             <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
           </div>
         </div>
