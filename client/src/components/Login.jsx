@@ -28,7 +28,6 @@ class Login extends React.Component {
   getUserTable() {
     axios.get('/userTable')
       .then((result) => {
-        console.log(result);
         this.setState({
           userTable: result.data
         });
@@ -42,17 +41,15 @@ class Login extends React.Component {
     e.preventDefault();
     axios.post('/login', {username: login.username, password: login.password})
       .then((response) => {
-        console.log(this.state.userTable);
-
-        //if to check if in database
-        for(var i = 0; i < this.state.userTable.length;i++) {
-          if(login.username === this.state.userTable[i].username && login.password === this.state.userTable[i].password) {
-            this.props.history.push('/profile')
-          }
+        //if username and password combo matches
+        if (response.data) {
+          this.props.history.push('/profile')
+        } else {
+          console.log("Invalid username/password combination.");
         }
       })
       .catch(err => {
-        console.error("error in post entries", err);
+        console.error("Error logging in", err);
       })
   }
 

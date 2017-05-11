@@ -5,16 +5,15 @@ var bodyParser = require('body-parser');
 
 var db = require('./db/database.js');
 var app = express();
+var bcrypt = require('bcrypt');
+
+var salt = bcrypt.genSaltSync(10);
 
 app.use(bodyParser.json());
 
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
-
-app.get('/signup', function (req, res) {
-  res.render('/Signup')
-})
 
 
 app.get('/profile', function (req, res) {
@@ -128,7 +127,7 @@ app.get('/comments', function (req, res) {
         })
       })
     })
-})  
+})
 
 app.get('/commentOwner', function (req,res){
     var query1 = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
@@ -145,31 +144,52 @@ app.post('/tripName', function(req, res) {
 
   var query = `INSERT INTO tripNames (trip) VALUES ('${trip}')`
   db.dbConnection.query(query);
-  res.send('added to db')
+  res.send("Added to DB");
 })
 
 app.post('/signup', function (req, res){
-
   var username = req.body.username;
   var password = req.body.password;
+  var encryptedPassword = bcrypt.hashSync(password, salt)
 
-  var query1 = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
-  var query2 = `INSERT INTO logIns (username, password) VALUES ('${username}', '${password}')`;
+  var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
+  var insertUserPwLoginQuery = `INSERT INTO logIns (username, password) VALUES ('${username}', '${encryptedPassword}')`;
 
-  db.dbConnection.query(query1);
-  db.dbConnection.query(query2);
+  db.dbConnection.query(insertEncryptedPwQuery);
+  db.dbConnection.query(insertUserPwLoginQuery);
   res.send("Added to DB");
 })
 
-app.post('/login', function (req, res) {
 
+app.post('/login', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
-  var query2 = `INSERT INTO logIns (username, password) VALUES ('${username}', '${password}')`;
+  var doesUserExist = `SELECT username FROM users WHERE username = '${username}'`;
+  db.dbConnection.query(doesUserExist, function (error, result, fields) {
+    // If username does not exist in database, send back 'false'
+    if(!result[0]) {
+      res.send(false);
+    } else {
+        // If username exists, check password
+        var query = `SELECT password from users WHERE username = '${username}'`;
+        db.dbConnection.query(query, function (error, encryptedPassword, fields) {
+          if (error) {
+            console.error(error)
+          }
+          bcrypt.compare(password, encryptedPassword[0].password).then(function(match) {
+            res.send(match);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });;
+        });
 
-  db.dbConnection.query(query2);
-  res.send("Added to DB");
+        // Not sure if this is needed anymore - or should be able to refactor?
+        var insertUserLoginQuery = `INSERT INTO logIns (username, password) VALUES ('${username}', '${password}')`;
+        db.dbConnection.query(insertUserLoginQuery);
+      }
+    });
 })
 
 app.get('/userTable', function(req, res) {
@@ -181,6 +201,7 @@ app.get('/userTable', function(req, res) {
     res.send(results)
   });
 })
+
 
 app.post('/newactivity', function(req,res) {
   var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
@@ -201,12 +222,12 @@ app.post('/newactivity', function(req,res) {
         }
         res.send('added friend activity to db');
       })
-  })  
+  })
  })
 })
 
 app.post('/comments', function(req,res) {
-  
+
   var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
   db.dbConnection.query(query, function(error,trip,fields) {
    if(error) {
@@ -239,6 +260,7 @@ app.post('/comments', function(req,res) {
  })
 })
 })
+
 
 app.post('/tripInfo', function(req, res) {
 
