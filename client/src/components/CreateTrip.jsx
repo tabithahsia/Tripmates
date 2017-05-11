@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from"./Header";
+import InviteFriends from"./InviteFriends";
 import axios from 'axios';
 
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
@@ -18,13 +19,21 @@ class CreateTrip extends React.Component {
       activityCost: "",
       tripName: "",
       destination: "",
-      estCost: ""
-
+      estCost: "",
+      isInviteFriendModalOpen: false
     };
 
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onDateSubmission = this.onDateSubmission.bind(this);
-    this.onaddTripClick = this.onaddTripClick.bind(this);
+    this.onAddTripClick = this.onAddTripClick.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+  }
+
+  toggleModal(e) {
+    e.preventDefault();
+    this.setState({
+      isInviteFriendModalOpen: !this.state.isInviteFriendModalOpen
+    });
   }
 
   onActivityClick(e) {
@@ -48,9 +57,10 @@ class CreateTrip extends React.Component {
     console.log('date range array', this.state.dates);
   }
 
-  onaddTripClick (e) {
+  onAddTripClick (e, friend) {
     e.preventDefault();
-    axios.post('/tripInfo', {dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost})
+
+    axios.post('/tripInfo', {dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend})
       .then(({response}) => {
         console.log('sucessful post')
       })
@@ -93,9 +103,14 @@ class CreateTrip extends React.Component {
             <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
             <button id="secondary" onClick={this.onActivityClick}>+</button>
           </div>
-          <button id="primary" onClick={this.onaddTripClick}>Add trip</button>
+          <button id="primary" onClick={this.toggleModal}>Next</button>
         </form>
         </div>
+
+        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} >
+          <h3>Invite friends to your trip</h3>
+        </InviteFriends>
+
       </div>
     )
   }

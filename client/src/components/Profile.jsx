@@ -42,22 +42,23 @@ class Profile extends React.Component {
       .catch(() => {
         console.log('error')
       })
-  } 
-  
+  }
+
   getProfile() {
     axios.get('/profile')
       .then((result) => {
           var userTrip = this.state.userTrip;
           userTrip['userName'] = result.data.user[0].username;
-          userTrip['tripName'] = result.data.trips; 
+          userTrip['tripName'] = result.data.trips;
           this.setState({userTrip})
-      }) 
+      })
       .catch((error) => {
           console.error(error);
       })
   }
   // Helper function for formatting
   capitalize(word) {
+
     // console.log("word", word);
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
@@ -72,15 +73,13 @@ class Profile extends React.Component {
         <Header />
         <div id="content">
           <div id="profileMain">
-            <h1>Welcome back, {user ? this.capitalize(user):null}!</h1>
+            <h1>Welcome {user ? this.capitalize(user):null}!</h1>
             <div id="yourTrips">
               <h4>Your Trips</h4>
             </div>
             {listOfTrips ? listOfTrips.map((trip, index) => {
-              return (
-                <div onClick={this.postTrip.bind(this,trip)} id="tripCard" key={index}>{trip} </div>
-              )
-            }): null}
+              return (<div onClick={this.postTrip.bind(this,trip)} id="tripCard" key={index}>{trip}</div>)
+            }):(<div id="emptyTrips">You have no trip plans.</div>)}
             <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
           </div>
         </div>
