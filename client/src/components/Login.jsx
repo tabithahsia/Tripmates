@@ -12,7 +12,8 @@ class Login extends React.Component {
 
     this.state = {
       userInfo: {},
-      userTable: {}
+      userTable: {},
+      showErrorMsg: false
     }
 
     this.submitLogin = this.submitLogin.bind(this);
@@ -45,6 +46,9 @@ class Login extends React.Component {
         if (response.data) {
           this.props.history.push('/profile')
         } else {
+          this.setState({
+            showErrorMsg: true
+          })
           console.log("Invalid username/password combination.");
         }
       })
@@ -80,6 +84,11 @@ class Login extends React.Component {
                   <label>Password</label>
                   <input name="password" type="password" onChange={this.updateInputs}/>
                 </div>
+
+                {this.state.showErrorMsg ? (
+                  <div className="errorMsg">Invalid username/password combination.</div>
+                ) : null}
+
                 <button>Log In</button>
               </form>
             </div>
