@@ -4,8 +4,6 @@ import { withRouter, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from "axios";
 import Header from "./Header";
 
-
-
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -60,12 +58,12 @@ class Profile extends React.Component {
   }
   // Helper function for formatting
   capitalize(word) {
+
+    // console.log("word", word);
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
-
   render() {
-
 
     var listOfTrips = this.state.userTrip.tripName;
     var user = this.state.userTrip.userName;

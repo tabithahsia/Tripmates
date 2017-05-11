@@ -44,12 +44,11 @@ class CreateTrip extends React.Component {
        activityCost: this.state.activityCost
     };
     this.state.activities.push(activityObject);
-    console.log('activities array', this.state.activities);
+    // console.log('activities array', this.state.activities);
 
-    console.log('trip name', this.state.tripName);
-    console.log('destination', this.state.destination);
-    console.log('estCost',this.state.estCost);
-
+    // console.log('trip name', this.state.tripName);
+    // console.log('destination', this.state.destination);
+    // console.log('estCost',this.state.estCost);
   }
 
   onDateSubmission (e) {

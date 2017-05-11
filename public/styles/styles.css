@@ -287,15 +287,12 @@ nav li {
 
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
-#contributeTripParent {
 
-}
-
-
-#dateRanges {
-  border: 1px solid black;
-  height:  100px;
-  width: 300px;
+button#voteButton {
+  background-color: #6a6a6a;
+  border: none;
+  padding: 5px 10px;
+  font-size: 10px;
 }
 
 #activityOptions {
@@ -303,3 +300,4 @@ nav li {
   height:  100px;
   width: 300px;
 }
+
