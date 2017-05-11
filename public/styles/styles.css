@@ -184,6 +184,7 @@ nav li {
   max-width: 120px;
   text-align: center;
   margin-right: 30px;
+  margin-bottom: 30px;
   border: 1px #dddddd solid;
   border-radius: 6px;
   padding: 40px;
@@ -210,11 +211,12 @@ nav li {
 
 /************************* CREATE TRIP PAGE *************************/
 
+
 #createTripParent {
   position: relative;
 	width: 800px;
   height: 640px;
-  margin: 30px auto;
+  margin: 0px auto;
   padding: 40px 40px 50px 40px;
 }
 
@@ -226,6 +228,12 @@ nav li {
 
 #createTripParent button#primary {
   margin-top: 40px;
+}
+
+#createTrip #content{
+  padding-top: 0px;
+  padding-bottom: 0px;
+
 }
 
 #firstHalf {
