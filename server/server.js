@@ -51,7 +51,7 @@ app.get('/profile', function (req, res) {
 })
 
 app.get('/tripName', function(req,res) {
-    var query = `SELECT tripNames from trips ORDER BY id DESC LIMIT 1`;
+    var query = `SELECT trip from tripNames ORDER BY id DESC LIMIT 1`;
     db.dbConnection.query(query, function(error,trip,fields) {
       if(error) {
         console.error(error)
