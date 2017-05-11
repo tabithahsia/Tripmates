@@ -60,7 +60,6 @@ class Profile extends React.Component {
   }
   // Helper function for formatting
   capitalize(word) {
-    console.log("word", word);
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
@@ -76,7 +75,7 @@ class Profile extends React.Component {
         <Header />
         <div id="content">
           <div id="profileMain">
-            <h1>Welcome back, {user ? this.capitalize(user):null}!</h1>
+            <h1>Welcome {user ? this.capitalize(user):null}!</h1>
             <div id="yourTrips">
               <h4>Your Trips</h4>
             </div>
