@@ -86,12 +86,13 @@ input {
 
 #form_container {
   width: 330px;
-  height: 330px;
+  min-height: 330px;
   background-color: white;
   border: 1px #dddddd solid;
   padding: 40px;
   margin: auto;
   text-align: center;
+  overflow: auto;
 }
 
 .form_element {
@@ -106,6 +107,11 @@ input {
 
 #content button {
   float: left;
+}
+
+.errorMsg {
+  color: #B53C3F;
+  padding: 20px 0;
 }
 
 /************************* HEADER *************************/
@@ -300,4 +306,3 @@ button#voteButton {
   height:  100px;
   width: 300px;
 }
-
