@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session');
 // var knex = require('knex');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -10,7 +11,7 @@ var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
 app.use(bodyParser.json());
-
+app.use(session({secret: 'encryption_secret'}));
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -150,6 +151,8 @@ app.post('/tripName', function(req, res) {
 app.post('/signup', function (req, res){
   var username = req.body.username;
   var password = req.body.password;
+
+  req.session.username = username;
   var encryptedPassword = bcrypt.hashSync(password, salt)
 
   var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
@@ -171,6 +174,7 @@ app.post('/login', function (req, res) {
     if(!result[0]) {
       res.send(false);
     } else {
+        req.session.username = username;
         // If username exists, check password
         var query = `SELECT password from users WHERE username = '${username}'`;
         db.dbConnection.query(query, function (error, encryptedPassword, fields) {
@@ -191,6 +195,16 @@ app.post('/login', function (req, res) {
       }
     });
 })
+
+app.get('/logout',function(req,res){
+  req.session.destroy(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.redirect('/');
+    }
+  });
+});
 
 app.get('/userTable', function(req, res) {
   var query = `SELECT * FROM users`;
@@ -307,17 +321,23 @@ app.post('/tripInfo', function(req, res) {
 
           var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend}'`
           db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
-            if(error) {
-              console.error(error)
+            // If friend invited
+            if(friendID[0]) {
+              var insertFriendUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES('${friendID[0].id}', '${tripID[0].id}')`
+              db.dbConnection.query(insertFriendUserTripsQuery, function(error, result, fields) {
+                if(error) {
+                  console.error(error);
+                }
+              })
             }
+          })
 
-            var insertUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES ('${currentUserID[0].id}', '${tripID[0].id}'),('${friendID[0].id}', '${tripID[0].id}')`
+          var insertUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES ('${currentUserID[0].id}', '${tripID[0].id}')`
 
-            db.dbConnection.query(insertUserTripsQuery, function(error, result, fields) {
-              if(error) {
-                console.error(error);
-              }
-            })
+          db.dbConnection.query(insertUserTripsQuery, function(error, result, fields) {
+            if(error) {
+              console.error(error);
+            }
           })
         })
       })
