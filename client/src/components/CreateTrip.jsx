@@ -68,7 +68,7 @@ class CreateTrip extends React.Component {
       .catch((error) => {
         console.log('error in post for trip form', error)
       })
-      // this.props.history.push('/profile')
+      this.props.history.push('/profile')
   }
 
   render() {

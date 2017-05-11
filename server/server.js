@@ -32,13 +32,12 @@ app.get('/profile', function (req, res) {
     var currentUserQuery = `SELECT id FROM users WHERE username = '${results[0].username}'`
     db.dbConnection.query(currentUserQuery, function(error1, currentUser, fields) {
       if(error) {
-        console.log(error1)
+        console.log(error)
       }
 
       var tripsQuery = `SELECT tripName FROM trips INNER JOIN user_trips ON trips.id = user_trips.trip_id WHERE user_id = '${currentUser[0].id}'`
       db.dbConnection.query(tripsQuery, function (error, tripList, fields) {
         if (tripList[0]) {
-        console.log('tripList', tripList[0].tripName)
 
         for (var i = 0; i < tripList.length; i++) {
           tripArray.push(tripList[i].tripName)
@@ -63,7 +62,6 @@ app.get('/tripName', function(req,res) {
 
 app.post('/tripName', function(req, res) {
   var trip = req.body.trip
-  console.log('sdfasdgasdgasgasdg',trip)
 
   var query = `INSERT INTO tripNames (trip) VALUES ('${trip}')`
   db.dbConnection.query(query);
@@ -71,7 +69,6 @@ app.post('/tripName', function(req, res) {
 })
 
 app.post('/signup', function (req, res){
-  console.log("inpost request", req.body);
 
   var username = req.body.username;
   var password = req.body.password;
@@ -85,7 +82,6 @@ app.post('/signup', function (req, res){
 })
 
 app.post('/login', function (req, res) {
-  console.log("inpost request", req.body);
 
   var username = req.body.username;
   var password = req.body.password;
@@ -108,52 +104,60 @@ app.get('/userTable', function(req, res) {
 
 
 app.post('/tripInfo', function(req, res) {
-  console.log('ma friend', req.body.friend)
-  var query = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(query, function(error, username, fields) {
+  var currentUser_query = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
+  db.dbConnection.query(currentUser_query, function(error, currentUser, fields) {
     if(error) {
       console.error(error)
     }
-    var query1 = `SELECT id FROM users WHERE username ='${username[0].username}'`;
-    db.dbConnection.query(query1, function(error1, userid, fields1) {
-      console.log("userid", userid);
-      if(error1) {
-        console.log(error1)
+
+    var currentUserID_query = `SELECT id FROM users WHERE username ='${currentUser[0].username}'`;
+    db.dbConnection.query(currentUserID_query, function(error, currentUserID, fields1) {
+      if(error) {
+        console.log(error)
       }
 
-      var query2 = `INSERT INTO trips (tripName, destination, est_cost) VALUES ('${req.body.tripName}', '${req.body.destination}', '${req.body.estCost}')`
-      db.dbConnection.query(query2, function(error2, results2, fields2) {
-        if(error2) {
-          console.error(error2)
+      var insertTripQuery = `INSERT INTO trips (tripName, destination, est_cost) VALUES ('${req.body.tripName}', '${req.body.destination}', '${req.body.estCost}')`
+      db.dbConnection.query(insertTripQuery, function(error, result, fields) {
+        if(error) {
+          console.error(error)
         }
-        var query3 = `SELECT id FROM trips WHERE tripName = '${req.body.tripName}'`
-        db.dbConnection.query(query3, function(error3, tripid, fields3) {
-          if(error3) {
-            console.error(error3)
+
+        var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${req.body.tripName}'`
+        db.dbConnection.query(tripIDQuery, function(error, tripID, fields) {
+          if(error) {
+            console.error(error)
           }
 
           for(var j = 0; j < req.body.dates.length; j++) {
-            var query6 = `INSERT INTO dates (dateOption, trip_id) VALUES ('${req.body.dates[j]}', ${tripid[0].id})`
-            db.dbConnection.query(query6, function(err,res,fields) {
-              if(err) {
-                console.error(err)
+            var insertDatesQuery = `INSERT INTO dates (dateOption, trip_id) VALUES ('${req.body.dates[j]}', ${tripID[0].id})`
+            db.dbConnection.query(insertDatesQuery, function(error,result,fields) {
+              if(error) {
+                console.error(error)
               }
             })
           }
           for(var i = 0; i < req.body.activities.length;i++) {
-            var query4 = `INSERT INTO activities (activityName, activityDescription, est_cost, vote_count, trip_id) VALUES ('${req.body.activities[i].activity}', '${req.body.activities[i].activityDescription}', '${req.body.activities[i].activityCost}', 0, ${tripid[0].id})`
-            db.dbConnection.query(query4, function(err,res,fields) {
-              if(err) {
-                console.error(err)
+            var insertActivitiesQuery = `INSERT INTO activities (activityName, activityDescription, est_cost, vote_count, trip_id) VALUES ('${req.body.activities[i].activity}', '${req.body.activities[i].activityDescription}', '${req.body.activities[i].activityCost}', 0, ${tripID[0].id})`
+            db.dbConnection.query(insertActivitiesQuery, function(error,result,fields) {
+              if(error) {
+                console.error(error)
               }
             })
           }
-          var query5 = `INSERT INTO user_trips (user_id, trip_id) VALUES ('${userid[0].id}', '${tripid[0].id}')`
 
-          db.dbConnection.query(query5, function(error5, userTripId, field5) {
-            if(error5) {
-              console.error(error5);
+          var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend}'`
+          db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
+            if(error) {
+              console.error(error)
             }
+
+            var insertUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES ('${currentUserID[0].id}', '${tripID[0].id}'),('${friendID[0].id}', '${tripID[0].id}')`
+
+            db.dbConnection.query(insertUserTripsQuery, function(error, result, fields) {
+              if(error) {
+                console.error(error);
+              }
+            })
           })
         })
       })
