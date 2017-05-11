@@ -108,7 +108,7 @@ class CreateTrip extends React.Component {
         </form>
         </div>
 
-        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} >
+        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal} >
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 

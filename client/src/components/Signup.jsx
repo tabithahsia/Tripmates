@@ -47,12 +47,12 @@ class Signup extends React.Component {
             <div id ="form_container">
               <h3>Sign up</h3>
               <form onSubmit={this.submitSignup.bind(this, this.state.userInput)}>
-                <div class="form_element">
+                <div className="form_element">
                   <label>Username</label>
                     <input name="username" type="text" onChange={this.updateInputs}/>
                 </div>
 
-                <div class="form_element">
+                <div className="form_element">
                   <label>Password</label>
                   <input name="password" type="password" onChange={this.updateInputs}/>
               </div>

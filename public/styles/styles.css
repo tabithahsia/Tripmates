@@ -252,11 +252,30 @@ nav li {
   backgroundColor: '#fff',
   borderRadius: 5,
   maxWidth: 500,
-  minHeight: 300,
+  minHeight: 250,
   margin: 0 auto,
   padding: 30
 }
 
+#modalButton {
+  display: inline-block;
+  float: left;
+  clear: both;
+}
+
+.modal a {
+  color: #9a9a9a;
+  display: inline-block;
+  padding-right: 40px;
+  float: left;
+  clear: both;
+  margin-top: 20px;
+  vertical-align: middle;
+}
+
+.modal a:hover {
+  text-decoration: underline;
+}
 
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
