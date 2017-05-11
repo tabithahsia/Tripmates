@@ -36,7 +36,7 @@ class InviteFriends extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 500,
-      minHeight: 300,
+      minHeight: 250,
       margin: '0 auto',
       padding: 30
     };
@@ -46,13 +46,13 @@ class InviteFriends extends React.Component {
           <div className="modal" style={modalStyle}>
             {this.props.children}
             <label>Username</label>
-            <input name="friendName" type ="text" onChange={e => this.setState({friend: e.target.value})}/><br/><br/>
+            <input name="friendName" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
 
-            <div className="footer">
-              <button onClick={(e) => {this.props.onAddTripClick(e, this.state.friend)}}>
-                Submit trip
-              </button>
-            </div>
+            <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friend)}}>
+              Submit trip
+            </button>
+            <a href="/" onClick={(e) => this.props.onClose(e)}>Cancel</a>
+
           </div>
         </div>
     )

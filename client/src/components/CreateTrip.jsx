@@ -74,41 +74,42 @@ class CreateTrip extends React.Component {
   render() {
     return (
 
-      <div>
+      <div id="createTrip">
         <Header />
+        <div id="content">
+          <div id="createTripParent">
+            <form>
+            <h3 id="pageheader">Create a Trip</h3>
+            <h4 id="subheader">Get Trippy!</h4>
 
-        <div id="createTripParent">
-          <form>
-          <h3 id="pageheader">Create a Trip</h3>
-          <h4 id="subheader">Get Trippy!</h4>
+            <div id="firstHalf">
+              <label >Trip Name</label>
+              <input name="tripName" type="text" onChange={e => this.setState({tripName: e.target.value})}/>
 
-          <div id="firstHalf">
-            <label >Trip Name</label>
-            <input name="tripName" type="text" onChange={e => this.setState({tripName: e.target.value})}/>
+              <label>Destination</label>
+              <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} /><br/><br/>
 
-            <label>Destination</label>
-            <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} /><br/><br/>
+              <label>Date Range</label>
+              <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
+              <button id="secondary" onClick={this.onDateSubmission}>+</button>
+            </div>
 
-            <label>Date Range</label>
-            <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
-            <button id="secondary" onClick={this.onDateSubmission}>+</button>
+            <div id="secondHalf">
+              <label>Estimated Cost</label>
+              <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
+
+              <label>Add an Activity</label>
+              <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
+              <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
+              <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
+              <button id="secondary" onClick={this.onActivityClick}>+</button>
+            </div>
+            <button id="primary" onClick={this.toggleModal}>Next</button>
+          </form>
           </div>
-
-          <div id="secondHalf">
-            <label>Estimated Cost</label>
-            <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
-
-            <label>Add an Activity</label>
-            <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
-            <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
-            <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
-            <button id="secondary" onClick={this.onActivityClick}>+</button>
-          </div>
-          <button id="primary" onClick={this.toggleModal}>Next</button>
-        </form>
         </div>
 
-        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} >
+        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal} >
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 
