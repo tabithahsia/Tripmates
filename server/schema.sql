@@ -24,6 +24,7 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	id INT NOT NULL AUTO_INCREMENT,
  	dateOption VARCHAR(255),
  	trip_id INT,
+  votes INT,
  	PRIMARY KEY(id),
  	FOREIGN KEY(trip_id) REFERENCES trips(id)
  );
@@ -73,7 +74,6 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	id INT NOT NULL AUTO_INCREMENT,
  	user_id INT,
  	date_id INT,
-  votes INT,
  	PRIMARY KEY (id),
  	FOREIGN KEY (user_id) REFERENCES users(id),
  	FOREIGN KEY (date_id) REFERENCES dates(id)
