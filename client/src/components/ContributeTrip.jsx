@@ -28,8 +28,7 @@ class ContributeTrip extends React.Component {
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onCommentSubmission = this.onCommentSubmission.bind(this);
     this.getCommentOwner = this.getCommentOwner.bind(this);
-
-
+    this.dateVoteClick = this.dateVoteClick.bind(this);
   }
 
   componentDidMount() {
@@ -113,13 +112,17 @@ class ContributeTrip extends React.Component {
     onCommentSubmission(e) {
       e.preventDefault();
 
-      axios.post('/comments', {comment: this.state.comment + ' - ' + this.state.commentOwner})
+      axios.post('/comments', {comment: this.state.comment + ' -' + this.state.commentOwner})
         .then((result) => {
           console.log(result)
         })
         .catch((error) => {
           console.log(error)
         })
+    }
+
+    dateVoteClick(e) {
+      e.preventDefault();
     }
 
   render() {
@@ -131,19 +134,16 @@ class ContributeTrip extends React.Component {
         <h1>Contribute To a Trip</h1>
 
         <div id="contributeTripParent">
-          <form>
           <h4 id="subheader">Stay Trippy!</h4>
 
           <div id="firstHalf">
-            <h1>Destination:</h1><br/>
-            <h3>{this.state.tripName.destination}</h3> <br/>
+            <h1>Destination</h1> <label>{this.state.tripName.destination}</label> <br/>
 
             <h1>Date Range Options:</h1><br/>
-            {this.state.dates.map(date => (<div><div>{date.dateOption} <button id="voteButton" onClick={e => e.preventDefault()}>vote</button></div><br/></div>))}
+            {this.state.dates.map(date => (<div><div>{date.dateOption} <button id="voteButton" onClick={this.dateVoteClick}>vote</button></div><br/></div>))}
 
 
             <h1> Comments: </h1><br/>
-            <label>Add a comment</label>
             {this.state.comments.map(comment => (<div><div>{comment.comment}</div><br/></div>))}
 
             <textarea rows="4" cols="50" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
@@ -151,20 +151,26 @@ class ContributeTrip extends React.Component {
           </div>
 
           <div id="secondHalf">
-            <h1>Estimated Cost:</h1><br/>
-            <h3>${this.state.tripName.est_cost}</h3> <br/>
+            <h1>Est. Cost</h1> <label>{this.state.tripName.est_cost}</label><br/>
             
             <label>Add an Activity</label>
             <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
             <button id="secondary" onClick={this.onActivityClick}>+</button>
-            <h1>Activity Options:</h1>
-            {this.state.activities.map(activity => (<div><div>Name: {activity.activityName} Description: {activity.activityDescription} Cost: ${activity.est_cost} <button id="voteButton" onClick={e => e.preventDefault()}>vote</button></div><br/></div>))}
 
-            
+            <h1>Activity Options:</h1>
+            {this.state.activities.map(activity => (
+              <div><br/>
+                <div>   <strong>Name:</strong> {activity.activityName}<br/>
+                        <strong>Description:</strong> {activity.activityDescription}<br/> 
+                        <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={e => e.preventDefault()}>vote</button><br/>
+                    </div>
+                </div>
+              )
+             )
+            }
           </div>
-        </form>
         </div>
       </div>
     )
