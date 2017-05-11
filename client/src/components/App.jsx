@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from"./Header";
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
+import Profile from './Profile';
+import CreateTrip from './CreateTrip';
+import ContributeTrip from './ContributeTrip';
 
 
 class App extends React.Component {
@@ -11,17 +17,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="main">
-        <Header />
-        <div id="banner">
-          <div id="tagline">Explore the world with your trippy trippy mates</div>
-            <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
-        </div>
-        <div id="placeholderdiv"><Link to="/contributeTrip"><button id="mainCTA">Contribute to a trip</button></Link></div>
-
+      <div>
+        <Router>
+            <div>
+                <Route exact path="/" component={Home}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/signup" component={Signup}/>
+                <Route path="/profile" component={Profile}/>
+                <Route path="/createTrip" component={CreateTrip}/>
+                <Route path="/contributeTrip" component={ContributeTrip}/>
+            </div>
+        </Router>
       </div>
-    )
-  }
+  )}
 }
+
 
 export default App;

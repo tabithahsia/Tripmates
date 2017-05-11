@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from"./Header";
-import axios from "axios";
-
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import axios from 'axios';
+
+import Header from './Header';
+
 
 class ContributeTrip extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class ContributeTrip extends React.Component {
 	   .then((result) => {
 	     //console.log(result.data);
 	      this.setState({tripName: result.data[0]})
-	    }) 
+	    })
 	    .catch((error) => {
 	      console.error(error);
 	    })
@@ -56,7 +57,7 @@ class ContributeTrip extends React.Component {
      .then((result) => {
        console.log('datesdata', result.data);
         this.setState({dates: result.data})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -67,7 +68,7 @@ class ContributeTrip extends React.Component {
      .then((result) => {
        // console.log('actdata', result.data);
         this.setState({activities: result.data})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -77,7 +78,7 @@ class ContributeTrip extends React.Component {
       axios.get('/comments')
       .then((result) => {
         this.setState({comments: result.data})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -87,7 +88,7 @@ class ContributeTrip extends React.Component {
       axios.get('/commentOwner')
       .then((result) => {
         this.setState({commentOwner: result.data[0].username})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -153,7 +154,7 @@ class ContributeTrip extends React.Component {
           <div id="secondHalf">
             <h1>Estimated Cost:</h1><br/>
             <h3>${this.state.tripName.est_cost}</h3> <br/>
-            
+
             <label>Add an Activity</label>
             <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
@@ -162,7 +163,7 @@ class ContributeTrip extends React.Component {
             <h1>Activity Options:</h1>
             {this.state.activities.map(activity => (<div><div>Name: {activity.activityName} Description: {activity.activityDescription} Cost: ${activity.est_cost} <button id="voteButton" onClick={e => e.preventDefault()}>vote</button></div><br/></div>))}
 
-            
+
           </div>
         </form>
         </div>
