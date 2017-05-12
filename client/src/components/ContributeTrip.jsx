@@ -113,23 +113,6 @@ class ContributeTrip extends React.Component {
 
   }
 
-  onActivityClick(e) {
-    e.preventDefault();
-    var activityObject = {
-       activity: this.state.activityName,
-       activityDescription: this.state.activityDescription,
-       activityCost: this.state.activityCost
-    }
-    axios.post('/newactivity', activityObject)
-      .then((result) => {
-        console.log(result)
-        this.props.history.push('/contributeTrip')
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   //when user clicks on a date, post to database
   dateVoteClick(e) {
     e.preventDefault();
