@@ -303,3 +303,11 @@ button#voteButton {
   height:  100px;
   width: 300px;
 }
+
+#activitybtn {
+  background-color: #6a6a6a;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  align: left;
+}

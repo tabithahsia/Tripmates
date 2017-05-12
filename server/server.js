@@ -303,7 +303,7 @@ app.post('/tripInfo', function(req, res) {
           }
 
           for(var j = 0; j < req.body.dates.length; j++) {
-            var insertDatesQuery = `INSERT INTO dates (dateOption, trip_id) VALUES ('${req.body.dates[j]}', ${tripID[0].id})`
+            var insertDatesQuery = `INSERT INTO dates (dateOption, trip_id, votes) VALUES ('${req.body.dates[j]}', ${tripID[0].id}, ${req.body.votes})`
             db.dbConnection.query(insertDatesQuery, function(error,result,fields) {
               if(error) {
                 console.error(error)

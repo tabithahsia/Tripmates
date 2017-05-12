@@ -131,35 +131,26 @@ class ContributeTrip extends React.Component {
       <div>
         <Header />
 
-        <h1>Contribute To a Trip</h1>
-
         <div id="contributeTripParent">
-          <h4 id="subheader">Stay Trippy!</h4>
+          <h4 id="subheader"> stay trippy! </h4>
 
           <div id="firstHalf">
-            <h1>Destination</h1> <label>{this.state.tripName.destination}</label> <br/>
+            <h1>Destination</h1><label>{this.state.tripName.destination}</label> <br/>
+            <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
+            <h1>Date Options</h1><br/>
+            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={e => e.preventDefault()}>vote</button></div> <br/> </div> ))}
 
-            <h1>Date Range Options:</h1><br/>
-            {this.state.dates.map(date => (<div><div>{date.dateOption} <button id="voteButton" onClick={this.dateVoteClick}>vote</button></div><br/></div>))}
 
-
-            <h1> Comments: </h1><br/>
+            <br/><h1> Comments </h1><br/>
             {this.state.comments.map(comment => (<div><div>{comment.comment}</div><br/></div>))}
 
-            <textarea rows="4" cols="50" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
+            <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
             <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
           </div>
 
           <div id="secondHalf">
-            <h1>Est. Cost</h1> <label>{this.state.tripName.est_cost}</label><br/>
             
-            <label>Add an Activity</label>
-            <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
-            <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
-            <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
-            <button id="secondary" onClick={this.onActivityClick}>+</button>
-
-            <h1>Activity Options:</h1>
+            <h1>Activity Options</h1>
             {this.state.activities.map(activity => (
               <div><br/>
                 <div>   <strong>Name:</strong> {activity.activityName}<br/>
@@ -169,7 +160,15 @@ class ContributeTrip extends React.Component {
                 </div>
               )
              )
-            }
+            }<br/><br/>
+            <h1>Add an Activity</h1>
+            <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
+            <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
+            <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
+            
+              <button id="activitybtn" onClick={this.onActivityClick}>+</button>
+
+            
           </div>
         </div>
       </div>
