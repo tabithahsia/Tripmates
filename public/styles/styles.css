@@ -253,25 +253,6 @@ nav li {
 	width: 300px;
 }
 
-.backdrop {
-  position: fixed,
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  backgroundColor: 'rgba(0,0,0,0.3)',
-  padding: 50
-}
-
-.modal {
-  backgroundColor: '#fff',
-  borderRadius: 5,
-  maxWidth: 500,
-  minHeight: 250,
-  margin: 0 auto,
-  padding: 30
-}
-
 #modalButton {
   display: inline-block;
   float: left;
@@ -294,7 +275,23 @@ nav li {
 
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
+#contributeTripParent {
+  position: relative;
+  width: 800px;
+  height: 640px;
+  margin: 0px auto;
+  padding: 40px 40px 50px 40px;
+}
 
+#contributeFirstHalf {
+  float: left;
+  width: 300px;
+}
+
+#contributeSecondHalf {
+  float: right;
+  width: 300px;
+}
 button#voteButton {
   background-color: #6a6a6a;
   border: none;
@@ -306,4 +303,12 @@ button#voteButton {
   border: 1px solid black;
   height:  100px;
   width: 300px;
+}
+
+#activitybtn {
+  background-color: #6a6a6a;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  align: left;
 }

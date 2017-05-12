@@ -21,6 +21,7 @@ class CreateTrip extends React.Component {
       tripName: "",
       destination: "",
       estCost: "",
+      votes: 0,
       isInviteFriendModalOpen: false
     };
 
@@ -61,7 +62,7 @@ class CreateTrip extends React.Component {
   onAddTripClick (e, friend) {
     e.preventDefault();
 
-    axios.post('/tripInfo', {loggedInUser: this.props.loggedInUser, dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend})
+    axios.post('/tripInfo', {loggedInUser: this.props.loggedInUser, dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend, votes: this.state.votes})
       .then(({response}) => {
         console.log('sucessful post')
       })
