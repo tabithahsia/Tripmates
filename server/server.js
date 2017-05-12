@@ -290,13 +290,36 @@ app.post('/comments', function(req,res) {
           console.error(error)
         }
         res.send('inserted comments to database');
+     })
     })
    })
   })
  })
 })
-})
 
+app.post('/addVote', function(req,res) {
+  console.log('reqbody', req.body);
+  var tripQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  db.dbConnection.query(tripQuery, function(error,trip,fields) {
+   if(error) {
+        console.error(error)
+      }
+  var tripIdQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+  db.dbConnection.query(tripIdQuery, function(error, tripId, fields){
+    if(error) {
+    console.error(error)
+    }
+  var updateDateVoteQuery = `UPDATE dates SET votes = ${req.body.vote} WHERE trip_id = ${tripId[0].id}`;
+  console.log('tripid', tripId);
+  db.dbConnection.query(updateDateVoteQuery, function(error, voteCount, fields){
+    if(error) {
+    console.error(error)
+    }
+    res.send('updated date vote');
+  })
+ })
+})
+})
 
 app.post('/tripInfo', function(req, res) {
 
@@ -325,7 +348,7 @@ app.post('/tripInfo', function(req, res) {
           }
 
           for(var j = 0; j < req.body.dates.length; j++) {
-            var insertDatesQuery = `INSERT INTO dates (dateOption, trip_id) VALUES ('${req.body.dates[j]}', ${tripID[0].id})`
+            var insertDatesQuery = `INSERT INTO dates (dateOption, trip_id, votes) VALUES ('${req.body.dates[j]}', ${tripID[0].id}, ${req.body.votes})`
             db.dbConnection.query(insertDatesQuery, function(error,result,fields) {
               if(error) {
                 console.error(error)
