@@ -6,45 +6,26 @@ import axios from 'axios';
 import Header from './Header';
 
 
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       userInfo: {},
-      userTable: {},
       showErrorMsg: false
     }
-
     this.submitLogin = this.submitLogin.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
-    this.getUserTable = this.getUserTable.bind(this);
-
-  }
-
-  componentDidMount() {
-    this.getUserTable();
-  }
-
-  getUserTable() {
-    axios.get('/userTable')
-      .then((result) => {
-        this.setState({
-          userTable: result.data
-        });
-      })
-      .catch((error) => {
-        console.log(error, 'error');
-      })
   }
 
   submitLogin(login, e) {
     e.preventDefault();
+
     axios.post('/login', {username: login.username, password: login.password})
       .then((response) => {
         //if username and password combo matches
         if (response.data) {
+          this.props.checkUser(this.state.userInfo['username']);
           this.props.history.push('/profile')
         } else {
           this.setState({
@@ -74,7 +55,7 @@ class Login extends React.Component {
           <div id="content">
               <div id="form_container">
               <h3>Log in</h3>
-
+              { this.props.test }
               <form onSubmit={this.submitLogin.bind(this, this.state.userInfo)}>
                 <div className="form_element">
                   <label>Username</label>

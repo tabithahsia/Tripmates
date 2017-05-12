@@ -13,6 +13,16 @@ import ContributeTrip from './ContributeTrip';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loggedInUser: ''
+    }
+    this.checkUser = this.checkUser.bind(this);
+  }
+
+  checkUser(user) {
+    this.setState({
+      loggedInUser: user
+    });
   }
 
   render() {
@@ -21,11 +31,12 @@ class App extends React.Component {
         <Router>
             <div>
                 <Route exact path="/" component={Home}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/signup" component={Signup}/>
-                <Route path="/profile" component={Profile}/>
-                <Route path="/createTrip" component={CreateTrip}/>
-                <Route path="/contributeTrip" component={ContributeTrip}/>
+                <Route path="/signup" render={(props) => (<Signup checkUser={this.checkUser} {...props} />)} />
+                <Route path="/login" render={(props) => (<Login checkUser={this.checkUser} {...props} />)} />
+
+                <Route path="/profile" render={(props) => (<Profile loggedInUser = {this.state.loggedInUser} {...props} />)} />
+                <Route path="/createTrip" render={(props) => (<CreateTrip loggedInUser = {this.state.loggedInUser}{...props} />)} />
+                <Route path="/contributeTrip" render={(props) => (<ContributeTrip loggedInUser = {this.state.loggedInUser}{...props} />)} />
             </div>
         </Router>
       </div>
