@@ -135,21 +135,10 @@ app.get('/comments', function (req, res) {
         if(error) {
           console.error(error);
         }
-          console.log(comments);
           res.send(comments);
         })
       })
     })
-})
-
-app.get('/commentOwner', function (req,res){
-    var query1 = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
-    db.dbConnection.query(query1, function(error, username, fields) {
-    if(error) {
-      console.error(error)
-    }
-      res.send(username);
-  })
 })
 
 app.post('/tripName', function(req, res) {

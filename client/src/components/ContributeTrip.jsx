@@ -18,8 +18,7 @@ class ContributeTrip extends React.Component {
       activityDescription: '',
       activityCost: '',
       comment: '',
-      comments: [],
-      commentOwner: ''
+      comments: []
     };
 
     this.getTripName = this.getTripName.bind(this);
@@ -28,9 +27,6 @@ class ContributeTrip extends React.Component {
     this.getComment = this.getComment.bind(this);
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onCommentSubmission = this.onCommentSubmission.bind(this);
-    this.getCommentOwner = this.getCommentOwner.bind(this);
-
-
   }
 
   componentDidMount() {
@@ -38,13 +34,11 @@ class ContributeTrip extends React.Component {
     this.getDates();
     this.getActivities();
     this.getComment();
-    this.getCommentOwner();
   }
 
   getTripName() {
   	axios.get('/tripName')
 	   .then((result) => {
-	     //console.log(result.data);
 	      this.setState({tripName: result.data[0]})
 	    })
 	    .catch((error) => {
@@ -66,7 +60,6 @@ class ContributeTrip extends React.Component {
     getActivities() {
       axios.get('/activities')
      .then((result) => {
-       // console.log('actdata', result.data);
         this.setState({activities: result.data})
       })
       .catch((error) => {
@@ -78,16 +71,6 @@ class ContributeTrip extends React.Component {
       axios.get('/comments')
       .then((result) => {
         this.setState({comments: result.data})
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }
-
-    getCommentOwner () {
-      axios.get('/commentOwner')
-      .then((result) => {
-        this.setState({commentOwner: result.data[0].username})
       })
       .catch((error) => {
         console.error(error);
@@ -114,7 +97,7 @@ class ContributeTrip extends React.Component {
     onCommentSubmission(e) {
       e.preventDefault();
 
-      axios.post('/comments', {comment: this.state.comment + ' - ' + this.state.commentOwner})
+      axios.post('/comments', {comment: this.state.comment + ' - ' + this.props.loggedInUser})
         .then((result) => {
           console.log(result)
         })
