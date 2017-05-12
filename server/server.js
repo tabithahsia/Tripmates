@@ -85,11 +85,8 @@ app.get('/dates', function(req,res) {
       db.dbConnection.query(query2, function(error, tripId, fields) {
 
         var query3 = `SELECT * FROM dates WHERE trip_id = ${tripId[0].id}`;
-<<<<<<< HEAD
-        db.dbConnection.query(query3, function(error, date,fields){
-=======
+
         db.dbConnection.query(query3, function(error, dateRow,fields){
->>>>>>> bb973eada4bc48efa06429be11727fad3472189f
           if(error) {
             console.error(error);
           }
