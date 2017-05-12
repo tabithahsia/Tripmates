@@ -318,3 +318,10 @@ button#voteButton {
   font-size: 20px;
   align: left;
 }
+
+button#secondary {
+  background-color: #6a6a6a;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+}
