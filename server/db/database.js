@@ -12,12 +12,6 @@ exports.dbConnection = mysql.createConnection({
 
 
 
-
-
-
-
-
-
 // module.exports = (function() {
 //   var knex = require('knex')({
 //     client: 'mysql',
