@@ -46,65 +46,64 @@ class ContributeTrip extends React.Component {
 	    })
   }
 
-    getDates() {
-      axios.get('/dates')
-     .then((result) => {
-       console.log('datesdata', result.data);
-        this.setState({dates: result.data})
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }
+  getDates() {
+    axios.get('/dates')
+   .then((result) => {
+     console.log('datesdata', result.data);
+      this.setState({dates: result.data})
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
 
-    getActivities() {
-      axios.get('/activities')
-     .then((result) => {
-        this.setState({activities: result.data})
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }
+  getActivities() {
+    axios.get('/activities')
+   .then((result) => {
+      this.setState({activities: result.data})
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
 
-    getComment() {
-      axios.get('/comments')
+  getComment() {
+    axios.get('/comments')
+    .then((result) => {
+      this.setState({comments: result.data})
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+
+  onActivityClick(e) {
+    e.preventDefault();
+    var activityObject = {
+       activity: this.state.activityName,
+       activityDescription: this.state.activityDescription,
+       activityCost: this.state.activityCost
+    }
+    axios.post('/newactivity', activityObject)
       .then((result) => {
-        this.setState({comments: result.data})
+        console.log(result)
+        this.props.history.push('/contributeTrip')
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error)
       })
-    }
+  }
 
-    onActivityClick(e) {
-      e.preventDefault();
-      var activityObject = {
-         activity: this.state.activityName,
-         activityDescription: this.state.activityDescription,
-         activityCost: this.state.activityCost
-      }
-      axios.post('/newactivity', activityObject)
-        .then((result) => {
-          console.log(result)
-          this.props.history.push('/contributeTrip')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-
-    onCommentSubmission(e) {
-      e.preventDefault();
-
-      axios.post('/comments', {comment: this.state.comment + ' - ' + this.props.loggedInUser})
-        .then((result) => {
-          console.log(result)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
+  onCommentSubmission(e) {
+    e.preventDefault();
+    axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser})
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   render() {
     return (
@@ -128,7 +127,7 @@ class ContributeTrip extends React.Component {
 
             <h1> Comments: </h1><br/>
             <label>Add a comment</label>
-            {this.state.comments.map(comment => (<div><div>{comment.comment}</div><br/></div>))}
+            {this.state.comments.map(comment => (<div><div>{comment.comment} - {comment.username}</div><br/></div>))}
 
             <textarea rows="4" cols="50" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
             <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>

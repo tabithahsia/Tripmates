@@ -119,26 +119,26 @@ app.get('/activities', function(req,res) {
 })
 
 app.get('/comments', function (req, res) {
-     var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-      db.dbConnection.query(query, function(error,trip,fields) {
+  var tripNameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  db.dbConnection.query(tripNameQuery, function(error,trip,fields) {
+    if(error) {
+      console.error(error)
+    }
+    var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+    db.dbConnection.query(tripIDQuery, function(error, tripId, fields) {
       if(error) {
-        console.error(error)
+        console.error(error);
       }
-      var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
-      db.dbConnection.query(query2, function(error, tripId, fields) {
-       if(error) {
-          console.error(error);
-        }
 
-      var query3 = `SELECT * FROM comments WHERE trip_id = ${tripId[0].id}`;
-      db.dbConnection.query(query3, function(error, comments,fields){
+      var commentsQuery = `SELECT comment, username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE trip_id = ${tripId[0].id}`
+      db.dbConnection.query(commentsQuery, function(error,comments,fields){
         if(error) {
           console.error(error);
         }
-          res.send(comments);
-        })
+        res.send(comments);
       })
     })
+  })
 })
 
 app.post('/tripName', function(req, res) {
@@ -232,38 +232,31 @@ app.post('/newactivity', function(req,res) {
 })
 
 app.post('/comments', function(req,res) {
-
-  var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(query, function(error,trip,fields) {
+  var tripNameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  db.dbConnection.query(tripNameQuery, function(error,trip,fields) {
    if(error) {
-        console.error(error)
-      }
-  var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
-  db.dbConnection.query(query2, function(error, tripId, fields){
-    if(error) {
-    console.error(error)
-    }
-   var query3 = `SELECT username FROM logIns ORDER BY id DESC LIMIT 1`;
-   db.dbConnection.query(query3, function(error, username, fields) {
-    if(error) {
       console.error(error)
     }
-    var query4 = `SELECT id FROM users WHERE username = '${username[0].username}'`;
-    db.dbConnection.query(query4, function(error, userid, fields1) {
+    var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+    db.dbConnection.query(tripIDQuery, function(error, tripId, fields){
       if(error) {
-        console.log(error)
+        console.error(error)
       }
-      var query5 = `INSERT INTO comments (comment, user_id, trip_id) VALUES ('${req.body.comment}',${userid[0].id},${tripId[0].id})`;
-      db.dbConnection.query(query5, function(error2, results2, fields2) {
+      var commentOwnerQuery = `SELECT id FROM users WHERE username = '${req.body.commentOwner}'`;
+      db.dbConnection.query(commentOwnerQuery, function(error, userid, fields) {
         if(error) {
-          console.error(error)
+          console.log(error)
         }
-        res.send('inserted comments to database');
+        var insertCommentQuery = `INSERT INTO comments (comment, user_id, trip_id) VALUES ('${req.body.comment}',${userid[0].id},${tripId[0].id})`;
+        db.dbConnection.query(insertCommentQuery, function(error, results, fields) {
+          if(error) {
+            console.error(error)
+          }
+          res.send('inserted comments to database');
+        })
+      })
     })
-   })
   })
- })
-})
 })
 
 
