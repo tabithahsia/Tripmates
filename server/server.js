@@ -9,11 +9,32 @@ var bcrypt = require('bcrypt');
 
 var salt = bcrypt.genSaltSync(10);
 
+var yelp = require('yelp-fusion');
+var yelpAPI = require('./yelpApi.js');
+
 app.use(bodyParser.json());
 
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
+
+
+
+app.get('/yelp', function (req, res) {
+
+  yelp.accessToken(yelpAPI.clientId, yelpAPI.clientSecret).then(response => {
+    const client = yelp.client(response.jsonBody.access_token);
+
+    client.search(req.query).then(response => {
+      const firstResult = response.jsonBody.businesses[0];
+      const prettyJson = JSON.stringify(firstResult, null, 4);
+      console.log(prettyJson);
+    });
+  }).catch(e => {
+    console.log(e);
+  });
+})
+
 
 
 app.get('/profile', function (req, res) {
@@ -50,7 +71,7 @@ app.get('/profile', function (req, res) {
 })
 
 app.get('/tripName', function(req,res) {
-    var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+    var query = `SELECT tripName FROM trips ORDER BY id DESC LIMIT 1`;
     db.dbConnection.query(query, function(error,trip,fields) {
       if(error) {
         console.error(error)
