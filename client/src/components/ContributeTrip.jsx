@@ -20,7 +20,8 @@ class ContributeTrip extends React.Component {
       comment: '',
       comments: [],
       commentOwner: '',
-      vote: 0
+      vote: 0,
+      dateVotedOn: '' 
     };
 
     this.getTripName = this.getTripName.bind(this);
@@ -96,7 +97,7 @@ class ContributeTrip extends React.Component {
     }
     //get date votes to be rendered next time user logs in
     getDateVotes () {
-
+        
     }
 
     onActivityClick(e) {
@@ -128,11 +129,15 @@ class ContributeTrip extends React.Component {
         })
     }
     //when user clicks on a date, post to database
-    dateVoteClick(e) {
+    dateVoteClick(e,dateId) {
       e.preventDefault();
-      this.setState({vote: this.state.vote++})
-      alert(this.state.vote);
-      axios.post('/addVote', {vote: this.state.vote})
+      console.log('dateid inside',dateId);
+      this.setState({
+        vote: this.state.vote++,
+        dateVotedOn: dateId
+      })
+
+      axios.post('/addVote', {vote: this.state.vote, dateVotedOn: this.state.dateVotedOn})
         .then((result) => {
           console.log(result)
         })
@@ -151,11 +156,10 @@ class ContributeTrip extends React.Component {
           <h4 id="subheader"> stay trippy! </h4>
 
           <div id="firstHalf">
-            <h1>Destination</h1><label>{this.state.tripName.destination}</label> <br/>
+            <div><h1>Destination</h1><label>{this.state.tripName.destination}</label></div><br/>
             <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
             <h1>Date Options</h1><br/>
-            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick}>vote</button></div> <br/> </div> ))}
-
+            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={(e)=>(this.dateVoteClick(e, date.id))}>vote</button></div> <br/> </div> ))}
 
             <br/><h1> Comments </h1><br/>
             {this.state.comments.map(comment => (<div><div>{comment.comment}</div><br/></div>))}

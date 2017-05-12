@@ -94,12 +94,12 @@ app.get('/dates', function(req,res) {
       var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
       db.dbConnection.query(query2, function(error, tripId, fields) {
 
-        var query3 = `SELECT dateOption FROM dates WHERE trip_id = ${tripId[0].id}`;
-        db.dbConnection.query(query3, function(error, date,fields){
+        var query3 = `SELECT * FROM dates WHERE trip_id = ${tripId[0].id}`;
+        db.dbConnection.query(query3, function(error, dateRow,fields){
           if(error) {
             console.error(error);
           }
-            res.send(date);
+            res.send(dateRow);
         })
       })
     })
