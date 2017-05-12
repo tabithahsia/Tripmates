@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withRouter, Link, BrowserRouter as Router } from 'react-router-dom';
-import axios from "axios";
-import Header from "./Header";
+import axios from 'axios';
+
+import Header from './Header';
 
 class Profile extends React.Component {
   constructor(props) {

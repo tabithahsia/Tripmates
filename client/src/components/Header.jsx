@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
-var Signup = () => (
-  <div>Signup Page</div>
-)
 
 class Header extends React.Component {
   constructor(props) {
