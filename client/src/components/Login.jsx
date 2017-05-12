@@ -56,7 +56,7 @@ class Login extends React.Component {
               <div id="form_container">
               <h3>Log in</h3>
               { this.props.test }
-              <form onSubmit={this.submitLogin.bind(this, this.state.userInfo)}>
+              <form onSubmit={()=> this.submitLogin(this.state.userInfo)}>
                 <div className="form_element">
                   <label>Username</label>
                     <input name="username" type="text" onChange={this.updateInputs}/>
