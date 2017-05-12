@@ -18,7 +18,8 @@ class ContributeTrip extends React.Component {
       activityCost: '',
       comment: '',
       comments: [],
-      commentOwner: ''
+      commentOwner: '',
+      vote: 0
     };
 
     this.getTripName = this.getTripName.bind(this);
@@ -37,6 +38,7 @@ class ContributeTrip extends React.Component {
     this.getActivities();
     this.getComment();
     this.getCommentOwner();
+    this.getDateVotes();
   }
 
   getTripName() {
@@ -91,6 +93,10 @@ class ContributeTrip extends React.Component {
         console.error(error);
       })
     }
+    //get date votes to be rendered next time user logs in
+    getDateVotes () {
+
+    }
 
     onActivityClick(e) {
       e.preventDefault();
@@ -120,10 +126,19 @@ class ContributeTrip extends React.Component {
           console.log(error)
         })
     }
-
+    //when user clicks on a date, post to database
     dateVoteClick(e) {
       e.preventDefault();
-    }
+      this.setState({vote: this.state.vote++})
+      alert(this.state.vote);
+      axios.post('/addVote', {vote: this.state.vote})
+        .then((result) => {
+          console.log(result)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
 
   render() {
     return (
@@ -138,7 +153,7 @@ class ContributeTrip extends React.Component {
             <h1>Destination</h1><label>{this.state.tripName.destination}</label> <br/>
             <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
             <h1>Date Options</h1><br/>
-            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={e => e.preventDefault()}>vote</button></div> <br/> </div> ))}
+            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick}>vote</button></div> <br/> </div> ))}
 
 
             <br/><h1> Comments </h1><br/>
@@ -166,7 +181,7 @@ class ContributeTrip extends React.Component {
             <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
             
-              <button id="activitybtn" onClick={this.onActivityClick}>+</button>
+            <button id="activitybtn" onClick={this.onActivityClick}>+</button>
 
             
           </div>
