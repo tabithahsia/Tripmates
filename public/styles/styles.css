@@ -222,7 +222,8 @@ nav li {
 #createTripParent {
   position: relative;
 	width: 800px;
-  height: 640px;
+  min-height: 640px;
+  overflow: auto;
   margin: 0px auto;
   padding: 40px 40px 50px 40px;
 }
@@ -240,7 +241,12 @@ nav li {
 #createTrip #content{
   padding-top: 0px;
   padding-bottom: 0px;
+}
 
+#createTrip .errorMsg {
+  clear: both;
+  float: right;
+  margin-bottom: 30px;
 }
 
 #firstHalf {
