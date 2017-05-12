@@ -109,23 +109,12 @@ class ContributeTrip extends React.Component {
       .catch((error) => {
         console.log(error)
       })
-<<<<<<< HEAD
     }
-    //get date votes to be rendered next time user logs in
-    getDateVotes () {
-        
-    }
-=======
-  }
->>>>>>> 42d717a030220ded84bab66adee48951553d4725
-
+   
   //get date votes to be rendered next time user logs in
   getDateVotes () {
 
-  }
-
-<<<<<<< HEAD
-      axios.post('/comments', {comment: this.state.comment + ' -' + this.state.commentOwner})
+      axios.post('/comments', {comment: this.state.comment, commentOwner: this.state.commentOwner})
         .then((result) => {
           console.log(result)
         })
@@ -150,21 +139,6 @@ class ContributeTrip extends React.Component {
           console.log(error)
         })
       }
-=======
-  //when user clicks on a date, post to database
-  dateVoteClick(e) {
-    e.preventDefault();
-    this.setState({vote: this.state.vote++})
-    alert(this.state.vote);
-    axios.post('/addVote', {vote: this.state.vote})
-      .then((result) => {
-        console.log(result)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
->>>>>>> 42d717a030220ded84bab66adee48951553d4725
 
   render() {
     return (
@@ -179,18 +153,10 @@ class ContributeTrip extends React.Component {
             <div><h1>Destination</h1><label>{this.state.tripName.destination}</label></div><br/>
             <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
             <h1>Date Options</h1><br/>
-<<<<<<< HEAD
             {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={(e)=>(this.dateVoteClick(e, date.id))}>vote</button></div> <br/> </div> ))}
 
             <br/><h1> Comments </h1><br/>
             {this.state.comments.map(comment => (<div><div>{comment.comment}</div><br/></div>))}
-=======
-            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick}>vote</button></div> <br/> </div> ))}
-
-            <h1> Comments: </h1><br/>
-            <label>Add a comment</label>
-            {this.state.comments.map(comment => (<div><div>{comment.comment} - {comment.username}</div><br/></div>))}
->>>>>>> 42d717a030220ded84bab66adee48951553d4725
 
             <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
             <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
