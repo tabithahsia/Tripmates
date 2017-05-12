@@ -319,6 +319,7 @@ app.post('/tripInfo', function(req, res) {
       console.log(error)
     }
 
+
     var insertTripQuery = `INSERT INTO trips (tripName, destination, est_cost) VALUES ('${req.body.tripName}', '${req.body.destination}', '${req.body.estCost}')`
     db.dbConnection.query(insertTripQuery, function(error, result, fields) {
       if(error) {
@@ -366,6 +367,7 @@ app.post('/tripInfo', function(req, res) {
           if(error) {
             console.error(error);
           }
+          res.send('Inserted trip into DB');
         })
       })
     })
