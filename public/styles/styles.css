@@ -177,7 +177,8 @@ nav li {
 }
 
 #profile #content {
-  height: 300px;
+  overflow: auto;
+  min-height: 300px;
 }
 
 #yourTrips {

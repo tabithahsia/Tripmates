@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from"./Header";
-import axios from "axios";
-
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import axios from 'axios';
+
+import Header from './Header';
+
 
 class ContributeTrip extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class ContributeTrip extends React.Component {
 	   .then((result) => {
 	     //console.log(result.data);
 	      this.setState({tripName: result.data[0]})
-	    }) 
+	    })
 	    .catch((error) => {
 	      console.error(error);
 	    })
@@ -57,7 +58,7 @@ class ContributeTrip extends React.Component {
      .then((result) => {
        console.log('datesdata', result.data);
         this.setState({dates: result.data})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -68,7 +69,7 @@ class ContributeTrip extends React.Component {
      .then((result) => {
        // console.log('actdata', result.data);
         this.setState({activities: result.data})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -78,7 +79,7 @@ class ContributeTrip extends React.Component {
       axios.get('/comments')
       .then((result) => {
         this.setState({comments: result.data})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -88,7 +89,7 @@ class ContributeTrip extends React.Component {
       axios.get('/commentOwner')
       .then((result) => {
         this.setState({commentOwner: result.data[0].username})
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -177,13 +178,14 @@ class ContributeTrip extends React.Component {
              )
             }<br/><br/>
             <h1>Add an Activity</h1>
+
             <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
             
             <button id="activitybtn" onClick={this.onActivityClick}>+</button>
 
-            
+
           </div>
         </div>
       </div>

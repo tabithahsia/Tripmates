@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from"./Header";
-import InviteFriends from"./InviteFriends";
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import Header from './Header';
+import InviteFriends from './InviteFriends';
+
 
 class CreateTrip extends React.Component {
   constructor(props) {
