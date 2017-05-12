@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import Header from './Header';
 
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -15,19 +16,6 @@ class Profile extends React.Component {
     this.postTrip = this.postTrip.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.capitalize = this.capitalize.bind(this);
-  }
-
-  getProfile() {
-    axios.get('/profile')
-      .then((result) => {
-          var userTrip = this.state.userTrip;
-          userTrip['userName'] = result.data.user[0].username;
-          userTrip['tripName'] = result.data.trips;
-          this.setState({userTrip})
-      })
-      .catch((error) => {
-          console.error(error);
-      })
   }
 
   componentDidMount() {
@@ -46,10 +34,12 @@ class Profile extends React.Component {
   }
 
   getProfile() {
-    axios.get('/profile')
+    axios.get('/profile', {
+      params: {
+        loggedInUser: this.props.loggedInUser
+      }})
       .then((result) => {
           var userTrip = this.state.userTrip;
-          userTrip['userName'] = result.data.user[0].username;
           userTrip['tripName'] = result.data.trips;
           this.setState({userTrip})
       })
@@ -57,17 +47,16 @@ class Profile extends React.Component {
           console.error(error);
       })
   }
+
   // Helper function for formatting
   capitalize(word) {
-
-    // console.log("word", word);
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
   render() {
 
     var listOfTrips = this.state.userTrip.tripName;
-    var user = this.state.userTrip.userName;
+    var user = this.props.loggedInUser;
 
     return (
       <div id="profile">

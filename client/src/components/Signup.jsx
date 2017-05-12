@@ -6,15 +6,13 @@ import axios from 'axios';
 import Header from './Header';
 
 
-
 class Signup extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userInput: {}
+      userInfo: {}
     }
-
     this.submitSignup = this.submitSignup.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
   }
@@ -24,6 +22,7 @@ class Signup extends React.Component {
    axios.post('/signup', {username: signup.username, password: signup.password})
      .then(({response}) => {
        //this line will take you to /profile
+       this.props.checkUser(this.state.userInfo['username']);
        this.props.history.push('/profile');
      })
      .catch(err => {
@@ -32,12 +31,12 @@ class Signup extends React.Component {
  }
 
   updateInputs(e) {
-    var userInput = this.state.userInput;
+    var userInfo = this.state.userInfo;
     var name = e.target.name;
     var value = e.target.value;
 
-    userInput[name] = value;
-    this.setState({userInput});
+    userInfo[name] = value;
+    this.setState({userInfo});
   }
 
   render() {
@@ -47,7 +46,7 @@ class Signup extends React.Component {
           <div id="content">
             <div id ="form_container">
               <h3>Sign up</h3>
-              <form onSubmit={this.submitSignup.bind(this, this.state.userInput)}>
+              <form onSubmit={this.submitSignup.bind(this, this.state.userInfo)}>
                 <div className="form_element">
                   <label>Username</label>
                     <input name="username" type="text" onChange={this.updateInputs}/>

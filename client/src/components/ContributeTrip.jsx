@@ -22,6 +22,7 @@ class ContributeTrip extends React.Component {
       commentOwner: '',
       vote: 0,
       dateVotedOn: '' 
+
     };
 
     this.getTripName = this.getTripName.bind(this);
@@ -30,7 +31,6 @@ class ContributeTrip extends React.Component {
     this.getComment = this.getComment.bind(this);
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onCommentSubmission = this.onCommentSubmission.bind(this);
-    this.getCommentOwner = this.getCommentOwner.bind(this);
     this.dateVoteClick = this.dateVoteClick.bind(this);
   }
 
@@ -39,14 +39,12 @@ class ContributeTrip extends React.Component {
     this.getDates();
     this.getActivities();
     this.getComment();
-    this.getCommentOwner();
     this.getDateVotes();
   }
 
   getTripName() {
   	axios.get('/tripName')
 	   .then((result) => {
-	     //console.log(result.data);
 	      this.setState({tripName: result.data[0]})
 	    })
 	    .catch((error) => {
@@ -54,72 +52,79 @@ class ContributeTrip extends React.Component {
 	    })
   }
 
-    getDates() {
-      axios.get('/dates')
-     .then((result) => {
-       console.log('datesdata', result.data);
-        this.setState({dates: result.data})
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }
+  getDates() {
+    axios.get('/dates')
+   .then((result) => {
+     console.log('datesdata', result.data);
+      this.setState({dates: result.data})
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
 
-    getActivities() {
-      axios.get('/activities')
-     .then((result) => {
-       // console.log('actdata', result.data);
-        this.setState({activities: result.data})
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }
+  getActivities() {
+    axios.get('/activities')
+   .then((result) => {
+      this.setState({activities: result.data})
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
 
-    getComment() {
-      axios.get('/comments')
+  getComment() {
+    axios.get('/comments')
+    .then((result) => {
+      this.setState({comments: result.data})
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+
+  onActivityClick(e) {
+    e.preventDefault();
+    var activityObject = {
+       activity: this.state.activityName,
+       activityDescription: this.state.activityDescription,
+       activityCost: this.state.activityCost
+    }
+    axios.post('/newactivity', activityObject)
       .then((result) => {
-        this.setState({comments: result.data})
+        console.log(result)
+        this.props.history.push('/contributeTrip')
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error)
       })
-    }
+  }
 
-    getCommentOwner () {
-      axios.get('/commentOwner')
+  onCommentSubmission(e) {
+    e.preventDefault();
+      axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser})
       .then((result) => {
-        this.setState({commentOwner: result.data[0].username})
+        console.log(result)
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error)
       })
+<<<<<<< HEAD
     }
     //get date votes to be rendered next time user logs in
     getDateVotes () {
         
     }
+=======
+  }
+>>>>>>> 42d717a030220ded84bab66adee48951553d4725
 
-    onActivityClick(e) {
-      e.preventDefault();
-      var activityObject = {
-         activity: this.state.activityName,
-         activityDescription: this.state.activityDescription,
-         activityCost: this.state.activityCost
-      }
-      axios.post('/newactivity', activityObject)
-        .then((result) => {
-          console.log(result)
-          this.props.history.push('/contributeTrip')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
+  //get date votes to be rendered next time user logs in
+  getDateVotes () {
 
-    onCommentSubmission(e) {
-      e.preventDefault();
+  }
 
+<<<<<<< HEAD
       axios.post('/comments', {comment: this.state.comment + ' -' + this.state.commentOwner})
         .then((result) => {
           console.log(result)
@@ -145,6 +150,21 @@ class ContributeTrip extends React.Component {
           console.log(error)
         })
       }
+=======
+  //when user clicks on a date, post to database
+  dateVoteClick(e) {
+    e.preventDefault();
+    this.setState({vote: this.state.vote++})
+    alert(this.state.vote);
+    axios.post('/addVote', {vote: this.state.vote})
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+>>>>>>> 42d717a030220ded84bab66adee48951553d4725
 
   render() {
     return (
@@ -159,22 +179,30 @@ class ContributeTrip extends React.Component {
             <div><h1>Destination</h1><label>{this.state.tripName.destination}</label></div><br/>
             <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
             <h1>Date Options</h1><br/>
+<<<<<<< HEAD
             {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={(e)=>(this.dateVoteClick(e, date.id))}>vote</button></div> <br/> </div> ))}
 
             <br/><h1> Comments </h1><br/>
             {this.state.comments.map(comment => (<div><div>{comment.comment}</div><br/></div>))}
+=======
+            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick}>vote</button></div> <br/> </div> ))}
+
+            <h1> Comments: </h1><br/>
+            <label>Add a comment</label>
+            {this.state.comments.map(comment => (<div><div>{comment.comment} - {comment.username}</div><br/></div>))}
+>>>>>>> 42d717a030220ded84bab66adee48951553d4725
 
             <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
             <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
           </div>
 
           <div id="secondHalf">
-            
+
             <h1>Activity Options</h1>
             {this.state.activities.map(activity => (
               <div><br/>
                 <div>   <strong>Name:</strong> {activity.activityName}<br/>
-                        <strong>Description:</strong> {activity.activityDescription}<br/> 
+                        <strong>Description:</strong> {activity.activityDescription}<br/>
                         <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={e => e.preventDefault()}>vote</button><br/>
                     </div>
                 </div>
@@ -186,7 +214,7 @@ class ContributeTrip extends React.Component {
             <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
             <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
-            
+
             <button id="activitybtn" onClick={this.onActivityClick}>+</button>
 
 

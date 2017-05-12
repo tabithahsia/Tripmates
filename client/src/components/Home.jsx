@@ -22,9 +22,7 @@ class Home extends React.Component {
       params: {
         term: input.term,
         location: input.location
-      }
-
-      })
+      }})
       .then((response) => {
         // this.props.history.push('/profile')
       })

@@ -69,7 +69,6 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	FOREIGN KEY (activity_id) REFERENCES activities(id)
  );
 
-
  CREATE TABLE dateVotes (
  	id INT NOT NULL AUTO_INCREMENT,
  	user_id INT,
@@ -79,15 +78,8 @@ CREATE DATABASE IF NOT EXISTS tripmates_db;
  	FOREIGN KEY (date_id) REFERENCES dates(id)
  );
 
- CREATE TABLE logIns (
-  id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(255),
-  password VARCHAR(255),
-  PRIMARY KEY(id)
- );
-
-  CREATE TABLE tripNames (
+CREATE TABLE tripNames (
   id INT NOT NULL AUTO_INCREMENT,
   trip VARCHAR(255),
   PRIMARY KEY(id)
- );
+);
