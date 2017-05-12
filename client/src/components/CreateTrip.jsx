@@ -22,7 +22,8 @@ class CreateTrip extends React.Component {
       destination: "",
       estCost: "",
       votes: 0,
-      isInviteFriendModalOpen: false
+      isInviteFriendModalOpen: false,
+      showReqFields: false
     };
 
     this.onActivityClick = this.onActivityClick.bind(this);
@@ -33,9 +34,15 @@ class CreateTrip extends React.Component {
 
   toggleModal(e) {
     e.preventDefault();
-    this.setState({
-      isInviteFriendModalOpen: !this.state.isInviteFriendModalOpen
-    });
+    if(!this.state.tripName) {
+      this.setState({
+        showReqFields: true
+      })
+    } else {
+      this.setState({
+        isInviteFriendModalOpen: !this.state.isInviteFriendModalOpen
+      });
+    }
   }
 
   onActivityClick(e) {
@@ -64,11 +71,10 @@ class CreateTrip extends React.Component {
 
     axios.post('/tripInfo', {loggedInUser: this.props.loggedInUser, dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend, votes: this.state.votes})
       .then((response) => {
-        console.log('tripName', this.state.tripName);
-        console.log('sucessful post')
+        console.log('Successfully posted trip to DB')
       })
       .catch((error) => {
-        console.log('error in post for trip form', error)
+        console.log('Error posting trip to DB', error)
       })
       this.props.history.push('/profile')
   }
@@ -108,7 +114,10 @@ class CreateTrip extends React.Component {
             </div>
             <button id="primary" onClick={this.toggleModal}>Next</button>
           </form>
+          {this.state.showReqFields ? (<p className="errorMsg">Trip name is required</p>) : null }
+
           </div>
+
         </div>
 
         <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal} >
