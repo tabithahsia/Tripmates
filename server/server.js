@@ -339,6 +339,7 @@ app.post('/tripInfo', function(req, res) {
           if(error) {
             console.error(error);
           }
+          res.send('Inserted trip into DB');
         })
       })
     })
