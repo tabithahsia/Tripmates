@@ -153,13 +153,15 @@ app.post('/signup', function (req, res){
   var username = req.body.username;
   var password = req.body.password;
 
-  req.session.username = username;
-  var encryptedPassword = bcrypt.hashSync(password, salt)
+  if(username && password) {
+    req.session.username = username;
+    var encryptedPassword = bcrypt.hashSync(password, salt)
 
-  var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
+    var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
 
-  db.dbConnection.query(insertEncryptedPwQuery);
-  res.send("Added to DB");
+    db.dbConnection.query(insertEncryptedPwQuery);
+    res.send("Added to DB");
+  }
 })
 
 
