@@ -49,7 +49,7 @@ app.get('/profile', function (req, res) {
   var userData = {};
   var tripArray = [];
 
-    var currentUserIDQuery = `SELECT id FROM users WHERE username = '${req.query.loggedInUser}'`;
+    var currentUserIDQuery = `SELECT id FROM users WHERE username = '${req.query.loggedInUser}'`; 
     db.dbConnection.query(currentUserIDQuery, function(error, currentUser, fields) {
       if(error) {
         console.log(error)
@@ -91,12 +91,13 @@ app.get('/dates', function(req,res) {
       var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
       db.dbConnection.query(query2, function(error, tripId, fields) {
 
-        var query3 = `SELECT dateOption FROM dates WHERE trip_id = ${tripId[0].id}`;
-        db.dbConnection.query(query3, function(error, date,fields){
+        var query3 = `SELECT * FROM dates WHERE trip_id = ${tripId[0].id}`;
+
+        db.dbConnection.query(query3, function(error, dateRow,fields){
           if(error) {
             console.error(error);
           }
-            res.send(date);
+            res.send(dateRow);
         })
       })
     })
@@ -269,28 +270,54 @@ app.post('/comments', function(req,res) {
 })
 
 app.post('/addVote', function(req,res) {
-  console.log('reqbody', req.body);
-  var tripQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(tripQuery, function(error,trip,fields) {
-   if(error) {
-        console.error(error)
-      }
-  var tripIdQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
-  db.dbConnection.query(tripIdQuery, function(error, tripId, fields){
+  var nameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  db.dbConnection.query(nameQuery, function(error, trip, fields) {
     if(error) {
-    console.error(error)
+      console.log(error)
     }
-  var updateDateVoteQuery = `UPDATE dates SET votes = ${req.body.vote} WHERE trip_id = ${tripId[0].id}`;
-  console.log('tripid', tripId);
-  db.dbConnection.query(updateDateVoteQuery, function(error, voteCount, fields){
+    var idQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`
+    db.dbConnection.query(idQuery, function(error, id, fields) {
+
+      var tripQuery = `SELECT votes FROM dates WHERE dateOption = '${req.body.date}' AND trip_id = ${id[0].id}`;
+      db.dbConnection.query(tripQuery, function(error, votes, fields) {
+
+        var updateDateVoteQuery = `UPDATE dates SET votes = ${votes[0].votes + 1} WHERE dateOption = '${req.body.date}' AND trip_id = ${id[0].id}`;
+        db.dbConnection.query(updateDateVoteQuery, function(error, voteCount, fields){
+          if(error) {
+          console.error(error)
+          }
+          res.send('updated date vote');
+        })
+      })
+    })
+  })
+ })
+
+app.post('/addActivityVote', function(req,res) {
+
+  var nameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  db.dbConnection.query(nameQuery, function(error, trip, fields) {
     if(error) {
-    console.error(error)
+      console.log(error)
     }
-    res.send('updated date vote');
+    var idQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`
+    db.dbConnection.query(idQuery, function(error, id, fields) {
+
+       var tripQuery = `SELECT vote_count FROM activities WHERE activityName = '${req.body.activityName}' AND trip_id = ${id[0].id}`;
+       db.dbConnection.query(tripQuery, function(error, votes, fields) {
+      
+        var updateActivityVoteQuery = `UPDATE activities SET vote_count = ${votes[0].vote_count + 1} WHERE activityName = '${req.body.activityName}' AND trip_id = ${id[0].id}`;
+        db.dbConnection.query(updateActivityVoteQuery, function(error, voteCount, fields){
+          if(error) {
+          console.error(error)
+          }
+          res.send('updated activity vote');
+      })
+    })
   })
  })
 })
-})
+
 
 app.post('/tripInfo', function(req, res) {
   var currentUserID_query = `SELECT id FROM users WHERE username = '${req.body.loggedInUser}'`;
@@ -298,6 +325,7 @@ app.post('/tripInfo', function(req, res) {
     if(error) {
       console.log(error)
     }
+
 
     var insertTripQuery = `INSERT INTO trips (tripName, destination, est_cost) VALUES ('${req.body.tripName}', '${req.body.destination}', '${req.body.estCost}')`
     db.dbConnection.query(insertTripQuery, function(error, result, fields) {
@@ -327,25 +355,27 @@ app.post('/tripInfo', function(req, res) {
             }
           })
         }
-
-        var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend}'`
-        db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
-          // If friend invited
-          if(friendID[0]) {
-            var insertFriendUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES('${friendID[0].id}', '${tripID[0].id}')`
-            db.dbConnection.query(insertFriendUserTripsQuery, function(error, result, fields) {
-              if(error) {
-                console.error(error);
-              }
-            })
-          }
+        for(var z = 0; z < req.body.friend.length; z++) {
+          var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend[z]}'`
+          db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
+            // If friend invited
+            if(friendID[0]) {
+              var insertFriendUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES('${friendID[0].id}', '${tripID[0].id}')`
+              db.dbConnection.query(insertFriendUserTripsQuery, function(error, result, fields) {
+                if(error) {
+                  console.error(error);
+                }
+              })
+            }
         })
+        }
         var insertUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES ('${currentUser[0].id}', '${tripID[0].id}')`
 
         db.dbConnection.query(insertUserTripsQuery, function(error, result, fields) {
           if(error) {
             console.error(error);
           }
+          res.send('Inserted trip into DB');
         })
       })
     })

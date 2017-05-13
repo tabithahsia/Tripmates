@@ -24,7 +24,8 @@ class CreateTrip extends React.Component {
       votes: 0,
       isInviteFriendModalOpen: false,
       yelpInfo: {},
-      yelpResults: {}
+      yelpResults: {},
+      showReqFields: false
     };
 
     this.onActivityClick = this.onActivityClick.bind(this);
@@ -33,6 +34,15 @@ class CreateTrip extends React.Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
+
+    // this.getActivities = this.getActivities.bind(this);
+
+  }
+
+
+
+  componentDidMount() {
+    // this.getActivities();
   }
 
   submitSearch(input, e) {
@@ -67,43 +77,61 @@ class CreateTrip extends React.Component {
 
   toggleModal(e) {
     e.preventDefault();
-    this.setState({
-      isInviteFriendModalOpen: !this.state.isInviteFriendModalOpen
-    });
+    if(!this.state.tripName) {
+      this.setState({
+        showReqFields: true
+      })
+    } else {
+      this.setState({
+        isInviteFriendModalOpen: !this.state.isInviteFriendModalOpen
+      });
+    }
   }
+
+  // getActivities() {
+  // axios.get('/activities')
+  // .then((result) => {
+  //     this.setState({activitiesToRender: result.data})
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   })
+  // }
 
   onActivityClick(e) {
     e.preventDefault();
+    var arr = this.state.activities;
     var activityObject = {
        activity: this.state.activityName,
        activityDescription: this.state.activityDescription,
        activityCost: this.state.activityCost
     };
-    this.state.activities.push(activityObject);
-    // console.log('activities array', this.state.activities);
-
-    // console.log('trip name', this.state.tripName);
-    // console.log('destination', this.state.destination);
-    // console.log('estCost',this.state.estCost);
+    arr.push(activityObject);
+    this.setState({activities: arr})
+    // this.getActivities();
   }
 
   onDateSubmission (e) {
     e.preventDefault();
-    this.state.dates.push(this.state.date);
-    console.log('date range array', this.state.dates);
+    var arr = this.state.dates;
+    arr.push(this.state.date);
+    this.setState({dates: arr});
   }
 
   onAddTripClick (e, friend) {
     e.preventDefault();
 
     axios.post('/tripInfo', {loggedInUser: this.props.loggedInUser, dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend, votes: this.state.votes})
-      .then(({response}) => {
-        console.log('sucessful post')
+
+      .then((response) => {
+        console.log('Successfully posted trip to DB')
+        this.props.history.push('/profile')
       })
       .catch((error) => {
-        console.log('error in post for trip form', error)
+        console.log('Error posting trip to DB', error)
       })
-      this.props.history.push('/profile')
+
+
   }
 
   render() {
@@ -127,6 +155,9 @@ class CreateTrip extends React.Component {
               <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} /><br/><br/>
 
               <label>Date Range</label>
+                  {this.state.dates.map(date => (<div>
+                      <div>{date}</div><br/>
+                  </div>))}
               <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
               <button id="secondary" onClick={this.onDateSubmission}>+</button>
             </div>
@@ -134,6 +165,11 @@ class CreateTrip extends React.Component {
             <div id="secondHalf">
               <label>Estimated Cost</label>
               <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
+
+              {this.state.activities.map (activity => (<div><div><strong>Activity:{' '}</strong>{activity.activity} </div>
+                                                       <div><strong>Description:{' '}</strong>{activity.activityDescription} </div>
+                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div><br/></div> 
+              ))}<br/>
 
               <label>Add an Activity</label>
               <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
@@ -143,10 +179,13 @@ class CreateTrip extends React.Component {
             </div>
             <button id="primary" onClick={this.toggleModal}>Next</button>
           </form>
+          {this.state.showReqFields ? (<p className="errorMsg">Trip name is required</p>) : null }
+
           </div>
+
         </div>
 
-        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal} >
+        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal}>
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 
