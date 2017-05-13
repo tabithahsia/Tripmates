@@ -322,6 +322,20 @@ button#voteButton {
   align: left;
 }
 
+/************************* MISC *************************/
+
+#pic_container {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+  margin: auto;
+}
+
+#pic_container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    
 button#secondary {
   background-color: #6a6a6a;
   border: none;
