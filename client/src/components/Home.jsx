@@ -9,7 +9,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      yelpInfo: {}
+      yelpInfo: {},
+      yelpResults: {}
     }
     this.submitSearch = this.submitSearch.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
@@ -24,12 +25,18 @@ class Home extends React.Component {
         location: input.location
       }})
       .then((response) => {
-        // this.props.history.push('/profile')
+        console.log('resdata',response.data.resultArray)
+        console.log('one name', response.data.resultArray[0].name)
+        var yelpResults = this.state.yelpResults;
+        yelpResults['entries'] = response.data.resultArray;
+        this.setState({yelpResults});
       })
       .catch(err => {
         console.error("Error", err);
       })
   }
+
+
 
   updateInputs(e) {
     var yelpInfo = this.state.yelpInfo;
@@ -43,6 +50,9 @@ class Home extends React.Component {
 
   render() {
 
+    var yelpResults = this.state.yelpResults.entries;
+    console.log('in render', yelpResults)
+
     return (
       <div id="main">
         <Header />
@@ -52,6 +62,7 @@ class Home extends React.Component {
         </div>
         <br></br>
         <div id="form_container">
+          <h3>Search Yelp For Suggestions</h3>
           <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
             <div className="form_element">
               <label>Activity</label>
@@ -64,12 +75,29 @@ class Home extends React.Component {
             </div>
             <button id="mainCTA">Search Yelp</button>
           </form>
+          <br></br>
+          {
+            yelpResults ? yelpResults.map((entry, index) => {
+              return (<div key={index}>
+                  {entry.name} - Rating {entry.rating}/5 
+                  <br></br>
+                  <div id="pic_container">
+                  <img src={entry.image_url}></img>
+                  </div>
+                  </div>)
 
+            }) : null
+          }
         </div>
         <div id="placeholderdiv"><Link to="/contributeTrip"><button id="mainCTA">Contribute to a trip</button></Link></div>
+        
+      <div>
+        
       </div>
+      </div>
+      
   )}
 }
 
-
 export default Home;
+
