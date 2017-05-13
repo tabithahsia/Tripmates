@@ -83,7 +83,7 @@ class CreateTrip extends React.Component {
     return (
 
       <div id="createTrip">
-        <Header />
+        <Header loggedInUser = {this.props.loggedInUser} />
         <div id="content">
           <div id="createTripParent">
             <form>
