@@ -17,10 +17,18 @@ class Header extends React.Component {
             <h4 id="headerSub">It's Trippy Mayne!</h4>
 
           </div>
-          <nav>
-              <li><Link to="/login">Log in</Link></li>
-              <li><Link to="/signup">Sign up</Link></li>
-          </nav>
+
+            {this.props.loggedInUser ? (
+              <nav>
+                <li><a href="/logout">Log out</a></li>
+              </nav>
+              ) : (
+                <nav>
+                  <li><Link to="/login">Log in</Link></li>
+                  <li><Link to="/signup">Sign up</Link></li>
+                </nav>
+              )}
+
         </div>
       </div>
     )

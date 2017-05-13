@@ -176,7 +176,7 @@ class ContributeTrip extends React.Component {
     return (
 
       <div>
-        <Header />
+        <Header loggedInUser = {this.props.loggedInUser} />
 
         <div id="contributeTripParent">
           <h4 id="subheader"> stay trippy! </h4>

@@ -60,7 +60,7 @@ class Profile extends React.Component {
 
     return (
       <div id="profile">
-        <Header />
+        <Header loggedInUser = {this.props.loggedInUser} />
         <div id="content">
           <div id="profileMain">
             <h1>Welcome {user ? this.capitalize(user):null}!</h1>
