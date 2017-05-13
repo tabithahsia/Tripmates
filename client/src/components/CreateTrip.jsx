@@ -22,14 +22,48 @@ class CreateTrip extends React.Component {
       destination: "",
       estCost: "",
       votes: 0,
-      isInviteFriendModalOpen: false
+      isInviteFriendModalOpen: false,
+      yelpInfo: {},
+      yelpResults: {}
     };
 
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onDateSubmission = this.onDateSubmission.bind(this);
     this.onAddTripClick = this.onAddTripClick.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.submitSearch = this.submitSearch.bind(this);
+    this.updateInputs = this.updateInputs.bind(this);
   }
+
+  submitSearch(input, e) {
+    e.preventDefault();
+
+    axios.get('/yelp', {
+      params: {
+        term: input.term,
+        location: input.location
+      }
+    })
+      .then((response) => {
+        console.log('resdata', response.data.resultArray)
+        var yelpResults = this.state.yelpResults;
+        yelpResults['entries'] = response.data.resultArray;
+        this.setState({ yelpResults });
+      })
+      .catch(err => {
+        console.error("Error", err);
+      })
+  }
+
+  updateInputs(e) {
+    var yelpInfo = this.state.yelpInfo;
+    var name = e.target.name;
+    var value = e.target.value;
+
+    yelpInfo[name] = value;
+    this.setState({ yelpInfo });
+  }
+
 
   toggleModal(e) {
     e.preventDefault();
@@ -73,6 +107,8 @@ class CreateTrip extends React.Component {
   }
 
   render() {
+    var yelpResults = this.state.yelpResults.entries;
+
     return (
 
       <div id="createTrip">
@@ -114,6 +150,33 @@ class CreateTrip extends React.Component {
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 
+        <br></br>
+        <div id="form_container">
+          <h4>Search Yelp For Suggestions</h4>
+          <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
+            <div className="form_element">
+              <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
+            </div>
+
+            <div className="form_element">
+              <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
+            </div>
+            <button id="mainCTA">Search Yelp</button>
+          </form>
+          <br></br>
+          {
+            yelpResults ? yelpResults.map((entry, index) => {
+              return (<div key={index}>
+                {entry.name} - Rating {entry.rating}/5
+                  <br></br>
+                <div id="pic_container">
+                  <img src={entry.image_url}></img>
+                </div>
+              </div>)
+
+            }) : null
+          }
+        </div>
       </div>
     )
   }
