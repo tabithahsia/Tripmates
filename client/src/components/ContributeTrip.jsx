@@ -91,7 +91,7 @@ class ContributeTrip extends React.Component {
     }
     axios.post('/newactivity', activityObject)
       .then((result) => {
-            this.getActivities();
+      this.getActivities();
 
       })
       .catch((error) => {
