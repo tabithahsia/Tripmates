@@ -23,6 +23,8 @@ class CreateTrip extends React.Component {
       estCost: "",
       votes: 0,
       isInviteFriendModalOpen: false,
+      yelpInfo: {},
+      yelpResults: {},
       showReqFields: false
     };
 
@@ -30,7 +32,48 @@ class CreateTrip extends React.Component {
     this.onDateSubmission = this.onDateSubmission.bind(this);
     this.onAddTripClick = this.onAddTripClick.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.submitSearch = this.submitSearch.bind(this);
+    this.updateInputs = this.updateInputs.bind(this);
+
+    // this.getActivities = this.getActivities.bind(this);
+
   }
+
+
+
+  componentDidMount() {
+    // this.getActivities();
+  }
+
+  submitSearch(input, e) {
+    e.preventDefault();
+
+    axios.get('/yelp', {
+      params: {
+        term: input.term,
+        location: input.location
+      }
+    })
+      .then((response) => {
+        console.log('resdata', response.data.resultArray)
+        var yelpResults = this.state.yelpResults;
+        yelpResults['entries'] = response.data.resultArray;
+        this.setState({ yelpResults });
+      })
+      .catch(err => {
+        console.error("Error", err);
+      })
+  }
+
+  updateInputs(e) {
+    var yelpInfo = this.state.yelpInfo;
+    var name = e.target.name;
+    var value = e.target.value;
+
+    yelpInfo[name] = value;
+    this.setState({ yelpInfo });
+  }
+
 
   toggleModal(e) {
     e.preventDefault();
@@ -45,41 +88,55 @@ class CreateTrip extends React.Component {
     }
   }
 
+  // getActivities() {
+  // axios.get('/activities')
+  // .then((result) => {
+  //     this.setState({activitiesToRender: result.data})
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   })
+  // }
+
   onActivityClick(e) {
     e.preventDefault();
+    var arr = this.state.activities;
     var activityObject = {
        activity: this.state.activityName,
        activityDescription: this.state.activityDescription,
        activityCost: this.state.activityCost
     };
-    this.state.activities.push(activityObject);
-    // console.log('activities array', this.state.activities);
-
-    // console.log('trip name', this.state.tripName);
-    // console.log('destination', this.state.destination);
-    // console.log('estCost',this.state.estCost);
+    arr.push(activityObject);
+    this.setState({activities: arr})
+    // this.getActivities();
   }
 
   onDateSubmission (e) {
     e.preventDefault();
-    this.state.dates.push(this.state.date);
-    console.log('date range array', this.state.dates);
+    var arr = this.state.dates;
+    arr.push(this.state.date);
+    this.setState({dates: arr});
   }
 
   onAddTripClick (e, friend) {
     e.preventDefault();
 
     axios.post('/tripInfo', {loggedInUser: this.props.loggedInUser, dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend, votes: this.state.votes})
+
       .then((response) => {
         console.log('Successfully posted trip to DB')
+        this.props.history.push('/profile')
       })
       .catch((error) => {
         console.log('Error posting trip to DB', error)
       })
-      this.props.history.push('/profile')
+
+
   }
 
   render() {
+    var yelpResults = this.state.yelpResults.entries;
+
     return (
 
       <div id="createTrip">
@@ -98,6 +155,9 @@ class CreateTrip extends React.Component {
               <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} /><br/><br/>
 
               <label>Date Range</label>
+                  {this.state.dates.map(date => (<div>
+                      <div>{date}</div><br/>
+                  </div>))}
               <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
               <button id="secondary" onClick={this.onDateSubmission}>+</button>
             </div>
@@ -105,6 +165,11 @@ class CreateTrip extends React.Component {
             <div id="secondHalf">
               <label>Estimated Cost</label>
               <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
+
+              {this.state.activities.map (activity => (<div><div><strong>Activity:{' '}</strong>{activity.activity} </div>
+                                                       <div><strong>Description:{' '}</strong>{activity.activityDescription} </div>
+                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div><br/></div> 
+              ))}<br/>
 
               <label>Add an Activity</label>
               <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
@@ -120,10 +185,37 @@ class CreateTrip extends React.Component {
 
         </div>
 
-        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal} >
+        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal}>
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 
+        <br></br>
+        <div id="form_container">
+          <h4>Search Yelp For Suggestions</h4>
+          <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
+            <div className="form_element">
+              <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
+            </div>
+
+            <div className="form_element">
+              <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
+            </div>
+            <button id="mainCTA">Search Yelp</button>
+          </form>
+          <br></br>
+          {
+            yelpResults ? yelpResults.map((entry, index) => {
+              return (<div key={index}>
+                {entry.name} - Rating {entry.rating}/5
+                  <br></br>
+                <div id="pic_container">
+                  <img src={entry.image_url}></img>
+                </div>
+              </div>)
+
+            }) : null
+          }
+        </div>
       </div>
     )
   }

@@ -19,7 +19,9 @@ class ContributeTrip extends React.Component {
       activityCost: '',
       comment: '',
       comments: [],
-      vote: 0
+      vote: 0,
+      yelpInfo: {},
+      yelpResults: {}
     };
 
     this.getTripName = this.getTripName.bind(this);
@@ -29,6 +31,10 @@ class ContributeTrip extends React.Component {
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onCommentSubmission = this.onCommentSubmission.bind(this);
     this.dateVoteClick = this.dateVoteClick.bind(this);
+    this.submitSearch = this.submitSearch.bind(this);
+    this.updateInputs = this.updateInputs.bind(this);
+    this.activityOptionsClick = this.activityOptionsClick.bind(this);
+
   }
 
   componentDidMount() {
@@ -36,7 +42,7 @@ class ContributeTrip extends React.Component {
     this.getDates();
     this.getActivities();
     this.getComment();
-    this.getDateVotes();
+    // this.getDateVotes();
   }
 
   getTripName() {
@@ -89,8 +95,8 @@ class ContributeTrip extends React.Component {
     }
     axios.post('/newactivity', activityObject)
       .then((result) => {
-        console.log(result)
-        this.props.history.push('/contributeTrip')
+            this.getActivities();
+
       })
       .catch((error) => {
         console.log(error)
@@ -102,32 +108,71 @@ class ContributeTrip extends React.Component {
       axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser})
       .then((result) => {
         console.log(result)
+        this.getComment();
       })
       .catch((error) => {
         console.log(error)
       })
-  }
-
-  //get date votes to be rendered next time user logs in
-  getDateVotes () {
-
   }
 
   //when user clicks on a date, post to database
-  dateVoteClick(e) {
+  dateVoteClick(date, e) {
     e.preventDefault();
-    this.setState({vote: this.state.vote++})
-    alert(this.state.vote);
-    axios.post('/addVote', {vote: this.state.vote})
+    axios.post('/addVote', {date: date.dateOption})
       .then((result) => {
         console.log(result)
+        this.getDates();
       })
       .catch((error) => {
         console.log(error)
       })
   }
 
+  submitSearch(input, e) {
+    e.preventDefault();
+
+    axios.get('/yelp', {
+      params: {
+        term: input.term,
+        location: input.location
+      }
+    })
+      .then((response) => {
+        console.log('resdata', response.data.resultArray)
+        var yelpResults = this.state.yelpResults;
+        yelpResults['entries'] = response.data.resultArray;
+        this.setState({ yelpResults });
+      })
+      .catch(err => {
+        console.error("Error", err);
+      })
+  }
+
+  updateInputs(e) {
+    var yelpInfo = this.state.yelpInfo;
+    var name = e.target.name;
+    var value = e.target.value;
+
+    yelpInfo[name] = value;
+    this.setState({ yelpInfo });
+  }
+  
+  activityOptionsClick(activity,e) {
+    e.preventDefault();
+    console.log('activity', activity.activityName);
+     axios.post('/addActivityVote', {activityName: activity.activityName})
+    .then((result) => {
+      console.log(result)
+      this.getActivities();
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   render() {
+    var yelpResults = this.state.yelpResults.entries;
+
     return (
 
       <div>
@@ -140,7 +185,7 @@ class ContributeTrip extends React.Component {
             <h1>Destination</h1><label>{this.state.tripName.destination}</label> <br/>
             <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
             <h1>Date Options</h1><br/>
-            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick}>vote</button></div> <br/> </div> ))}
+            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button></div> <div><strong>Votes: </strong>{date.votes}</div><br/> </div> ))}
 
             <h1> Comments: </h1><br/>
             <label>Add a comment</label>
@@ -157,12 +202,14 @@ class ContributeTrip extends React.Component {
               <div><br/>
                 <div>   <strong>Name:</strong> {activity.activityName}<br/>
                         <strong>Description:</strong> {activity.activityDescription}<br/>
-                        <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={e => e.preventDefault()}>vote</button><br/>
+                        <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button><br/>
+                        <strong>Vote: </strong> {activity.vote_count}
                     </div>
                 </div>
               )
              )
-            }<br/><br/>
+            }
+            <br/><br/>
             <h1>Add an Activity</h1>
 
             <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
@@ -173,6 +220,33 @@ class ContributeTrip extends React.Component {
 
 
           </div>
+        </div>
+        <br></br>
+        <div id="form_container">
+          <h4>Search Yelp For Suggestions</h4>
+          <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
+            <div className="form_element">
+              <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
+            </div>
+
+            <div className="form_element">
+              <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
+            </div>
+            <button id="mainCTA">Search Yelp</button>
+          </form>
+          <br></br>
+          {
+            yelpResults ? yelpResults.map((entry, index) => {
+              return (<div key={index}>
+                {entry.name} - Rating {entry.rating}/5
+                  <br></br>
+                <div id="pic_container">
+                  <img src={entry.image_url}></img>
+                </div>
+              </div>)
+
+            }) : null
+          }
         </div>
       </div>
     )
