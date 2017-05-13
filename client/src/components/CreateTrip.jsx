@@ -90,11 +90,11 @@ class CreateTrip extends React.Component {
 
       .then((response) => {
         console.log('Successfully posted trip to DB')
+        this.props.history.push('/profile')
       })
       .catch((error) => {
         console.log('Error posting trip to DB', error)
       })
-      this.props.history.push('/profile')
 
 
   }
@@ -119,7 +119,7 @@ class CreateTrip extends React.Component {
 
               <label>Date Range</label>
                   {this.state.dates.map(date => (<div>
-                      <div>{date}</div>
+                      <div>{date}</div><br/>
                   </div>))}
               <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
               <button id="secondary" onClick={this.onDateSubmission}>+</button>
@@ -129,11 +129,12 @@ class CreateTrip extends React.Component {
               <label>Estimated Cost</label>
               <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
 
+              {this.state.activities.map (activity => (<div><div><strong>Activity:{' '}</strong>{activity.activity} </div>
+                                                       <div><strong>Description:{' '}</strong>{activity.activityDescription} </div>
+                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div><br/></div> 
+              ))}<br/>
+
               <label>Add an Activity</label>
-              {this.state.activities.map (activity => (<div><div>{activity.activity} </div>
-                                                       <div>{activity.activityDescription} </div>
-                                                        <div>{activity.activityCost} </div></div>
-              ))}
               <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
               <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
               <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
@@ -147,7 +148,7 @@ class CreateTrip extends React.Component {
 
         </div>
 
-        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal} >
+        <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal}>
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 

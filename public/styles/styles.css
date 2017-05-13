@@ -147,6 +147,9 @@ nav li {
   float: right;
 }
 
+#headerSub {
+  color: grey;
+}
 /************************* HOMEPAGE *************************/
 
 #tagline {

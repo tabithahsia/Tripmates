@@ -11,8 +11,17 @@ class InviteFriends extends React.Component {
     super(props);
 
     this.state = {
-      friend: ''
+      friend: '',
+      friends: []
     }
+
+    this.addFriendClick = this.addFriendClick.bind(this);
+  }
+
+  addFriendClick() {
+    var arr = this.state.friends;
+    arr.push(this.state.friend)
+    this.setState({friends: arr})
   }
 
   render() {
@@ -47,8 +56,10 @@ class InviteFriends extends React.Component {
             {this.props.children}
             <label>Username</label>
             <input name="friendName" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
+            {this.state.friends.map((friend) => (<div>{friend}</div>))}
+            <button id="modalButton" onClick={this.addFriendClick}>Add Friend</button>
 
-            <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friend)}}>
+            <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friends)}}>
               Submit trip
             </button>
             <a href="/" onClick={(e) => this.props.onClose(e)}>Cancel</a>
