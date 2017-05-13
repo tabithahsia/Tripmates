@@ -14,6 +14,8 @@ class Header extends React.Component {
           <div id="header_wrapper">
           <div id="logo">
             <Link to="/"><h1>Tripmates</h1></Link>
+            <h4 id="headerSub">It's Trippy Mayne!</h4>
+
           </div>
           <nav>
               <li><Link to="/login">Log in</Link></li>
@@ -21,9 +23,10 @@ class Header extends React.Component {
           </nav>
         </div>
       </div>
-
     )
   }
 }
 
 export default Header;
+
+

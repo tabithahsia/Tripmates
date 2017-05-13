@@ -348,19 +348,20 @@ app.post('/tripInfo', function(req, res) {
             }
           })
         }
-
-        var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend}'`
-        db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
-          // If friend invited
-          if(friendID[0]) {
-            var insertFriendUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES('${friendID[0].id}', '${tripID[0].id}')`
-            db.dbConnection.query(insertFriendUserTripsQuery, function(error, result, fields) {
-              if(error) {
-                console.error(error);
-              }
-            })
-          }
+        for(var z = 0; z < req.body.friend.length; z++) {
+          var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend[z]}'`
+          db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
+            // If friend invited
+            if(friendID[0]) {
+              var insertFriendUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES('${friendID[0].id}', '${tripID[0].id}')`
+              db.dbConnection.query(insertFriendUserTripsQuery, function(error, result, fields) {
+                if(error) {
+                  console.error(error);
+                }
+              })
+            }
         })
+        }
         var insertUserTripsQuery = `INSERT INTO user_trips (user_id, trip_id) VALUES ('${currentUser[0].id}', '${tripID[0].id}')`
 
         db.dbConnection.query(insertUserTripsQuery, function(error, result, fields) {
