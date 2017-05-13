@@ -1,5 +1,5 @@
 var express = require('express');
-// var session = require('express-session');
+var session = require('express-session');
 // var knex = require('knex');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -14,7 +14,7 @@ var yelp = require('yelp-fusion');
 var yelpAPI = require('./yelpApi.js');
 
 app.use(bodyParser.json());
-// app.use(session({secret: 'encryption_secret'}));
+app.use(session({secret: 'encryption_secret'}));
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -34,7 +34,7 @@ app.get('/yelp', function (req, res) {
       }
       res.send({resultArray});
     })
-    
+
       // const firstResult = response.jsonBody.businesses[0];
       // const prettyJson = JSON.stringify(firstResult, null, 4);
       // console.log(prettyJson);
@@ -49,7 +49,7 @@ app.get('/profile', function (req, res) {
   var userData = {};
   var tripArray = [];
 
-    var currentUserIDQuery = `SELECT id FROM users WHERE username = '${req.query.loggedInUser}'`; 
+    var currentUserIDQuery = `SELECT id FROM users WHERE username = '${req.query.loggedInUser}'`;
     db.dbConnection.query(currentUserIDQuery, function(error, currentUser, fields) {
       if(error) {
         console.log(error)
@@ -162,7 +162,7 @@ app.post('/signup', function (req, res){
   var password = req.body.password;
 
   if(username && password) {
-    // req.session.username = username;
+    req.session.username = username;
     var encryptedPassword = bcrypt.hashSync(password, salt)
 
     var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
@@ -189,7 +189,7 @@ app.post('/login', function (req, res) {
     if(!result[0]) {
       return res.send(false);
     } else {
-        // req.session.username = username;
+        req.session.username = username;
         // If username exists, check password
         var query = `SELECT password from users WHERE username = '${username}'`;
         db.dbConnection.query(query, function (error, encryptedPassword, fields) {
@@ -208,13 +208,13 @@ app.post('/login', function (req, res) {
 })
 
 app.get('/logout',function(req,res){
-  // req.session.destroy(function(err) {
-  //   if(err) {
-  //     console.log(err);
-  //   } else {
-  //     res.redirect('/');
-  //   }
-  // });
+  req.session.destroy(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 
@@ -305,7 +305,7 @@ app.post('/addActivityVote', function(req,res) {
 
        var tripQuery = `SELECT vote_count FROM activities WHERE activityName = '${req.body.activityName}' AND trip_id = ${id[0].id}`;
        db.dbConnection.query(tripQuery, function(error, votes, fields) {
-      
+
         var updateActivityVoteQuery = `UPDATE activities SET vote_count = ${votes[0].vote_count + 1} WHERE activityName = '${req.body.activityName}' AND trip_id = ${id[0].id}`;
         db.dbConnection.query(updateActivityVoteQuery, function(error, voteCount, fields){
           if(error) {
