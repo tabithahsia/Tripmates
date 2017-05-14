@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Link, Redirect, BrowserRouter as Router } from 'react-router-dom';
 
 import Home from './Home';
 import Login from './Login';
@@ -30,13 +30,14 @@ class App extends React.Component {
       <div>
         <Router>
             <div>
-                <Route exact path="/" component={Home}/>
-                <Route path="/signup" render={(props) => (<Signup checkUser={this.checkUser} {...props} />)} />
-                <Route path="/login" render={(props) => (<Login checkUser={this.checkUser} {...props} />)} />
-
-                <Route path="/profile" render={(props) => (<Profile loggedInUser = {this.state.loggedInUser} {...props} />)} />
-                <Route path="/createTrip" render={(props) => (<CreateTrip loggedInUser = {this.state.loggedInUser}{...props} />)} />
-                <Route path="/contributeTrip" render={(props) => (<ContributeTrip loggedInUser = {this.state.loggedInUser}{...props} />)} />
+                <Route exact path="/" render={(props) => (<Home loggedInUser={this.state.loggedInUser} {...props} />)} />
+                <Route path="/signup" render={(props) => (<Signup checkUser={this.checkUser} loggedInUser={this.state.loggedInUser} {...props} />)} />
+                <Route path="/login" render={(props) => (<Login checkUser={this.checkUser} loggedInUser={this.state.loggedInUser} {...props} />)} />
+                <Route path="/profile" render={(props) => (<Profile loggedInUser={this.state.loggedInUser} {...props} />)} />
+                <Route path="/createTrip" render={(props) => (!this.state.loggedInUser ?
+                    (<Redirect to="/login"/>) : (<CreateTrip loggedInUser={this.state.loggedInUser} {...props} />))} />
+                <Route path="/contributeTrip" render={(props) => (!this.state.loggedInUser ?
+                  (<Redirect to="/login"/>) : (<ContributeTrip loggedInUser={this.state.loggedInUser} {...props} />))} />
             </div>
         </Router>
       </div>

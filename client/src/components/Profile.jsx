@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Link, BrowserRouter as Router} from 'react-router-dom';
 import axios from 'axios';
 
 import Header from './Header';
@@ -60,12 +60,12 @@ class Profile extends React.Component {
 
     return (
       <div id="profile">
-        <Header />
-        <div id="content">
-          <div id="profileMain">
-            <h1>Welcome {user ? this.capitalize(user):null}!</h1>
+        <Header loggedInUser = {this.props.loggedInUser} />
+        <div className="container">
+          <div className="content wide">
+            <h2>Welcome {user ? this.capitalize(user):null}!</h2>
             <div id="yourTrips">
-              <h4>Your Trips</h4>
+              <h3>Your Trips</h3>
             </div>
             {listOfTrips ? listOfTrips.map((trip, index) => {
               return (<div onClick={() => this.postTrip(trip)} id="tripCard" key={index}>{trip}</div>)

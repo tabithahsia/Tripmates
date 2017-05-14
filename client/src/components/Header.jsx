@@ -14,13 +14,21 @@ class Header extends React.Component {
           <div id="header_wrapper">
           <div id="logo">
             <Link to="/"><h1>Tripmates</h1></Link>
-            <h4 id="headerSub">It's Trippy Mayne!</h4>
-
           </div>
-          <nav>
-              <li><Link to="/login">Log in</Link></li>
-              <li><Link to="/signup">Sign up</Link></li>
-          </nav>
+
+            {this.props.loggedInUser ? (
+              <nav>
+                <li><a href="/logout">Log out</a></li>
+                <li><Link to="/profile">Your Profile</Link></li>
+                <li>Hi {this.props.loggedInUser}!</li>
+              </nav>
+              ) : (
+                <nav>
+                  <li><Link to="/login">Log in</Link></li>
+                  <li><Link to="/signup">Sign up</Link></li>
+                </nav>
+              )}
+
         </div>
       </div>
     )
@@ -28,5 +36,3 @@ class Header extends React.Component {
 }
 
 export default Header;
-
-

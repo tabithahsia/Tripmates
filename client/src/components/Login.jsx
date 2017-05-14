@@ -50,30 +50,31 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="login">
         <Header />
-          <div id="content">
-              <div id="form_container">
-              <h3>Log in</h3>
-              { this.props.test }
-              <form onSubmit={(e)=> this.submitLogin(this.state.userInfo, e)}>
-                <div className="form_element">
-                  <label>Username</label>
-                    <input name="username" type="text" onChange={this.updateInputs}/>
+          <div className="container">
+            <div className="content wide">
+                <div id="form_container">
+                <h2>Log in</h2>
+                <form onSubmit={(e)=> this.submitLogin(this.state.userInfo, e)}>
+                  <div className="form_element">
+                    <label>Username</label>
+                      <input name="username" type="text" onChange={this.updateInputs}/>
+                  </div>
+
+                  <div className="form_element">
+                    <label>Password</label>
+                    <input name="password" type="password" onChange={this.updateInputs}/>
+                  </div>
+
+                  {this.state.showErrorMsg ? (
+                    <div className="errorMsg">Invalid username/password combination.</div>
+                  ) : null}
+
+                  <button>Log In</button>
+                </form>
                 </div>
-
-                <div className="form_element">
-                  <label>Password</label>
-                  <input name="password" type="password" onChange={this.updateInputs}/>
-                </div>
-
-                {this.state.showErrorMsg ? (
-                  <div className="errorMsg">Invalid username/password combination.</div>
-                ) : null}
-
-                <button>Log In</button>
-              </form>
-            </div>
+              </div>
           </div>
       </div>
     )
