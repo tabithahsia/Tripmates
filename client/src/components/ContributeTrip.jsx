@@ -4,6 +4,7 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from './Header';
+import YelpSearch from './YelpSearch';
 
 
 class ContributeTrip extends React.Component {
@@ -19,9 +20,7 @@ class ContributeTrip extends React.Component {
       activityCost: '',
       comment: '',
       comments: [],
-      vote: 0,
-      yelpInfo: {},
-      yelpResults: {}
+      vote: 0
     };
     this.getTripName = this.getTripName.bind(this);
     this.getDates = this.getDates.bind(this);
@@ -30,8 +29,6 @@ class ContributeTrip extends React.Component {
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onCommentSubmission = this.onCommentSubmission.bind(this);
     this.dateVoteClick = this.dateVoteClick.bind(this);
-    this.fetchYelpInfo = this.fetchYelpInfo.bind(this);
-    this.updateInputs = this.updateInputs.bind(this);
     this.activityOptionsClick = this.activityOptionsClick.bind(this);
   }
 
@@ -135,37 +132,7 @@ class ContributeTrip extends React.Component {
     })
   }
 
-  fetchYelpInfo(input, e) {
-    e.preventDefault();
-
-    axios.get('/yelp', {
-      params: {
-        term: input.term,
-        location: input.location
-      }
-    })
-      .then((response) => {
-        var yelpResults = this.state.yelpResults;
-        yelpResults['entries'] = response.data.resultArray;
-        this.setState({ yelpResults });
-      })
-      .catch(err => {
-        console.error("Error", err);
-      })
-  }
-
-  updateInputs(e) {
-    var yelpInfo = this.state.yelpInfo;
-    var name = e.target.name;
-    var value = e.target.value;
-
-    yelpInfo[name] = value;
-    this.setState({ yelpInfo });
-  }
-
   render() {
-    var yelpResults = this.state.yelpResults.entries;
-
     return (
 
       <div id="contributeTrip">
@@ -212,33 +179,7 @@ class ContributeTrip extends React.Component {
             </div>
           </div>
         </div>
-
-        <div id="form_container">
-          <h4>Search Yelp For Suggestions</h4>
-          <form onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
-            <div className="form_element">
-              <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
-            </div>
-
-            <div className="form_element">
-              <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
-            </div>
-            <button id="mainCTA">Search Yelp</button>
-          </form>
-
-          {
-            yelpResults ? yelpResults.map((entry, index) => {
-              return (<div key={index}>
-                {entry.name} - Rating {entry.rating}/5
-
-                <div id="pic_container">
-                  <img src={entry.image_url}></img>
-                </div>
-              </div>)
-
-            }) : null
-          }
-        </div>
+        <YelpSearch/>
       </div>
     )
   }

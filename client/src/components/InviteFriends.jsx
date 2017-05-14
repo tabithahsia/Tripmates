@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router} from 'react-router-dom';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
-
-import Header from './Header';
 
 
 class InviteFriends extends React.Component {
