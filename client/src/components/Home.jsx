@@ -55,7 +55,7 @@ class Home extends React.Component {
 
     return (
       <div id="main">
-        <Header />
+        <Header loggedInUser = {this.props.loggedInUser} />
         <div id="banner">
           <div id="tagline">Explore the world with your trippy trippy mates</div>
             <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
@@ -79,7 +79,7 @@ class Home extends React.Component {
           {
             yelpResults ? yelpResults.map((entry, index) => {
               return (<div key={index}>
-                  {entry.name} - Rating {entry.rating}/5 
+                  {entry.name} - Rating {entry.rating}/5
                   <br></br>
                   <div id="pic_container">
                   <img src={entry.image_url}></img>
@@ -90,14 +90,13 @@ class Home extends React.Component {
           }
         </div>
         <div id="placeholderdiv"><Link to="/contributeTrip"><button id="mainCTA">Contribute to a trip</button></Link></div>
-        
+
       <div>
-        
+
       </div>
       </div>
-      
+
   )}
 }
 
 export default Home;
-

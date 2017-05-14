@@ -30,7 +30,7 @@ class App extends React.Component {
       <div>
         <Router>
             <div>
-                <Route exact path="/" component={Home}/>
+                <Route exact path="/" render={(props) => (<Home loggedInUser = {this.state.loggedInUser} {...props} />)} />
                 <Route path="/signup" render={(props) => (<Signup checkUser={this.checkUser} loggedInUser = {this.state.loggedInUser} {...props} />)} />
                 <Route path="/login" render={(props) => (<Login checkUser={this.checkUser} loggedInUser = {this.state.loggedInUser} {...props} />)} />
 
