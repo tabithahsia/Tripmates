@@ -118,55 +118,53 @@ class CreateTrip extends React.Component {
 
       <div id="createTrip">
         <Header loggedInUser = {this.props.loggedInUser} />
-        <div id="content">
-          <div id="createTripParent">
+        <div className="container">
+          <div className="content">
             <form>
             <h3 id="pageheader">Create a Trip</h3>
             <h4 id="subheader">Get Trippy!</h4>
 
-            <div id="firstHalf">
+            <div className="column1">
               <label >Trip Name</label>
               <input name="tripName" type="text" onChange={e => this.setState({tripName: e.target.value})}/>
 
               <label>Destination</label>
-              <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} /><br/><br/>
+              <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} />
 
               <label>Date Range</label>
                   {this.state.dates.map((date,index) => (<div key={index}>
-                      <div>{date}</div><br/>
+                      <div>{date}</div>
                   </div>))}
               <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
               <button id="secondary" onClick={this.onDateSubmission}>+</button>
             </div>
 
-            <div id="secondHalf">
+            <div className="column2">
               <label>Estimated Cost</label>
-              <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
+              <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/>
 
               {this.state.activities.map ((activity,index) => (<div key={index}><div><strong>Activity:{' '}</strong>{activity.activity} </div>
                                                        <div><strong>Description:{' '}</strong>{activity.activityDescription} </div>
-                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div><br/></div>
-              ))}<br/>
+                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div></div>
+              ))}
 
               <label>Add an Activity</label>
-              <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
-              <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
+              <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/>
+              <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/>
               <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
               <button id="secondary" onClick={this.onActivityClick}>+</button>
             </div>
             <button id="primary" onClick={this.toggleModal}>Next</button>
           </form>
           {this.state.showReqFields ? (<p className="errorMsg">Trip name is required</p>) : null }
-
           </div>
-
         </div>
 
         <InviteFriends show = {this.state.isInviteFriendModalOpen} onClose = {this.toggleModal} onAddTripClick = {this.onAddTripClick} onClose={this.toggleModal}>
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 
-        <br></br>
+
         <div id="form_container">
           <h4>Search Yelp For Suggestions</h4>
           <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
@@ -179,12 +177,12 @@ class CreateTrip extends React.Component {
             </div>
             <button id="mainCTA">Search Yelp</button>
           </form>
-          <br></br>
+
           {
             yelpResults ? yelpResults.map((entry, index) => {
               return (<div key={index}>
                 {entry.name} - Rating {entry.rating}/5
-                  <br></br>
+
                 <div id="pic_container">
                   <img src={entry.image_url}></img>
                 </div>

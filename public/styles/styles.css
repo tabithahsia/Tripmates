@@ -84,6 +84,22 @@ input {
   float: left;
 }
 
+.container {
+  background: #F7F8FA;
+}
+
+.content{
+  overflow: auto;
+  min-height: 300px;
+  padding: 60px 0;
+  width: 980px;
+  margin: auto;
+}
+
+.content button {
+  float: left;
+}
+
 #form_container {
   width: 330px;
   min-height: 330px;
@@ -95,18 +111,19 @@ input {
   overflow: auto;
 }
 
+.column1 {
+	float: left;
+	width: 300px;
+}
+
+.column2 {
+	float: right;
+	width: 300px;
+}
+
 .form_element {
   margin-top: 30px;
   display: block;
-}
-
-#content {
-  background: #F7F8FA;
-  padding: 60px 0;
-}
-
-#content button {
-  float: left;
 }
 
 .errorMsg {
@@ -173,16 +190,6 @@ nav li {
 
 /************************* PROFILE *************************/
 
-#profileMain {
-  width: 980px;
-  padding: 0 40px 40px 40px;
-  margin: auto;
-}
-
-#profile #content {
-  overflow: auto;
-  min-height: 300px;
-}
 
 #yourTrips {
   margin-top: 40px;
@@ -221,45 +228,19 @@ nav li {
 
 /************************* CREATE TRIP PAGE *************************/
 
-
-#createTripParent {
-  position: relative;
-	width: 800px;
-  min-height: 640px;
-  overflow: auto;
-  margin: 0px auto;
-  padding: 40px 40px 50px 40px;
-}
-
-#createTripParent button {
+#createTrip button {
   clear: both;
   display: block;
   float: right;
 }
 
-#createTripParent button#primary {
+#createTrip button#primary {
   margin-top: 40px;
-}
-
-#createTrip #content{
-  padding-top: 0px;
-  padding-bottom: 0px;
 }
 
 #createTrip .errorMsg {
   clear: both;
   float: right;
-  margin-bottom: 30px;
-}
-
-#firstHalf {
-	float: left;
-	width: 300px;
-}
-
-#secondHalf {
-	float: right;
-	width: 300px;
 }
 
 #modalButton {
@@ -292,23 +273,6 @@ nav li {
 
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
-#contributeTripParent {
-  position: relative;
-  width: 800px;
-  height: 640px;
-  margin: 0px auto;
-  padding: 40px 40px 50px 40px;
-}
-
-#contributeFirstHalf {
-  float: left;
-  width: 300px;
-}
-
-#contributeSecondHalf {
-  float: right;
-  width: 300px;
-}
 button#voteButton {
   background-color: #6a6a6a;
   border: none;

@@ -23,25 +23,23 @@ class ContributeTrip extends React.Component {
       yelpInfo: {},
       yelpResults: {}
     };
-
     this.getTripName = this.getTripName.bind(this);
     this.getDates = this.getDates.bind(this);
     this.getActivities = this.getActivities.bind(this);
-    this.getComment = this.getComment.bind(this);
+    this.getComments = this.getComments.bind(this);
     this.onActivityClick = this.onActivityClick.bind(this);
     this.onCommentSubmission = this.onCommentSubmission.bind(this);
     this.dateVoteClick = this.dateVoteClick.bind(this);
-    this.submitSearch = this.submitSearch.bind(this);
+    this.fetchYelpInfo = this.fetchYelpInfo.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
     this.activityOptionsClick = this.activityOptionsClick.bind(this);
-
   }
 
   componentDidMount() {
   	this.getTripName();
     this.getDates();
     this.getActivities();
-    this.getComment();
+    this.getComments();
   }
 
   getTripName() {
@@ -74,7 +72,7 @@ class ContributeTrip extends React.Component {
     })
   }
 
-  getComment() {
+  getComments() {
     axios.get('/comments')
     .then((result) => {
       this.setState({comments: result.data})
@@ -94,7 +92,6 @@ class ContributeTrip extends React.Component {
     axios.post('/newactivity', activityObject)
       .then((result) => {
             this.getActivities();
-
       })
       .catch((error) => {
         console.log(error)
@@ -106,7 +103,7 @@ class ContributeTrip extends React.Component {
       axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser})
       .then((result) => {
         console.log(result)
-        this.getComment();
+        this.getComments();
       })
       .catch((error) => {
         console.log(error)
@@ -126,7 +123,19 @@ class ContributeTrip extends React.Component {
       })
   }
 
-  submitSearch(input, e) {
+  activityOptionsClick(activity,e) {
+    e.preventDefault();
+     axios.post('/addActivityVote', {activityName: activity.activityName})
+    .then((result) => {
+      console.log(result)
+      this.getActivities();
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
+  fetchYelpInfo(input, e) {
     e.preventDefault();
 
     axios.get('/yelp', {
@@ -154,73 +163,59 @@ class ContributeTrip extends React.Component {
     this.setState({ yelpInfo });
   }
 
-  activityOptionsClick(activity,e) {
-    e.preventDefault();
-     axios.post('/addActivityVote', {activityName: activity.activityName})
-    .then((result) => {
-      console.log(result)
-      this.getActivities();
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
-
   render() {
     var yelpResults = this.state.yelpResults.entries;
 
     return (
 
-      <div>
+      <div id="contributeTrip">
         <Header loggedInUser = {this.props.loggedInUser} />
+        <div className="container">
+          <div className="content">
+            <h3 id="pageheader">Contribute to [tripname]</h3>
 
-        <div id="contributeTripParent">
-          <h4 id="subheader"> stay trippy! </h4>
+            <div className="column1">
+              <h1>Destination</h1><label>{this.state.tripName.destination}</label>
+              <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label>
+              <h1>Date Options</h1>
+              {this.state.dates.map((date,index) => (<div key={index}><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button></div> <div><strong>Votes: </strong>{date.votes}</div> </div> ))}
 
-          <div id="firstHalf">
-            <h1>Destination</h1><label>{this.state.tripName.destination}</label> <br/>
-            <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
-            <h1>Date Options</h1><br/>
-            {this.state.dates.map((date,index) => (<div key={index}><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button></div> <div><strong>Votes: </strong>{date.votes}</div><br/> </div> ))}
+              <h1> Comments: </h1>
+              <label>Add a comment</label>
+              {this.state.comments.map((comment,index) => (<div key={index}><div>{comment.comment} - {comment.username}</div></div>))}
 
-            <h1> Comments: </h1><br/>
-            <label>Add a comment</label>
-            {this.state.comments.map((comment,index) => (<div key={index}><div>{comment.comment} - {comment.username}</div><br/></div>))}
+              <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
+              <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
+            </div>
 
-            <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
-            <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
-          </div>
+            <div className="column2">
+              <h1>Activity Options</h1>
+              {this.state.activities.map((activity,index) => (
+                <div key={index}>
+                  <div>   <strong>Name:</strong> {activity.activityName}
+                          <strong>Description:</strong> {activity.activityDescription}
+                          <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button>
+                          <strong>Vote: </strong> {activity.vote_count}
+                      </div>
+                  </div>
+                )
+               )
+              }
 
-          <div id="secondHalf">
+              <h1>Add an Activity</h1>
 
-            <h1>Activity Options</h1>
-            {this.state.activities.map((activity,index) => (
-              <div key={index}>
-                <div>   <strong>Name:</strong> {activity.activityName}<br/>
-                        <strong>Description:</strong> {activity.activityDescription}<br/>
-                        <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button><br/>
-                        <strong>Vote: </strong> {activity.vote_count}
-                    </div>
-                </div>
-              )
-             )
-            }
-            <br/><br/>
-            <h1>Add an Activity</h1>
+              <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/>
+              <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/>
+              <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
 
-            <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/><br/><br/>
-            <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/><br/><br/>
-            <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
-
-            <button id="activitybtn" onClick={this.onActivityClick}>+</button>
-
-
+              <button id="activitybtn" onClick={this.onActivityClick}>+</button>
+            </div>
           </div>
         </div>
-        <br></br>
+
         <div id="form_container">
           <h4>Search Yelp For Suggestions</h4>
-          <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
+          <form onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
             <div className="form_element">
               <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
             </div>
@@ -230,12 +225,12 @@ class ContributeTrip extends React.Component {
             </div>
             <button id="mainCTA">Search Yelp</button>
           </form>
-          <br></br>
+
           {
             yelpResults ? yelpResults.map((entry, index) => {
               return (<div key={index}>
                 {entry.name} - Rating {entry.rating}/5
-                  <br></br>
+
                 <div id="pic_container">
                   <img src={entry.image_url}></img>
                 </div>
