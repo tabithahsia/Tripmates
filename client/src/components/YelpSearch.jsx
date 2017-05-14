@@ -47,33 +47,33 @@ class YelpSearch extends React.Component {
     var yelpResults = this.state.yelpResults.entries;
 
     return (
-      <div>
-          <div id="form_container">
-            <h4>Search Yelp For Suggestions</h4>
-            <form onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
-              <div className="form_element">
-                <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
-              </div>
+      <div id="yelp_contents">
+        <div id="form_container">
+          <h4>Search Yelp For Suggestions</h4>
+          <form onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
+            <div className="form_element">
+              <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
+            </div>
 
-              <div className="form_element">
-                <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
-              </div>
-              <button id="mainCTA">Search Yelp</button>
-            </form>
+            <div className="form_element">
+              <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
+            </div>
+            <button id="mainCTA">Search Yelp</button>
+          </form>
 
-            {
-              yelpResults ? yelpResults.map((entry, index) => {
-                return (<div key={index}>
-                  {entry.name} - Rating {entry.rating}/5
+          {
+            yelpResults ? yelpResults.map((entry, index) => {
+              return (<div key={index}>
+                {entry.name} - Rating {entry.rating}/5
 
-                  <div id="pic_container">
-                    <img src={entry.image_url}></img>
-                  </div>
-                </div>)
+                <div id="pic_container">
+                  <img src={entry.image_url}></img>
+                </div>
+              </div>)
 
-              }) : null
-            }
-          </div>
+            }) : null
+          }
+        </div>
       </div>
     )
   }

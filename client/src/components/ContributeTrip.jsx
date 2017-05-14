@@ -107,7 +107,6 @@ class ContributeTrip extends React.Component {
       })
   }
 
-  //when user clicks on a date, post to database
   dateVoteClick(date, e) {
     e.preventDefault();
     axios.post('/addVote', {date: date.dateOption})
@@ -134,48 +133,57 @@ class ContributeTrip extends React.Component {
 
   render() {
     return (
-
       <div id="contributeTrip">
         <Header loggedInUser = {this.props.loggedInUser} />
+
         <div className="container">
-          <div className="content">
-            <h3 id="pageheader">Contribute to [tripname]</h3>
+          <div className="content narrow">
+            <h2 id="pageheader">Contribute to [tripname]</h2>
 
             <div className="column1">
-              <h1>Destination</h1><label>{this.state.tripName.destination}</label>
-              <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label>
-              <h1>Date Options</h1>
-              {this.state.dates.map((date,index) => (<div key={index}><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button></div> <div><strong>Votes: </strong>{date.votes}</div> </div> ))}
+              <div className="tripItem">
+                <h3>Destination</h3><label>{this.state.tripName.destination}</label>
+              </div>
+              <div className="tripItem">
+                <h3>Estimated Cost</h3> <label>${this.state.tripName.est_cost}</label>
+              </div>
+              <div className="tripItem">
+                <h3>Date Range Options</h3>
+                {this.state.dates.map((date,index) => (<div key={index}><li className="dateItem">{date.dateOption + ' '}
+                <button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button>
+                <span>Votes: {date.votes}</span> </li></div> ))}
+              </div>
+              <div className="tripItem">
+                <h3>Comments</h3>
+                {this.state.comments.map((comment,index) => (<div key={index}><div className="commentItem">{comment.comment} - {comment.username}</div></div>))}
 
-              <h1> Comments: </h1>
-              <label>Add a comment</label>
-              {this.state.comments.map((comment,index) => (<div key={index}><div>{comment.comment} - {comment.username}</div></div>))}
-
-              <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
-              <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
+                <textarea onChange={(e) => this.setState({comment: e.target.value})} placeholder="Add a comment"></textarea>
+                <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
+              </div>
             </div>
 
             <div className="column2">
-              <h1>Activity Options</h1>
-              {this.state.activities.map((activity,index) => (
-                <div key={index}>
-                  <div>   <strong>Name:</strong> {activity.activityName}
-                          <strong>Description:</strong> {activity.activityDescription}
-                          <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button>
-                          <strong>Vote: </strong> {activity.vote_count}
-                      </div>
-                  </div>
-                )
-               )
-              }
+              <div className="tripItem">
+                <h3>Activity Ideas</h3>
+                {this.state.activities.map((activity,index) => (
+                  <div key={index} id='activityList'>
+                    <div className="activityGroup">
+                      <li><span>Activity:</span> {activity.activityName} </li>
+                      <li><span>Description:</span> {activity.activityDescription} </li>
+                      <li><span>Cost:</span> {activity.activityCost} </li>
+                      <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button>
+                      <span>Votes: </span> {activity.vote_count}
+                    </div>
+                  </div>))
+                }
 
-              <h1>Add an Activity</h1>
+                <h4>Add an Activity</h4>
+                <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/>
+                <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/>
+                <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
 
-              <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/>
-              <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/>
-              <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
-
-              <button id="activitybtn" onClick={this.onActivityClick}>+</button>
+                <button id="activitybtn" onClick={this.onActivityClick}>+</button>
+              </div>
             </div>
           </div>
         </div>

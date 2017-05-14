@@ -50,13 +50,12 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="login">
         <Header />
           <div className="container">
-            <div className="content">
+            <div className="content wide">
                 <div id="form_container">
-                <h3>Log in</h3>
-                { this.props.test }
+                <h2>Log in</h2>
                 <form onSubmit={(e)=> this.submitLogin(this.state.userInfo, e)}>
                   <div className="form_element">
                     <label>Username</label>
