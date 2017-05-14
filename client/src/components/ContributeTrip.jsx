@@ -88,6 +88,7 @@ class ContributeTrip extends React.Component {
     }
     axios.post('/newactivity', activityObject)
       .then((result) => {
+
             this.getActivities();
       })
       .catch((error) => {
@@ -138,7 +139,7 @@ class ContributeTrip extends React.Component {
 
         <div className="container">
           <div className="content narrow">
-            <h2 id="pageheader">Contribute to [tripname]</h2>
+            <h2 id="pageheader">Contribute to {this.state.tripName.tripName}</h2>
 
             <div className="column1">
               <div className="tripItem">
