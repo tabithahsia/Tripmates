@@ -360,19 +360,67 @@ button#voteButton {
   margin-top: 20px;
 }
 
+
 /************************* MISC *************************/
 
-#pic_container {
-  width: 150px;
-  height: 150px;
-  margin-bottom: 20px;
+#yelpContainer {
+  margin: 60px 0;
+  min-height: 140px;
+  text-align: center;
+}
+
+#yelpContents {
+  margin: auto;
+  text-align: center;
+  width: 700px;
+}
+
+#yelpContents button {
+  height: 44px;
+  padding: 10px 40px;
+  float: left;
+}
+
+#yelpContents input {
+  margin-right: 15px;
+  width: 240px;
+}
+
+#yelpForm {
   margin: auto;
 }
 
+#yelpResults {
+  clear: both;
+}
+
+#yelpResultItem {
+  margin-top: 20px;
+  display: inline-block;
+  margin-right: 30px;
+  width: 200px;
+  border: 1px #dddddd solid;
+  padding-bottom: 20px;
+}
+
+#pic_container {
+  height: 150px;
+  margin-bottom: 20px;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
 #pic_container img {
-    display: block;
-    width: 100%;
-    height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#rating {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #6a6a6a;
+}
 
 button#secondary {
   background-color: #6a6a6a;

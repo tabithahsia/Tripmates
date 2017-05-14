@@ -22,7 +22,6 @@ class Home extends React.Component {
           </div>
           <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
         </div>
-        <YelpSearch />
       </div>
     )
   }
