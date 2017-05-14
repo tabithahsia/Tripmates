@@ -21,6 +21,7 @@ class Header extends React.Component {
             {this.props.loggedInUser ? (
               <nav>
                 <li><a href="/logout">Log out</a></li>
+                <li><Link to="/profile">Your Profile</Link></li>
                 <li>Hi {this.props.loggedInUser}!</li>
               </nav>
               ) : (

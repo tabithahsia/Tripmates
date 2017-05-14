@@ -34,16 +34,8 @@ class CreateTrip extends React.Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
-
-    // this.getActivities = this.getActivities.bind(this);
-
   }
 
-
-
-  componentDidMount() {
-    // this.getActivities();
-  }
 
   submitSearch(input, e) {
     e.preventDefault();
@@ -55,7 +47,6 @@ class CreateTrip extends React.Component {
       }
     })
       .then((response) => {
-        console.log('resdata', response.data.resultArray)
         var yelpResults = this.state.yelpResults;
         yelpResults['entries'] = response.data.resultArray;
         this.setState({ yelpResults });
@@ -88,16 +79,6 @@ class CreateTrip extends React.Component {
     }
   }
 
-  // getActivities() {
-  // axios.get('/activities')
-  // .then((result) => {
-  //     this.setState({activitiesToRender: result.data})
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   })
-  // }
-
   onActivityClick(e) {
     e.preventDefault();
     var arr = this.state.activities;
@@ -108,7 +89,6 @@ class CreateTrip extends React.Component {
     };
     arr.push(activityObject);
     this.setState({activities: arr})
-    // this.getActivities();
   }
 
   onDateSubmission (e) {
@@ -122,7 +102,6 @@ class CreateTrip extends React.Component {
     e.preventDefault();
 
     axios.post('/tripInfo', {loggedInUser: this.props.loggedInUser, dates: this.state.dates, activities: this.state.activities, destination: this.state.destination, tripName: this.state.tripName, estCost: this.state.estCost, friend: friend, votes: this.state.votes})
-
       .then((response) => {
         console.log('Successfully posted trip to DB')
         this.props.history.push('/profile')
@@ -130,8 +109,6 @@ class CreateTrip extends React.Component {
       .catch((error) => {
         console.log('Error posting trip to DB', error)
       })
-
-
   }
 
   render() {
@@ -155,7 +132,7 @@ class CreateTrip extends React.Component {
               <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} /><br/><br/>
 
               <label>Date Range</label>
-                  {this.state.dates.map(date => (<div>
+                  {this.state.dates.map((date,index) => (<div key={index}>
                       <div>{date}</div><br/>
                   </div>))}
               <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
@@ -166,9 +143,9 @@ class CreateTrip extends React.Component {
               <label>Estimated Cost</label>
               <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/><br/><br/>
 
-              {this.state.activities.map (activity => (<div><div><strong>Activity:{' '}</strong>{activity.activity} </div>
+              {this.state.activities.map ((activity,index) => (<div key={index}><div><strong>Activity:{' '}</strong>{activity.activity} </div>
                                                        <div><strong>Description:{' '}</strong>{activity.activityDescription} </div>
-                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div><br/></div> 
+                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div><br/></div>
               ))}<br/>
 
               <label>Add an Activity</label>

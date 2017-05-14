@@ -42,7 +42,6 @@ class ContributeTrip extends React.Component {
     this.getDates();
     this.getActivities();
     this.getComment();
-    // this.getDateVotes();
   }
 
   getTripName() {
@@ -58,7 +57,6 @@ class ContributeTrip extends React.Component {
   getDates() {
     axios.get('/dates')
    .then((result) => {
-     console.log('datesdata', result.data);
       this.setState({dates: result.data})
     })
     .catch((error) => {
@@ -138,7 +136,6 @@ class ContributeTrip extends React.Component {
       }
     })
       .then((response) => {
-        console.log('resdata', response.data.resultArray)
         var yelpResults = this.state.yelpResults;
         yelpResults['entries'] = response.data.resultArray;
         this.setState({ yelpResults });
@@ -156,10 +153,9 @@ class ContributeTrip extends React.Component {
     yelpInfo[name] = value;
     this.setState({ yelpInfo });
   }
-  
+
   activityOptionsClick(activity,e) {
     e.preventDefault();
-    console.log('activity', activity.activityName);
      axios.post('/addActivityVote', {activityName: activity.activityName})
     .then((result) => {
       console.log(result)
@@ -185,11 +181,11 @@ class ContributeTrip extends React.Component {
             <h1>Destination</h1><label>{this.state.tripName.destination}</label> <br/>
             <h1>Est. Cost</h1> <label>${this.state.tripName.est_cost}</label><br/>
             <h1>Date Options</h1><br/>
-            {this.state.dates.map(date => (<div><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button></div> <div><strong>Votes: </strong>{date.votes}</div><br/> </div> ))}
+            {this.state.dates.map((date,index) => (<div key={index}><div>{date.dateOption + ' '}<button id="voteButton" onClick={this.dateVoteClick.bind(this, date)}>vote</button></div> <div><strong>Votes: </strong>{date.votes}</div><br/> </div> ))}
 
             <h1> Comments: </h1><br/>
             <label>Add a comment</label>
-            {this.state.comments.map(comment => (<div><div>{comment.comment} - {comment.username}</div><br/></div>))}
+            {this.state.comments.map((comment,index) => (<div key={index}><div>{comment.comment} - {comment.username}</div><br/></div>))}
 
             <textarea rows="4" cols="40" onChange={(e) => this.setState({comment: e.target.value})} placeholder="add a comment!"></textarea>
             <button id="secondary" onClick={this.onCommentSubmission}>Submit</button>
@@ -198,8 +194,8 @@ class ContributeTrip extends React.Component {
           <div id="secondHalf">
 
             <h1>Activity Options</h1>
-            {this.state.activities.map(activity => (
-              <div><br/>
+            {this.state.activities.map((activity,index) => (
+              <div key={index}>
                 <div>   <strong>Name:</strong> {activity.activityName}<br/>
                         <strong>Description:</strong> {activity.activityDescription}<br/>
                         <strong>Cost:</strong> ${activity.est_cost} <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button><br/>
