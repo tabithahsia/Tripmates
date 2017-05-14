@@ -47,17 +47,18 @@ class InviteFriends extends React.Component {
       maxWidth: 500,
       minHeight: 250,
       margin: '0 auto',
-      padding: 30
+      padding: 30,
+      overflow: 'auto'
     };
 
     return (
       <div className="backdrop" style={backdropStyle}>
           <div className="modal" style={modalStyle}>
             {this.props.children}
-            <label>Username</label>
-            <input name="friendName" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
-            {this.state.friends.map((friend) => (<div>{friend}</div>))}
-            <button id="modalButton" onClick={this.addFriendClick}>Add Friend</button>
+            <ul id="friendList">{this.state.friends.map((friend,index) => (<li key={index}>{friend}</li>))}</ul>
+            <input name="friendName" placeholder="Username" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
+
+            <button id="secondary" onClick={this.addFriendClick}>+</button>
 
             <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friends)}}>
               Submit trip

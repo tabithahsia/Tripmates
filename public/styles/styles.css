@@ -282,6 +282,14 @@ nav li {
   text-decoration: underline;
 }
 
+.modal #secondary {
+  margin-left: 10px;
+}
+
+#friendList {
+  margin-bottom: 20px;
+}
+
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
 #contributeTripParent {
@@ -335,7 +343,7 @@ button#voteButton {
     display: block;
     width: 100%;
     height: 100%;
-    
+
 button#secondary {
   background-color: #6a6a6a;
   border: none;
