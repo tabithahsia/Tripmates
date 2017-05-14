@@ -65,7 +65,7 @@ class Profile extends React.Component {
           <div className="content wide">
             <h2>Welcome {user ? this.capitalize(user):null}!</h2>
             <div id="yourTrips">
-              <h4>Your Trips</h4>
+              <h3>Your Trips</h3>
             </div>
             {listOfTrips ? listOfTrips.map((trip, index) => {
               return (<div onClick={() => this.postTrip(trip)} id="tripCard" key={index}>{trip}</div>)

@@ -47,10 +47,10 @@ class YelpSearch extends React.Component {
     var yelpResults = this.state.yelpResults.entries;
 
     return (
-      <div id="yelp_contents">
-        <div id="form_container">
-          <h4>Search Yelp For Suggestions</h4>
-          <form onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
+      <div id="yelpContainer">
+        <div id="yelpContents">
+          <h4>Search Yelp for activity ideas</h4>
+          <form id="yelpForm" onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
             <div className="form_element">
               <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
             </div>
@@ -58,21 +58,19 @@ class YelpSearch extends React.Component {
             <div className="form_element">
               <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
             </div>
-            <button id="mainCTA">Search Yelp</button>
+            <button id="mainCTA">Search</button>
           </form>
-
-          {
-            yelpResults ? yelpResults.map((entry, index) => {
-              return (<div key={index}>
-                {entry.name} - Rating {entry.rating}/5
-
-                <div id="pic_container">
-                  <img src={entry.image_url}></img>
-                </div>
-              </div>)
-
-            }) : null
-          }
+          <div id="yelpResults">
+            { yelpResults ? yelpResults.map((entry, index) => {
+                return (<div key={index} id="yelpResultItem">
+                  <div id="pic_container">
+                    <img src={entry.image_url} />
+                  </div>
+                  <div>{entry.name}</div>
+                  <div id="rating">Rating: {entry.rating}/5</div>
+                </div>)
+              }) : null }
+          </div>
         </div>
       </div>
     )
