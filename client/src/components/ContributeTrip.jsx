@@ -112,7 +112,8 @@ class ContributeTrip extends React.Component {
     e.preventDefault();
     axios.post('/addVote', {date: date.dateOption})
       .then((result) => {
-        console.log(result)
+        console.log('adddateVote', result)
+        console.log(this.state.activities)
         this.getDates();
       })
       .catch((error) => {
@@ -139,7 +140,7 @@ class ContributeTrip extends React.Component {
 
         <div className="container">
           <div className="content narrow">
-            <h2 id="pageheader">Contribute to {this.state.tripName.tripName}</h2>
+            <h2 id="pageheader">Contribute to {'  "' + this.state.tripName.tripName + '"'} </h2>
 
             <div className="column1">
               <div className="tripItem">
@@ -171,8 +172,8 @@ class ContributeTrip extends React.Component {
                     <div className="activityGroup">
                       <li><span>Activity:</span> {activity.activityName} </li>
                       <li><span>Description:</span> {activity.activityDescription} </li>
-                      <li><span>Cost:</span> {activity.activityCost} </li>
-                      <button id="voteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button>
+                      <li><span>Cost:</span> ${activity.est_cost} </li>
+                      <button id="activityVoteButton" onClick={this.activityOptionsClick.bind(this, activity)}>vote</button>
                       <span>Votes: </span> {activity.vote_count}
                     </div>
                   </div>))
