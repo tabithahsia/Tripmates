@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router} from 'react-router-dom';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
-
-import Header from './Header';
 
 
 class InviteFriends extends React.Component {
@@ -45,7 +43,7 @@ class InviteFriends extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 500,
-      minHeight: 250,
+      minHeight: 210,
       margin: '0 auto',
       padding: 30,
       overflow: 'auto'
@@ -53,20 +51,19 @@ class InviteFriends extends React.Component {
 
     return (
       <div className="backdrop" style={backdropStyle}>
-          <div className="modal" style={modalStyle}>
-            {this.props.children}
-            <ul id="friendList">{this.state.friends.map((friend,index) => (<li key={index}>{friend}</li>))}</ul>
-            <input name="friendName" placeholder="Username" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
+        <div className="modal" style={modalStyle}>
+          {this.props.children}
+          <ul id="friendList">{this.state.friends.map((friend,index) => (<li key={index}>{friend}</li>))}</ul>
+          <input name="friendName" placeholder="Username" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
 
-            <button id="secondary" onClick={this.addFriendClick}>+</button>
+          <button id="secondary" onClick={this.addFriendClick}>+</button>
 
-            <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friends)}}>
-              Submit trip
-            </button>
-            <a href="/" onClick={(e) => this.props.onClose(e)}>Cancel</a>
-
-          </div>
+          <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friends)}}>
+            Submit trip
+          </button>
+          <a href="/" onClick={(e) => this.props.onClose(e)}>Cancel</a>
         </div>
+      </div>
     )
   }
 }

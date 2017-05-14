@@ -41,12 +41,12 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="signup">
         <Header />
           <div className="container">
-            <div className="content">
+            <div className="content wide">
               <div id ="form_container">
-                <h3>Sign up</h3>
+                <h2>Sign up</h2>
 
                 <form onSubmit={(e)=>this.submitSignup(this.state.userInfo, e)}>
                   <div className="form_element">

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import Header from './Header';
 import InviteFriends from './InviteFriends';
+import YelpSearch from './YelpSearch';
 
 
 class CreateTrip extends React.Component {
@@ -23,8 +24,6 @@ class CreateTrip extends React.Component {
       estCost: "",
       votes: 0,
       isInviteFriendModalOpen: false,
-      yelpInfo: {},
-      yelpResults: {},
       showReqFields: false
     };
 
@@ -32,39 +31,7 @@ class CreateTrip extends React.Component {
     this.onDateSubmission = this.onDateSubmission.bind(this);
     this.onAddTripClick = this.onAddTripClick.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    this.submitSearch = this.submitSearch.bind(this);
-    this.updateInputs = this.updateInputs.bind(this);
   }
-
-
-  submitSearch(input, e) {
-    e.preventDefault();
-
-    axios.get('/yelp', {
-      params: {
-        term: input.term,
-        location: input.location
-      }
-    })
-      .then((response) => {
-        var yelpResults = this.state.yelpResults;
-        yelpResults['entries'] = response.data.resultArray;
-        this.setState({ yelpResults });
-      })
-      .catch(err => {
-        console.error("Error", err);
-      })
-  }
-
-  updateInputs(e) {
-    var yelpInfo = this.state.yelpInfo;
-    var name = e.target.name;
-    var value = e.target.value;
-
-    yelpInfo[name] = value;
-    this.setState({ yelpInfo });
-  }
-
 
   toggleModal(e) {
     e.preventDefault();
@@ -112,30 +79,27 @@ class CreateTrip extends React.Component {
   }
 
   render() {
-    var yelpResults = this.state.yelpResults.entries;
-
     return (
-
       <div id="createTrip">
         <Header loggedInUser = {this.props.loggedInUser} />
         <div className="container">
-          <div className="content">
+          <div className="content narrow">
+
             <form>
-            <h3 id="pageheader">Create a Trip</h3>
-            <h4 id="subheader">Get Trippy!</h4>
+            <h2 id="pageheader">Create a Trip</h2>
 
             <div className="column1">
-              <label >Trip Name</label>
+              <label>Trip Name</label>
               <input name="tripName" type="text" onChange={e => this.setState({tripName: e.target.value})}/>
 
               <label>Destination</label>
               <input name="tripName" type="text" onChange={e => this.setState({destination: e.target.value})} />
 
-              <label>Date Range</label>
-                  {this.state.dates.map((date,index) => (<div key={index}>
-                      <div>{date}</div>
-                  </div>))}
-              <input name="dateRange" type ="text" onChange={e => this.setState({date: e.target.value})}/>
+              <label>Date Range Options</label>
+              {this.state.dates.map((date,index) => {
+                return(<div key={index}><li className="dateItem">{date}</li></div>)})}
+
+              <input name="dateRange" placeholder="mm/dd/yyyy - mm/dd/yyyy"type ="text" onChange={e => this.setState({date: e.target.value})}/>
               <button id="secondary" onClick={this.onDateSubmission}>+</button>
             </div>
 
@@ -143,17 +107,23 @@ class CreateTrip extends React.Component {
               <label>Estimated Cost</label>
               <input name="estimatedCost" type="text" placeholder="$" onChange={e => this.setState({estCost: e.target.value})}/>
 
-              {this.state.activities.map ((activity,index) => (<div key={index}><div><strong>Activity:{' '}</strong>{activity.activity} </div>
-                                                       <div><strong>Description:{' '}</strong>{activity.activityDescription} </div>
-                                                       <div><strong>Cost:{' $'}</strong>{activity.activityCost} </div></div>
+              {this.state.activities.map ((activity,index) =>
+                (<div key={index} id='activityList'>
+                  <div className="activityGroup">
+                    <li><span>Activity:</span> {activity.activity} </li>
+                    <li><span>Description:</span> {activity.activityDescription} </li>
+                    <li><span>Cost:</span> {activity.activityCost} </li>
+                  </div>
+                </div>
               ))}
 
-              <label>Add an Activity</label>
+              <label>Activity Ideas</label>
               <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/>
               <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/>
               <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
               <button id="secondary" onClick={this.onActivityClick}>+</button>
             </div>
+
             <button id="primary" onClick={this.toggleModal}>Next</button>
           </form>
           {this.state.showReqFields ? (<p className="errorMsg">Trip name is required</p>) : null }
@@ -164,33 +134,7 @@ class CreateTrip extends React.Component {
           <h3>Invite friends to your trip</h3>
         </InviteFriends>
 
-
-        <div id="form_container">
-          <h4>Search Yelp For Suggestions</h4>
-          <form onSubmit={this.submitSearch.bind(this, this.state.yelpInfo)}>
-            <div className="form_element">
-              <input name="term" type="text" placeholder='Activity' onChange={this.updateInputs} />
-            </div>
-
-            <div className="form_element">
-              <input name="location" type="text" placeholder='Location' onChange={this.updateInputs} />
-            </div>
-            <button id="mainCTA">Search Yelp</button>
-          </form>
-
-          {
-            yelpResults ? yelpResults.map((entry, index) => {
-              return (<div key={index}>
-                {entry.name} - Rating {entry.rating}/5
-
-                <div id="pic_container">
-                  <img src={entry.image_url}></img>
-                </div>
-              </div>)
-
-            }) : null
-          }
-        </div>
+        <YelpSearch/>
       </div>
     )
   }

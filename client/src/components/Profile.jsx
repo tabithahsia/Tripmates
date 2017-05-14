@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Link, BrowserRouter as Router} from 'react-router-dom';
 import axios from 'axios';
 
 import Header from './Header';
@@ -62,8 +62,8 @@ class Profile extends React.Component {
       <div id="profile">
         <Header loggedInUser = {this.props.loggedInUser} />
         <div className="container">
-          <div className="content">
-            <h1>Welcome {user ? this.capitalize(user):null}!</h1>
+          <div className="content wide">
+            <h2>Welcome {user ? this.capitalize(user):null}!</h2>
             <div id="yourTrips">
               <h4>Your Trips</h4>
             </div>
