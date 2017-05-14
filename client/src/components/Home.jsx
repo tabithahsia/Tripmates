@@ -25,8 +25,6 @@ class Home extends React.Component {
         location: input.location
       }})
       .then((response) => {
-        console.log('resdata',response.data.resultArray)
-        console.log('one name', response.data.resultArray[0].name)
         var yelpResults = this.state.yelpResults;
         yelpResults['entries'] = response.data.resultArray;
         this.setState({yelpResults});
@@ -51,7 +49,6 @@ class Home extends React.Component {
   render() {
 
     var yelpResults = this.state.yelpResults.entries;
-    console.log('in render', yelpResults)
 
     return (
       <div id="main">
