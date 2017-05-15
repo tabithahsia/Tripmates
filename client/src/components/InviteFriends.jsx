@@ -10,16 +10,46 @@ class InviteFriends extends React.Component {
 
     this.state = {
       friend: '',
-      friends: []
+      friends: [],
+      users: [],
+      noUser: false
     }
 
     this.addFriendClick = this.addFriendClick.bind(this);
+    this.getUsers = this.getUsers.bind(this);
+  }
+
+  componentDidMount() {
+    this.getUsers()
   }
 
   addFriendClick() {
-    var arr = this.state.friends;
-    arr.push(this.state.friend)
-    this.setState({friends: arr})
+    var count = 0;
+    for(var i = 0; i < this.state.users.length;i++) {
+      if(this.state.users[i].username === this.state.friend) {
+        count++;
+      }
+    }
+    
+
+    if(count === 0) {
+      this.setState({noUser: true})
+    } else {
+        var arr = this.state.friends;
+        arr.push(this.state.friend)
+        this.setState({friends: arr})
+    }
+
+  }
+
+  getUsers() {
+    axios.get('/users')
+      .then((result) => {
+        this.setState({users: result.data})
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   render() {
@@ -57,6 +87,12 @@ class InviteFriends extends React.Component {
           <input name="friendName" placeholder="Username" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
 
           <button id="secondary" onClick={this.addFriendClick}>+</button>
+
+          {this.state.noUser ? (
+                    <div className="errorMsg1">
+                    <div >User Does Not Exist</div>
+                    </div>
+                  ) : null}
 
           <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friends)}}>
             Submit trip
