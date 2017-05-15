@@ -220,7 +220,7 @@ app.post('/newactivity', function(req,res) {
         console.error(error)
       }
       console.log('new activity added by friend', req.body)
-      var query3 = `INSERT INTO activities (activityName, activityDescription, est_cost, vote_count, trip_id) VALUES ('${req.body.activity}','${req.body.activityDescription}',${req.body.activityCost}, 0, ${tripId[0].id})`
+      var query3 = `INSERT INTO activities (activityName, activityDescription, est_cost, vote_count, trip_id) VALUES ('${req.body.activityName}','${req.body.activityDescription}',${req.body.activityCost}, 0, ${tripId[0].id})`
       db.dbConnection.query(query3, function(error, friendActivity, fields) {
         if(error) {
           console.error(error)
@@ -338,8 +338,9 @@ app.post('/tripInfo', function(req, res) {
             }
           })
         }
+        console.log("activities[0]", req.body.activities[0]);
         for(var i = 0; i < req.body.activities.length;i++) {
-          var insertActivitiesQuery = `INSERT INTO activities (activityName, activityDescription, est_cost, vote_count, trip_id) VALUES ('${req.body.activities[i].activity}', '${req.body.activities[i].activityDescription}', '${req.body.activities[i].activityCost}', 0, ${tripID[0].id})`
+          var insertActivitiesQuery = `INSERT INTO activities (activityName, activityDescription, est_cost, vote_count, trip_id) VALUES ('${req.body.activities[i].activityName}', '${req.body.activities[i].activityDescription}', '${req.body.activities[i].activityCost}', 0, ${tripID[0].id})`
           db.dbConnection.query(insertActivitiesQuery, function(error,result,fields) {
             if(error) {
               console.error(error)

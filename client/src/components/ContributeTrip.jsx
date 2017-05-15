@@ -56,46 +56,50 @@ class ContributeTrip extends React.Component {
   }
 
   getDates() {
-    axios.get('/dates')
-   .then((result) => {
-      this.setState({dates: result.data})
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+    axios.get('/dates', {
+      params: {
+        currentTrip: this.props.currentTrip
+      }})
+     .then((result) => {
+        this.setState({dates: result.data})
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   }
 
   getActivities() {
-    axios.get('/activities')
-   .then((result) => {
-      this.setState({activities: result.data})
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+    axios.get('/activities', {
+      params: {
+        currentTrip: this.props.currentTrip
+      }})
+     .then((result) => {
+        this.setState({activities: result.data})
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   }
 
   getComments() {
-    axios.get('/comments')
-    .then((result) => {
-      this.setState({comments: result.data})
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+    axios.get('/comments', {
+      params: {
+        currentTrip: this.props.currentTrip
+      }})
+      .then((result) => {
+        this.setState({comments: result.data})
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   }
 
   onActivityClick(e) {
     e.preventDefault();
-    var activityObject = {
-       activity: this.state.activityName,
-       activityDescription: this.state.activityDescription,
-       activityCost: this.state.activityCost
-    }
-    axios.post('/newactivity', activityObject)
-      .then((result) => {
 
-            this.getActivities();
+    axios.post('/newactivity', {currentTrip: this.props.currentTrip, activityName: this.state.activityName, activityDescription: this.state.activityDescription, activityCost: this.state.activityCost})
+      .then((result) => {
+        this.getActivities();
       })
       .catch((error) => {
         console.log(error)
@@ -104,7 +108,7 @@ class ContributeTrip extends React.Component {
 
   onCommentSubmission(e) {
     e.preventDefault();
-      axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser})
+      axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser, currentTrip: this.props.currentTrip})
       .then((result) => {
         console.log(result)
         this.getComments();
@@ -116,10 +120,9 @@ class ContributeTrip extends React.Component {
 
   dateVoteClick(date, e) {
     e.preventDefault();
-    axios.post('/addVote', {date: date.dateOption})
+    axios.post('/addVote', {date: date.dateOption, currentTrip: this.props.currentTrip})
       .then((result) => {
         console.log('adddateVote', result)
-        console.log(this.state.activities)
         this.getDates();
       })
       .catch((error) => {
@@ -129,7 +132,7 @@ class ContributeTrip extends React.Component {
 
   activityOptionsClick(activity,e) {
     e.preventDefault();
-     axios.post('/addActivityVote', {activityName: activity.activityName})
+     axios.post('/addActivityVote', {activityName: activity.activityName, currentTrip: this.props.currentTrip})
     .then((result) => {
       console.log(result)
       this.getActivities();
@@ -143,7 +146,6 @@ class ContributeTrip extends React.Component {
     return (
       <div id="contributeTrip">
         <Header loggedInUser = {this.props.loggedInUser} />
-        { console.log("this.props.currentTrip", this.props.currentTrip) }
         <div className="container">
           <div className="content narrow">
             <h2 id="pageheader">Contribute to {'  "' + this.props.currentTrip + '"'} </h2>
