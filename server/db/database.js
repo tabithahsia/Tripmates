@@ -2,9 +2,9 @@
 var mysql = require('mysql');
 
 exports.dbConnection = mysql.createConnection({
-  user:'root',
-  password:'',
-  database: 'tripmates_db'
+  user:'DB_USERNAME',
+  password:'DB_PASSWORD',
+  database: 'DB_DATABASE'
 });
 
 
