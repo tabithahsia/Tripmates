@@ -149,6 +149,13 @@ input {
   padding: 20px 0;
 }
 
+.errorMsg1 {
+  display: block;
+  color: #B53C3F;
+  padding: 20px 0;
+  text-align: center;
+}
+
 
 /************************* HEADER *************************/
 
