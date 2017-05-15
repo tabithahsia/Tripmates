@@ -14,14 +14,22 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedInUser: ''
+      loggedInUser: '',
+      currentTrip: ''
     }
     this.checkUser = this.checkUser.bind(this);
+    this.updateCurrentTrip = this.updateCurrentTrip.bind(this);
   }
 
   checkUser(user) {
     this.setState({
       loggedInUser: user
+    });
+  }
+
+  updateCurrentTrip(trip) {
+    this.setState({
+      currentTrip: trip
     });
   }
 
@@ -33,11 +41,11 @@ class App extends React.Component {
                 <Route exact path="/" render={(props) => (<Home loggedInUser={this.state.loggedInUser} {...props} />)} />
                 <Route path="/signup" render={(props) => (<Signup checkUser={this.checkUser} loggedInUser={this.state.loggedInUser} {...props} />)} />
                 <Route path="/login" render={(props) => (<Login checkUser={this.checkUser} loggedInUser={this.state.loggedInUser} {...props} />)} />
-                <Route path="/profile" render={(props) => (<Profile loggedInUser={this.state.loggedInUser} {...props} />)} />
+                <Route path="/profile" render={(props) => (<Profile loggedInUser={this.state.loggedInUser} updateCurrentTrip={this.updateCurrentTrip} currentTrip={this.state.currentTrip} {...props} />)} />
                 <Route path="/createTrip" render={(props) => (!this.state.loggedInUser ?
                     (<Redirect to="/login"/>) : (<CreateTrip loggedInUser={this.state.loggedInUser} {...props} />))} />
                 <Route path="/contributeTrip" render={(props) => (!this.state.loggedInUser ?
-                  (<Redirect to="/login"/>) : (<ContributeTrip loggedInUser={this.state.loggedInUser} {...props} />))} />
+                  (<Redirect to="/login"/>) : (<ContributeTrip loggedInUser={this.state.loggedInUser} currentTrip={this.state.currentTrip} {...props} />))} />
             </div>
         </Router>
       </div>
