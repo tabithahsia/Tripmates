@@ -18,7 +18,7 @@ class Home extends React.Component {
         <Header loggedInUser = {this.props.loggedInUser} />
         <div id="banner">
           <div id="tagline">
-            Explore the world with your trippy trippy mates
+            Explore the world with your mates
           </div>
           <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
         </div>
