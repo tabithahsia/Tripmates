@@ -72,33 +72,34 @@ app.get('/tripInfo', function(req,res) {
 })
 
 app.get('/dates', function(req,res) {
-    var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-    db.dbConnection.query(query, function(error,trip,fields) {
-      if(error) {
-        console.error(error)
-      }
-      var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
-      db.dbConnection.query(query2, function(error, tripId, fields) {
+    // var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+    // db.dbConnection.query(query, function(error,trip,fields) {
+    //   if(error) {
+    //     console.error(error)
+    //   }
+      // var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+    var query2 = `SELECT id FROM trips WHERE tripName = '${req.query.currentTrip}'`;
+    db.dbConnection.query(query2, function(error, tripId, fields) {
 
-        var query3 = `SELECT * FROM dates WHERE trip_id = ${tripId[0].id}`;
+      var query3 = `SELECT * FROM dates WHERE trip_id = ${tripId[0].id}`;
 
-        db.dbConnection.query(query3, function(error, dateRow,fields){
-          if(error) {
-            console.error(error);
-          }
-            res.send(dateRow);
-        })
+      db.dbConnection.query(query3, function(error, dateRow,fields){
+        if(error) {
+          console.error(error);
+        }
+          res.send(dateRow);
       })
+      // })
     })
 })
 
 app.get('/activities', function(req,res) {
-    var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-    db.dbConnection.query(query, function(error,trip,fields) {
-      if(error) {
-        console.error(error)
-      }
-      var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+    // var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+    // db.dbConnection.query(query, function(error,trip,fields) {
+    //   if(error) {
+    //     console.error(error)
+    //   }
+      var query2 = `SELECT id FROM trips WHERE tripName = '${req.query.currentTrip}'`;
       db.dbConnection.query(query2, function(error, tripId, fields) {
        if(error) {
           console.error(error);
@@ -112,16 +113,16 @@ app.get('/activities', function(req,res) {
           res.send(activities);
         })
       })
-    })
+    // })
 })
 
 app.get('/comments', function (req, res) {
-  var tripNameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(tripNameQuery, function(error,trip,fields) {
-    if(error) {
-      console.error(error)
-    }
-    var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+  // var tripNameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  // db.dbConnection.query(tripNameQuery, function(error,trip,fields) {
+  //   if(error) {
+  //     console.error(error)
+  //   }
+    var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${req.query.currentTrip}'`;
     db.dbConnection.query(tripIDQuery, function(error, tripId, fields) {
       if(error) {
         console.error(error);
@@ -135,16 +136,16 @@ app.get('/comments', function (req, res) {
         res.send(comments);
       })
     })
-  })
+  // })
 })
 
-app.post('/tripName', function(req, res) {
-  var trip = req.body.trip;
-
-  var query = `INSERT INTO tripNames (trip) VALUES ('${trip}')`
-  db.dbConnection.query(query);
-  res.send("Added to DB");
-})
+// app.post('/tripName', function(req, res) {
+//   var trip = req.body.trip;
+//
+//   var query = `INSERT INTO tripNames (trip) VALUES ('${trip}')`
+//   db.dbConnection.query(query);
+//   res.send("Added to DB");
+// })
 
 app.post('/signup', function (req, res){
   var username = req.body.username;
@@ -208,12 +209,12 @@ app.get('/logout',function(req,res){
 
 
 app.post('/newactivity', function(req,res) {
-  var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-    db.dbConnection.query(query, function(error,trip,fields) {
-      if(error) {
-        console.error(error)
-      }
-      var query2 = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+  // var query = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  //   db.dbConnection.query(query, function(error,trip,fields) {
+  //     if(error) {
+  //       console.error(error)
+  //     }
+      var query2 = `SELECT id FROM trips WHERE tripName = '${req.body.currentTrip}'`;
       db.dbConnection.query(query2, function(error, tripId, fields) {
       if(error) {
         console.error(error)
@@ -227,16 +228,16 @@ app.post('/newactivity', function(req,res) {
         res.send('added friend activity to db');
       })
   })
- })
+ // })
 })
 
 app.post('/comments', function(req,res) {
-  var tripNameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(tripNameQuery, function(error,trip,fields) {
-   if(error) {
-      console.error(error)
-    }
-    var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`;
+  // var tripNameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  // db.dbConnection.query(tripNameQuery, function(error,trip,fields) {
+  //  if(error) {
+  //     console.error(error)
+  //   }
+    var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${req.body.currentTrip}'`;
     db.dbConnection.query(tripIDQuery, function(error, tripId, fields){
       if(error) {
         console.error(error)
@@ -254,17 +255,17 @@ app.post('/comments', function(req,res) {
           res.send('inserted comments to database');
         })
       })
-    })
+    // })
   })
 })
 
 app.post('/addVote', function(req,res) {
-  var nameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(nameQuery, function(error, trip, fields) {
-    if(error) {
-      console.log(error)
-    }
-    var idQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`
+  // var nameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  // db.dbConnection.query(nameQuery, function(error, trip, fields) {
+  //   if(error) {
+  //     console.log(error)
+  //   }
+    var idQuery = `SELECT id FROM trips WHERE tripName = '${req.body.currentTrip}'`
     db.dbConnection.query(idQuery, function(error, id, fields) {
 
       var tripQuery = `SELECT votes FROM dates WHERE dateOption = '${req.body.date}' AND trip_id = ${id[0].id}`;
@@ -278,18 +279,18 @@ app.post('/addVote', function(req,res) {
           res.send('updated date vote');
         })
       })
-    })
+    // })
   })
  })
 
 app.post('/addActivityVote', function(req,res) {
 
-  var nameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
-  db.dbConnection.query(nameQuery, function(error, trip, fields) {
-    if(error) {
-      console.log(error)
-    }
-    var idQuery = `SELECT id FROM trips WHERE tripName = '${trip[0].trip}'`
+  // var nameQuery = `SELECT trip FROM tripNames ORDER BY id DESC LIMIT 1`;
+  // db.dbConnection.query(nameQuery, function(error, trip, fields) {
+  //   if(error) {
+  //     console.log(error)
+  //   }
+    var idQuery = `SELECT id FROM trips WHERE tripName = '${req.body.currentTrip}'`
     db.dbConnection.query(idQuery, function(error, id, fields) {
 
        var tripQuery = `SELECT vote_count FROM activities WHERE activityName = '${req.body.activityName}' AND trip_id = ${id[0].id}`;
@@ -303,7 +304,7 @@ app.post('/addActivityVote', function(req,res) {
           res.send('updated activity vote');
       })
     })
-  })
+  // })
  })
 })
 
@@ -346,6 +347,8 @@ app.post('/tripInfo', function(req, res) {
           })
         }
         for(var z = 0; z < req.body.friend.length; z++) {
+          console.log("reqbodyfriend", req.body.friend);
+          console.log("tripID", tripID[0].id);
           var friendIDQuery = `SELECT id FROM users WHERE username = '${req.body.friend[z]}'`
           db.dbConnection.query(friendIDQuery, function(error, friendID, fields) {
             // If friend invited
