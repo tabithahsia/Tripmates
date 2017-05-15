@@ -240,10 +240,6 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -12837,6 +12833,7 @@ var ContributeTrip = function (_React$Component) {
       comments: [],
       vote: 0
     };
+
     _this.getTripName = _this.getTripName.bind(_this);
     _this.getDates = _this.getDates.bind(_this);
     _this.getActivities = _this.getActivities.bind(_this);
@@ -12938,7 +12935,8 @@ var ContributeTrip = function (_React$Component) {
 
       e.preventDefault();
       _axios2.default.post('/addVote', { date: date.dateOption }).then(function (result) {
-        console.log(result);
+        console.log('adddateVote', result);
+        console.log(_this8.state.activities);
         _this8.getDates();
       }).catch(function (error) {
         console.log(error);
@@ -12976,7 +12974,8 @@ var ContributeTrip = function (_React$Component) {
               'h2',
               { id: 'pageheader' },
               'Contribute to ',
-              this.state.tripName.tripName
+              '  "' + this.state.tripName.tripName + '"',
+              ' '
             ),
             _react2.default.createElement(
               'div',
@@ -13124,13 +13123,13 @@ var ContributeTrip = function (_React$Component) {
                           null,
                           'Cost:'
                         ),
-                        ' ',
-                        activity.activityCost,
+                        ' $',
+                        activity.est_cost,
                         ' '
                       ),
                       _react2.default.createElement(
                         'button',
-                        { id: 'voteButton', onClick: _this10.activityOptionsClick.bind(_this10, activity) },
+                        { id: 'activityVoteButton', onClick: _this10.activityOptionsClick.bind(_this10, activity) },
                         'vote'
                       ),
                       _react2.default.createElement(
@@ -13421,7 +13420,7 @@ var CreateTrip = function (_React$Component) {
                           null,
                           'Cost:'
                         ),
-                        ' ',
+                        ' $',
                         activity.activityCost,
                         ' '
                       )
