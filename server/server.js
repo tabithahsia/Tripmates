@@ -3,6 +3,7 @@ var session = require('express-session');
 // var knex = require('knex');
 var path = require('path');
 var bodyParser = require('body-parser');
+var http = require("http");
 
 var db = require('./db/database.js');
 var app = express();
@@ -19,6 +20,11 @@ app.use(session({secret: 'encryption_secret'}));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
 
+
+//refreshes page for Heroku Stability 
+setInterval(function () {
+  http.get("http://tripmates.herokuapp.com");
+}, 60000); // every minute (60000)
 
 
 app.get('/yelp', function (req, res) {
