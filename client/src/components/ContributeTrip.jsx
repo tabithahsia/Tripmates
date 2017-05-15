@@ -22,6 +22,7 @@ class ContributeTrip extends React.Component {
       comments: [],
       vote: 0
     };
+    
     this.getTripName = this.getTripName.bind(this);
     this.getDates = this.getDates.bind(this);
     this.getActivities = this.getActivities.bind(this);
