@@ -23,12 +23,15 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 app.get('/yelp', function (req, res) {
   const resultArray = [];
-
   yelp.accessToken(yelpAPI.clientId, yelpAPI.clientSecret).then(response => {
     const client = yelp.client(response.jsonBody.access_token);
 
-    client.search(req.query).then(response => {
-      for (var i = 0; i < 3; i++) {
+    client.search({
+      term: req.query.term,
+      location: req.query.location
+    })
+    .then(response => {
+      for (var i = 0; i < req.query.numResults; i++) {
         currentResult = response.jsonBody.businesses[i];
         resultArray.push(currentResult);
       }
