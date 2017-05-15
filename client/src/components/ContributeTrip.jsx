@@ -41,8 +41,6 @@ class ContributeTrip extends React.Component {
   }
 
   getTripInfo() {
-    console.log("tripfinfo currentTrip ", this.props.currentTrip);
-
     axios.get('/tripInfo', {
       params: {
         currentTrip: this.props.currentTrip
@@ -110,7 +108,6 @@ class ContributeTrip extends React.Component {
     e.preventDefault();
       axios.post('/comments', {comment: this.state.comment, commentOwner: this.props.loggedInUser, currentTrip: this.props.currentTrip})
       .then((result) => {
-        console.log(result)
         this.getComments();
       })
       .catch((error) => {
@@ -122,7 +119,6 @@ class ContributeTrip extends React.Component {
     e.preventDefault();
     axios.post('/addVote', {date: date.dateOption, currentTrip: this.props.currentTrip})
       .then((result) => {
-        console.log('adddateVote', result)
         this.getDates();
       })
       .catch((error) => {
@@ -134,7 +130,6 @@ class ContributeTrip extends React.Component {
     e.preventDefault();
      axios.post('/addActivityVote', {activityName: activity.activityName, currentTrip: this.props.currentTrip})
     .then((result) => {
-      console.log(result)
       this.getActivities();
     })
     .catch((error) => {
