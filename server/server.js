@@ -25,10 +25,11 @@ app.get('/yelp', function (req, res) {
   const resultArray = [];
   yelp.accessToken(yelpAPI.clientId, yelpAPI.clientSecret).then(response => {
     const client = yelp.client(response.jsonBody.access_token);
-
+    
     client.search({
       term: req.query.term,
-      location: req.query.location
+      location: req.query.location,
+      sort_by: req.query.sort_by
     })
     .then(response => {
       for (var i = 0; i < req.query.numResults; i++) {

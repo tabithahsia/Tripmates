@@ -24,7 +24,7 @@ class Home extends React.Component {
           <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
         </div>
         <div id="galleryHeader">
-          <h2>Popular adventures</h2>
+          <h2>Popular destinations</h2>
         </div>
         <YelpGallery />
       </div>

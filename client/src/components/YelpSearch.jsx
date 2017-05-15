@@ -22,6 +22,7 @@ class YelpSearch extends React.Component {
       params: {
         term: input.term,
         location: input.location,
+        sort_by: "best_match",
         numResults: 3
       }
     })

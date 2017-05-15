@@ -22,9 +22,10 @@ class YelpGallery extends React.Component {
   fetchYelpInfo() {
     axios.get('/yelp', {
       params: {
-        term: "hiking",
+        term: "hikes",
         location: "california",
-        numResults: 6
+        sort_by: "rating",
+        numResults: 6,
       }
     })
     .then((response) => {
@@ -44,7 +45,6 @@ class YelpGallery extends React.Component {
       <div className="yelpContainer gallery">
         <div className="yelpContents">
           <div className="yelpResults">
-            { console.log("yelpResults ", yelpResults)}
             { yelpResults ? yelpResults.map((entry, index) => {
                 return (<div key={index} id="yelpResultItem">
                   <div id="pic_container">

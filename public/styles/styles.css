@@ -411,6 +411,7 @@ button#activityVoteButton{
 
 #yelpForm {
   margin: auto;
+  width: 670px;
 }
 
 .yelpResults {
