@@ -112,7 +112,7 @@ class CreateTrip extends React.Component {
                   <div className="activityGroup">
                     <li><span>Activity:</span> {activity.activity} </li>
                     <li><span>Description:</span> {activity.activityDescription} </li>
-                    <li><span>Cost:</span> {activity.activityCost} </li>
+                    <li><span>Cost:</span> ${activity.activityCost} </li>
                   </div>
                 </div>
               ))}
