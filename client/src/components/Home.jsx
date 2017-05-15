@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import Header from './Header';
 import YelpSearch from './YelpSearch';
+import YelpGallery from './YelpGallery';
 
 
 class Home extends React.Component {
@@ -22,6 +23,10 @@ class Home extends React.Component {
           </div>
           <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
         </div>
+        <div id="galleryHeader">
+          <h2>Popular destinations</h2>
+        </div>
+        <YelpGallery />
       </div>
     )
   }

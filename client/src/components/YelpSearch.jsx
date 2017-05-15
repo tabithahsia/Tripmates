@@ -21,7 +21,9 @@ class YelpSearch extends React.Component {
     axios.get('/yelp', {
       params: {
         term: input.term,
-        location: input.location
+        location: input.location,
+        sort_by: "best_match",
+        numResults: 3
       }
     })
       .then((response) => {
@@ -47,8 +49,8 @@ class YelpSearch extends React.Component {
     var yelpResults = this.state.yelpResults.entries;
 
     return (
-      <div id="yelpContainer">
-        <div id="yelpContents">
+      <div className="yelpContainer">
+        <div className="yelpContents">
           <h4>Search Yelp for activity ideas</h4>
           <form id="yelpForm" onSubmit={this.fetchYelpInfo.bind(this, this.state.yelpInfo)}>
             <div className="form_element">
@@ -60,7 +62,7 @@ class YelpSearch extends React.Component {
             </div>
             <button id="mainCTA">Search</button>
           </form>
-          <div id="yelpResults">
+          <div className="yelpResults">
             { yelpResults ? yelpResults.map((entry, index) => {
                 return (<div key={index} id="yelpResultItem">
                   <div id="pic_container">
