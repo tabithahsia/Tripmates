@@ -43,7 +43,15 @@ app.get('/yelp', function (req, res) {
   });
 })
 
-
+app.get('/users', function(req,res) {
+  var query = 'SELECT username FROM users'
+  db.dbConnection.query(query, function(error, results, fields) {
+    if(error) {
+      console.log(error)
+    }
+    res.send(results)
+  })
+})
 
 app.get('/profile', function (req, res) {
   var userData = {};
