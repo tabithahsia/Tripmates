@@ -13,7 +13,7 @@ class Profile extends React.Component {
     this.state = {
         userTrip: {}
     }
-    this.postTrip = this.postTrip.bind(this);
+    this.accessTrip = this.accessTrip.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.capitalize = this.capitalize.bind(this);
   }
@@ -22,15 +22,9 @@ class Profile extends React.Component {
     this.getProfile();
   }
 
-  postTrip(trip) {
+  accessTrip(trip) {
+    this.props.updateCurrentTrip(trip);
     this.props.history.push('/contributeTrip')
-    axios.post('/tripName', {trip: trip})
-      .then(() => {
-        console.log('success')
-      })
-      .catch(() => {
-        console.log('error')
-      })
   }
 
   getProfile() {
@@ -68,7 +62,7 @@ class Profile extends React.Component {
               <h3>Your Trips</h3>
             </div>
             {listOfTrips ? listOfTrips.map((trip, index) => {
-              return (<div onClick={() => this.postTrip(trip)} id="tripCard" key={index}>{trip}</div>)
+              return (<div onClick={() => this.accessTrip(trip)} id="tripCard" key={index}>{trip}</div>)
             }):(<div id="emptyTrips">You have no trip plans.</div>)}
             <Link to="/createTrip"><button id="mainCTA">Create a trip</button></Link>
           </div>

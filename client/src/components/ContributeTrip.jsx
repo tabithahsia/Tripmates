@@ -12,7 +12,7 @@ class ContributeTrip extends React.Component {
     super(props);
 
     this.state = {
-    	tripName: "",
+    	tripInfo: '',
       dates: [],
       activities: [],
       activityName: '',
@@ -22,8 +22,8 @@ class ContributeTrip extends React.Component {
       comments: [],
       vote: 0
     };
-    
-    this.getTripName = this.getTripName.bind(this);
+
+    this.getTripInfo = this.getTripInfo.bind(this);
     this.getDates = this.getDates.bind(this);
     this.getActivities = this.getActivities.bind(this);
     this.getComments = this.getComments.bind(this);
@@ -34,16 +34,21 @@ class ContributeTrip extends React.Component {
   }
 
   componentDidMount() {
-  	this.getTripName();
+    this.getTripInfo();
     this.getDates();
     this.getActivities();
     this.getComments();
   }
 
-  getTripName() {
-  	axios.get('/tripName')
+  getTripInfo() {
+    console.log("tripfinfo currentTrip ", this.props.currentTrip);
+
+    axios.get('/tripInfo', {
+      params: {
+        currentTrip: this.props.currentTrip
+      }})
 	   .then((result) => {
-	      this.setState({tripName: result.data[0]})
+	      this.setState({tripInfo: result.data[0]})
 	    })
 	    .catch((error) => {
 	      console.error(error);
@@ -138,17 +143,17 @@ class ContributeTrip extends React.Component {
     return (
       <div id="contributeTrip">
         <Header loggedInUser = {this.props.loggedInUser} />
-
+        { console.log("this.props.currentTrip", this.props.currentTrip) }
         <div className="container">
           <div className="content narrow">
-            <h2 id="pageheader">Contribute to {'  "' + this.state.tripName.tripName + '"'} </h2>
+            <h2 id="pageheader">Contribute to {'  "' + this.props.currentTrip + '"'} </h2>
 
             <div className="column1">
               <div className="tripItem">
-                <h3>Destination</h3><label>{this.state.tripName.destination}</label>
+                <h3>Destination</h3><label>{this.state.tripInfo.destination}</label>
               </div>
               <div className="tripItem">
-                <h3>Estimated Cost</h3> <label>${this.state.tripName.est_cost}</label>
+                <h3>Estimated Cost</h3> <label>${this.state.tripInfo.est_cost}</label>
               </div>
               <div className="tripItem">
                 <h3>Date Range Options</h3>

@@ -34,10 +34,6 @@ app.get('/yelp', function (req, res) {
       }
       res.send({resultArray});
     })
-
-      // const firstResult = response.jsonBody.businesses[0];
-      // const prettyJson = JSON.stringify(firstResult, null, 4);
-      // console.log(prettyJson);
   }).catch(e => {
     console.log(e);
   });
@@ -68,17 +64,10 @@ app.get('/profile', function (req, res) {
   });
 })
 
-app.get('/tripName', function(req,res) {
-
-    var query = `SELECT trip from tripNames ORDER BY id DESC LIMIT 1`;
-    db.dbConnection.query(query, function(error,trip,fields) {
-      if(error) {
-        console.error(error)
-      }
-      var query2 = `SELECT * FROM trips WHERE tripName = '${trip[0].trip}'`;
-      db.dbConnection.query(query2, function(error, results, fields) {
-        res.send(results);
-      })
+app.get('/tripInfo', function(req,res) {
+    var query = `SELECT * FROM trips WHERE tripName = '${req.query.currentTrip}'`;
+    db.dbConnection.query(query, function(error, tripInfo, fields) {
+      res.send(tripInfo);
     })
 })
 
@@ -326,19 +315,20 @@ app.post('/tripInfo', function(req, res) {
       console.log(error)
     }
 
-
     var insertTripQuery = `INSERT INTO trips (tripName, destination, est_cost) VALUES ('${req.body.tripName}', '${req.body.destination}', '${req.body.estCost}')`
     db.dbConnection.query(insertTripQuery, function(error, result, fields) {
       if(error) {
         console.error(error)
       }
+      console.log("reqbody", req.body);
+      console.log("reqbodytripName", req.body.tripName);
 
       var tripIDQuery = `SELECT id FROM trips WHERE tripName = '${req.body.tripName}'`
       db.dbConnection.query(tripIDQuery, function(error, tripID, fields) {
         if(error) {
           console.error(error)
         }
-
+        console.log("tripID", tripID);
         for(var j = 0; j < req.body.dates.length; j++) {
           var insertDatesQuery = `INSERT INTO dates (dateOption, trip_id, votes) VALUES ('${req.body.dates[j]}', ${tripID[0].id}, ${req.body.votes})`
           db.dbConnection.query(insertDatesQuery, function(error,result,fields) {
