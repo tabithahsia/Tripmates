@@ -1,37 +1,28 @@
 var express = require('express');
-var session = require('express-session');
-// var knex = require('knex');
+
 var path = require('path');
 var bodyParser = require('body-parser');
 var http = require("http");
 
 var db = require('./db/database.js');
 var app = express();
-var bcrypt = require('bcrypt');
 
+var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
 var yelp = require('yelp-fusion');
 var yelpAPI = require('./yelpApi.js');
 
 app.use(bodyParser.json());
-app.use(session({secret: 'encryption_secret'}));
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
-
-
-//refreshes page for Heroku Stability 
-setInterval(function () {
-  http.get("http://tripmates.herokuapp.com");
-}, 60000); // every minute (60000)
-
 
 app.get('/yelp', function (req, res) {
   const resultArray = [];
   yelp.accessToken(yelpAPI.clientId, yelpAPI.clientSecret).then(response => {
     const client = yelp.client(response.jsonBody.access_token);
-    
+
     client.search({
       term: req.query.term,
       location: req.query.location,
@@ -142,7 +133,6 @@ app.post('/signup', function (req, res){
   var password = req.body.password;
 
   if(username && password) {
-    req.session.username = username;
     var encryptedPassword = bcrypt.hashSync(password, salt)
 
     var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
@@ -169,7 +159,6 @@ app.post('/login', function (req, res) {
     if(!result[0]) {
       return res.send(false);
     } else {
-        req.session.username = username;
         // If username exists, check password
         var query = `SELECT password from users WHERE username = '${username}'`;
         db.dbConnection.query(query, function (error, encryptedPassword, fields) {
@@ -188,13 +177,7 @@ app.post('/login', function (req, res) {
 })
 
 app.get('/logout',function(req,res){
-  req.session.destroy(function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      res.redirect('/');
-    }
-  });
+  res.redirect('/');
 });
 
 
@@ -336,6 +319,6 @@ app.post('/tripInfo', function(req, res) {
   })
 })
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function(){
   console.log('Listening on port 3000!')
 })

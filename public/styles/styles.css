@@ -157,6 +157,7 @@ input {
 }
 
 
+
 /************************* HEADER *************************/
 
 #header_container {
@@ -190,9 +191,8 @@ nav li {
   float: right;
 }
 
-#headerSub {
-  color: grey;
-}
+
+
 /************************* HOMEPAGE *************************/
 
 #tagline {
@@ -203,7 +203,7 @@ nav li {
 }
 
 #banner {
-  background: #E1E1E1 url('../images/cover2.jpg') no-repeat center;
+  background: #E1E1E1 url('../images/cover.jpg') no-repeat center;
   display:block;
   text-align: center;
   margin: auto;
@@ -221,12 +221,13 @@ nav li {
   margin: 0;
 }
 
-#yelpContainer {
-  margin: 10px 0;
+.gallery {
+  margin: 30px 0 60px 0;
 }
 
-/************************* PROFILE *************************/
 
+
+/************************* PROFILE *************************/
 
 #yourTrips {
   margin-top: 40px;
@@ -264,7 +265,6 @@ nav li {
 }
 
 /************************* CREATE TRIP PAGE *************************/
-
 
 #createTrip button#primary {
   margin-top: 60px;
@@ -325,6 +325,8 @@ nav li {
   font-weight: bold;
 }
 
+
+
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
 .tripItem {
@@ -353,7 +355,6 @@ button#activityVoteButton{
   margin-right: 25px;
   font-size: 8px;
   float: right;
-}
 }
 
 #activityOptions {
@@ -391,7 +392,8 @@ button#activityVoteButton{
 }
 
 
-/************************* MISC *************************/
+
+/************************* YELP GALLERY/SEARCH *************************/
 
 .yelpContainer {
   margin: 60px 0;
@@ -450,15 +452,4 @@ button#activityVoteButton{
   font-size: 14px;
   margin-top: 5px;
   color: #6a6a6a;
-}
-
-button#secondary {
-  background-color: #6a6a6a;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-}
-
-.gallery {
-  margin: 30px 0 60px 0;
 }
