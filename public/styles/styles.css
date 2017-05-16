@@ -149,12 +149,6 @@ input {
   padding: 20px 0;
 }
 
-.errorMsg1 {
-  display: block;
-  color: #B53C3F;
-  padding: 20px 0;
-  text-align: center;
-}
 
 
 /************************* HEADER *************************/
@@ -190,9 +184,16 @@ nav li {
   float: right;
 }
 
-#headerSub {
-  color: grey;
+.activityGroup {
+  list-style: none;
+  padding-bottom: 10px;
 }
+
+.activityGroup span {
+  font-weight: bold;
+}
+
+
 /************************* HOMEPAGE *************************/
 
 #tagline {
@@ -203,7 +204,7 @@ nav li {
 }
 
 #banner {
-  background: #E1E1E1 url('../images/cover2.jpg') no-repeat center;
+  background: #E1E1E1 url('../images/cover.jpg') no-repeat center;
   display:block;
   text-align: center;
   margin: auto;
@@ -221,12 +222,12 @@ nav li {
   margin: 0;
 }
 
-#yelpContainer {
-  margin: 10px 0;
+.gallery {
+  margin: 30px 0 60px 0;
 }
 
-/************************* PROFILE *************************/
 
+/************************* PROFILE *************************/
 
 #yourTrips {
   margin-top: 40px;
@@ -263,8 +264,8 @@ nav li {
   font-size: 20px;
 }
 
-/************************* CREATE TRIP PAGE *************************/
 
+/************************* CREATE TRIP PAGE *************************/
 
 #createTrip button#primary {
   margin-top: 60px;
@@ -284,13 +285,27 @@ nav li {
   color: #6a6a6a;
 }
 
-#modalButton {
-  display: inline-block;
-  float: left;
-  clear: both;
+.backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.3);
+  padding: 50px;
 }
 
-.modal a {
+#modal {
+  background-color: #ffffff;
+  border-radius: 5px;
+  max-width: 500px;
+  min-height: 210px;
+  margin: 0 auto;
+  padding: 30px;
+  overflow: auto;
+}
+
+#modal a {
   color: #9a9a9a;
   display: inline-block;
   padding-right: 40px;
@@ -300,12 +315,25 @@ nav li {
   vertical-align: middle;
 }
 
-.modal a:hover {
+#modal a:hover {
   text-decoration: underline;
 }
 
-.modal #secondary {
+#modal #secondary {
   margin-left: 10px;
+}
+
+#modalButton {
+  display: inline-block;
+  float: left;
+  clear: both;
+}
+
+#modal .errorMsg {
+  float: left;
+  clear: both;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 #friendList {
@@ -316,14 +344,6 @@ nav li {
   margin-bottom: 20px;
 }
 
-.activityGroup {
-  list-style: none;
-  padding-bottom: 10px;
-}
-
-.activityGroup span {
-  font-weight: bold;
-}
 
 /************************* CONTRIBUTE TO TRIP PAGE *************************/
 
@@ -353,7 +373,6 @@ button#activityVoteButton{
   margin-right: 25px;
   font-size: 8px;
   float: right;
-}
 }
 
 #activityOptions {
@@ -391,7 +410,7 @@ button#activityVoteButton{
 }
 
 
-/************************* MISC *************************/
+/************************* YELP GALLERY/SEARCH *************************/
 
 .yelpContainer {
   margin: 60px 0;
@@ -450,15 +469,4 @@ button#activityVoteButton{
   font-size: 14px;
   margin-top: 5px;
   color: #6a6a6a;
-}
-
-button#secondary {
-  background-color: #6a6a6a;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-}
-
-.gallery {
-  margin: 30px 0 60px 0;
 }

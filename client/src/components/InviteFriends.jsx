@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 
@@ -12,36 +11,18 @@ class InviteFriends extends React.Component {
       friend: '',
       friends: [],
       users: [],
-      noUser: false
+      userNotFound: false
     }
-
     this.addFriendClick = this.addFriendClick.bind(this);
     this.getUsers = this.getUsers.bind(this);
   }
 
   componentDidMount() {
-    this.getUsers()
+    this.getUsers();
   }
 
-  addFriendClick() {
-    var count = 0;
-    for(var i = 0; i < this.state.users.length;i++) {
-      if(this.state.users[i].username === this.state.friend) {
-        count++;
-      }
-    }
-    
 
-    if(count === 0) {
-      this.setState({noUser: true})
-    } else {
-        var arr = this.state.friends;
-        arr.push(this.state.friend)
-        this.setState({friends: arr})
-    }
-
-  }
-
+  // Request list of all usernames [TO DO: Refactor to check if username exists on serverside]
   getUsers() {
     axios.get('/users')
       .then((result) => {
@@ -52,47 +33,40 @@ class InviteFriends extends React.Component {
       })
   }
 
+  // Add invited friend to friends array on '+' click (doesn't post directly to DB) [TO DO: Refactor to check if username exists on serverside]
+  addFriendClick() {
+    var count = 0;
+    for(var i = 0; i < this.state.users.length;i++) {
+      if(this.state.users[i].username === this.state.friend) {
+        count++;
+      }
+    }
+    if(count === 0) {
+      this.setState({userNotFound: true})
+    } else {
+        var listOfFriends = this.state.friends;
+        listOfFriends.push(this.state.friend)
+        this.setState({friends: listOfFriends})
+    }
+  }
+
   render() {
     if(!this.props.show) {
       return null;
     }
 
-    // The gray background
-    const backdropStyle = {
-      position: 'fixed',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
-    };
-
-    // The modal "window"
-    const modalStyle = {
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      maxWidth: 500,
-      minHeight: 210,
-      margin: '0 auto',
-      padding: 30,
-      overflow: 'auto'
-    };
-
     return (
-      <div className="backdrop" style={backdropStyle}>
-        <div className="modal" style={modalStyle}>
+      <div className="backdrop">
+        <div id="modal">
           {this.props.children}
           <ul id="friendList">{this.state.friends.map((friend,index) => (<li key={index}>{friend}</li>))}</ul>
           <input name="friendName" placeholder="Username" type ="text" onChange={e => this.setState({friend: e.target.value})}/>
 
           <button id="secondary" onClick={this.addFriendClick}>+</button>
 
-          {this.state.noUser ? (
-                    <div className="errorMsg1">
-                    <div >User Does Not Exist</div>
-                    </div>
-                  ) : null}
+          {this.state.userNotFound ? (
+            <div className="errorMsg">User doesn't exist.</div>
+          ) : null}
 
           <button id="modalButton" onClick={(e) => {this.props.onAddTripClick(e, this.state.friends)}}>
             Submit trip
