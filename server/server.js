@@ -342,6 +342,13 @@ app.get('/yelp', function (req, res) {
 })
 
 
+
+// Keep Heroku app awake
+setInterval(function() {
+    http.get("http://tripmates.herokuapp.com");
+}, 60000); // every minute
+
+
 app.listen(process.env.PORT || 3000, function(){
   console.log('Listening on port 3000!')
 })
