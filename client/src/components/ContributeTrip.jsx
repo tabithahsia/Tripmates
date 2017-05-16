@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 
@@ -117,7 +116,7 @@ class ContributeTrip extends React.Component {
 
   dateVoteClick(date, e) {
     e.preventDefault();
-    axios.post('/addVote', {date: date.dateOption, currentTrip: this.props.currentTrip})
+    axios.post('/addDateVote', {date: date.dateOption, currentTrip: this.props.currentTrip})
       .then((result) => {
         this.getDates();
       })

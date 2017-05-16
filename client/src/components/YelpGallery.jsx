@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 
-
+// [TO DO: Might be able to refactor with YelpSearch to reuse more code]
 class YelpGallery extends React.Component {
   constructor(props) {
     super(props);

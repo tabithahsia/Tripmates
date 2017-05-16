@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router} from 'react-router-dom';
 import axios from 'axios';
 
@@ -48,7 +47,6 @@ class Profile extends React.Component {
   }
 
   render() {
-
     var listOfTrips = this.state.userTrip.tripName;
     var user = this.props.loggedInUser;
 

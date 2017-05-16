@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,14 +13,14 @@ class CreateTrip extends React.Component {
 
     this.state = {
       dates: [],
-      date: "",
+      date: '',
       activities: [],
-      activityName: "",
-      activityDescription: "",
-      activityCost: "",
-      tripName: "",
-      destination: "",
-      estCost: "",
+      activityName: '',
+      activityDescription: '',
+      activityCost: '',
+      tripName: '',
+      destination: '',
+      estCost: '',
       votes: 0,
       isInviteFriendModalOpen: false,
       showReqFields: false
@@ -33,6 +32,8 @@ class CreateTrip extends React.Component {
     this.toggleModal = this.toggleModal.bind(this);
   }
 
+
+  // Toggle InviteFriends modal
   toggleModal(e) {
     e.preventDefault();
     if(!this.state.tripName) {
@@ -46,25 +47,31 @@ class CreateTrip extends React.Component {
     }
   }
 
+
+  // Add new activity to activities array on '+' click (doesn't post directly to DB)
   onActivityClick(e) {
     e.preventDefault();
-    var arr = this.state.activities;
+    var listOfActivities = this.state.activities;
     var activityObject = {
        activityName: this.state.activityName,
        activityDescription: this.state.activityDescription,
        activityCost: this.state.activityCost
     };
-    arr.push(activityObject);
-    this.setState({activities: arr})
+    listOfActivities.push(activityObject);
+    this.setState({activities: listOfActivities})
   }
 
+
+  // Add new date to dates array on '+' click (doesn't post directly to DB)
   onDateSubmission (e) {
     e.preventDefault();
-    var arr = this.state.dates;
-    arr.push(this.state.date);
-    this.setState({dates: arr});
+    var listOfDates = this.state.dates;
+    listOfDates.push(this.state.date);
+    this.setState({dates: listOfDates});
   }
 
+
+  // Create new trip
   onAddTripClick (e, friend) {
     e.preventDefault();
 
@@ -77,6 +84,7 @@ class CreateTrip extends React.Component {
         console.log('Error posting trip to DB', error)
       })
   }
+
 
   render() {
     return (
@@ -126,6 +134,7 @@ class CreateTrip extends React.Component {
 
             <button id="primary" onClick={this.toggleModal}>Next</button>
           </form>
+
           {this.state.showReqFields ? (<p className="errorMsg">Trip name is required</p>) : null }
           </div>
         </div>
