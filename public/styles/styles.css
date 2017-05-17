@@ -47,7 +47,7 @@ button {
   position: relative;
   vertical-align: middle;
   padding: 15px 40px;
-  font-size: 30px;
+  font-size: 14px;
   border-radius: 4px;
   border-width: 1px;
   border-style: solid;
@@ -257,6 +257,10 @@ nav li {
   display: block;
   float: none;
   margin-top: 30px;
+}
+
+button#mainCTA {
+  font-size: 30px;
 }
 
 #emptyTrips {
