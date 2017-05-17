@@ -14426,8 +14426,8 @@ var Signup = function (_React$Component) {
 
         //this line will take you to /profile
         console.log('state username: ', _this3.state.userInfo);
-        console.log('in post, username: ', _this3.state.userInfo.name);
-        _this3.props.checkUser(_this3.state.userInfo.name);
+        console.log('in post, username: ', _this3.state.userInfo.username);
+        _this3.props.checkUser(_this3.state.userInfo.username);
         _this3.props.history.push('/profile');
       }).catch(function (err) {
         console.error("error in post entries", err);

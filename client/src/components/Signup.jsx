@@ -129,8 +129,8 @@ handleClick() {
      .then(({response}) => {
        //this line will take you to /profile
        console.log('state username: ' ,this.state.userInfo)
-       console.log('in post, username: ', this.state.userInfo.name)
-       this.props.checkUser(this.state.userInfo.name);
+       console.log('in post, username: ', this.state.userInfo.username)
+       this.props.checkUser(this.state.userInfo.username);
        this.props.history.push('/profile');
      })
      .catch(err => {
