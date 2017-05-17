@@ -69,8 +69,9 @@ class Login extends React.Component {
                   {this.state.showErrorMsg ? (
                     <div className="errorMsg">Invalid username/password combination.</div>
                   ) : null}
-
                   <button>Log In</button>
+                    <a href="#" onClick={this.handleClick}><img src="./fbLogo.png" className="fbLogo"></img></a>
+
                 </form>
                 </div>
               </div>

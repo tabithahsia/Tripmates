@@ -21,6 +21,7 @@ class App extends React.Component {
   }
 
   checkUser(user) {
+    console.log('setting checkUser ',user )
     this.setState({
       loggedInUser: user
     });
