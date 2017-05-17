@@ -13431,7 +13431,11 @@ var CreateTrip = function (_React$Component) {
       estCost: '',
       votes: 0,
       isInviteFriendModalOpen: false,
-      showReqFields: false
+      showReqFields: false,
+      datePlaceholder: '',
+      activityPlaceholder: '',
+      descriptionPlaceholder: '',
+      costPlaceholder: ''
     };
 
     _this.onActivityClick = _this.onActivityClick.bind(_this);
@@ -13472,7 +13476,7 @@ var CreateTrip = function (_React$Component) {
         activityCost: this.state.activityCost
       };
       listOfActivities.push(activityObject);
-      this.setState({ activities: listOfActivities });
+      this.setState({ activities: listOfActivities, activityPlaceholder: '', descriptionPlaceholder: '', costPlaceholder: '' });
     }
 
     // Add new date to dates array on '+' click (doesn't post directly to DB)
@@ -13483,7 +13487,7 @@ var CreateTrip = function (_React$Component) {
       e.preventDefault();
       var listOfDates = this.state.dates;
       listOfDates.push(this.state.date);
-      this.setState({ dates: listOfDates });
+      this.setState({ dates: listOfDates, datePlaceholder: '' });
     }
 
     // Create new trip
@@ -13561,8 +13565,8 @@ var CreateTrip = function (_React$Component) {
                     )
                   );
                 }),
-                _react2.default.createElement('input', { name: 'dateRange', placeholder: 'mm/dd/yyyy - mm/dd/yyyy', type: 'text', onChange: function onChange(e) {
-                    return _this3.setState({ date: e.target.value });
+                _react2.default.createElement('input', { name: 'dateRange', placeholder: 'mm/dd/yyyy - mm/dd/yyyy', value: this.state.datePlaceholder, type: 'text', onChange: function onChange(e) {
+                    return _this3.setState({ date: e.target.value, datePlaceholder: e.target.value });
                   } }),
                 _react2.default.createElement(
                   'button',
@@ -13632,14 +13636,14 @@ var CreateTrip = function (_React$Component) {
                   null,
                   'Activity Ideas'
                 ),
-                _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Activity name', onChange: function onChange(e) {
-                    return _this3.setState({ activityName: e.target.value });
+                _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Activity', value: this.state.activityPlaceholder, onChange: function onChange(e) {
+                    return _this3.setState({ activityName: e.target.value, activityPlaceholder: e.target.value });
                   } }),
-                _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Description/Link', onChange: function onChange(e) {
-                    return _this3.setState({ activityDescription: e.target.value });
+                _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Description/Link', value: this.state.descriptionPlaceholder, onChange: function onChange(e) {
+                    return _this3.setState({ activityDescription: e.target.value, descriptionPlaceholder: e.target.value });
                   } }),
-                _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Cost', onChange: function onChange(e) {
-                    return _this3.setState({ activityCost: e.target.value });
+                _react2.default.createElement('input', { name: 'activity', type: 'text', placeholder: 'Cost', value: this.state.costPlaceholder, onChange: function onChange(e) {
+                    return _this3.setState({ activityCost: e.target.value, costPlaceholder: e.target.value });
                   } }),
                 _react2.default.createElement(
                   'button',
