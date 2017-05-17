@@ -26,8 +26,8 @@ app.post('/signup', function (req, res){
 
   if(username && password) {
     var encryptedPassword = bcrypt.hashSync(password, salt)
-
-    var insertEncryptedPwQuery = `INSERT INTO users (username, password) VALUES ('${username}', '${encryptedPassword}')`;
+    
+    var insertEncryptedPwQuery = 'INSERT INTO users (username, password) VALUES (' + db.dbConnection.escape(username) + ', ' + db.dbConnection.escape(encryptedPassword) + ')';
 
     db.dbConnection.query(insertEncryptedPwQuery);
     res.send("Added user to DB");
@@ -44,14 +44,14 @@ app.post('/login', function (req, res) {
     return res.send(false);
   }
 
-  var doesUserExist = `SELECT username FROM users WHERE username = '${username}'`;
+  var doesUserExist = 'SELECT username FROM users WHERE username = ' + db.dbConnection.escape(username);
   db.dbConnection.query(doesUserExist, function (error, result, fields) {
     // If username does not exist in database, send back 'false'
     if(!result[0]) {
       return res.send(false);
     } else {
         // If username exists, check password
-        var passwordQuery = `SELECT password from users WHERE username = '${username}'`;
+        var passwordQuery = 'SELECT password from users WHERE username = ' + db.dbConnection.escape(username);
         db.dbConnection.query(passwordQuery, function (error, encryptedPassword, fields) {
           if (error) {
             console.error(error)
