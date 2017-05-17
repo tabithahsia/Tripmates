@@ -12061,6 +12061,7 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'checkUser',
     value: function checkUser(user) {
+      console.log('setting checkUser ', user);
       this.setState({
         loggedInUser: user
       });
@@ -14068,6 +14069,11 @@ var Login = function (_React$Component) {
                   'button',
                   null,
                   'Log In'
+                ),
+                _react2.default.createElement(
+                  'a',
+                  { href: '#', onClick: this.handleClick },
+                  _react2.default.createElement('img', { src: './fbLogo.png', className: 'fbLogo' })
                 )
               )
             )
@@ -14282,23 +14288,143 @@ var Signup = function (_React$Component) {
     _this.state = {
       userInfo: {}
     };
+
     _this.submitSignup = _this.submitSignup.bind(_this);
     _this.updateInputs = _this.updateInputs.bind(_this);
+    _this.componentDidMount = _this.componentDidMount.bind(_this);
+    _this.testAPI = _this.testAPI.bind(_this);
+    _this.statusChangeCallback = _this.statusChangeCallback.bind(_this);
+    _this.checkLoginState = _this.checkLoginState.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+
     return _this;
   }
 
   _createClass(Signup, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: '106404783249150',
+          cookie: true, // enable cookies to allow the server to access
+          // the session
+          xfbml: true, // parse social plugins on this page
+          version: 'v2.1' // use version 2.1
+        });
+
+        // Now that we've initialized the JavaScript SDK, we call
+        // FB.getLoginStatus().  This function gets the state of the
+        // person visiting this page and can return one of three states to
+        // the callback you provide.  They can be:
+        //
+        // 1. Logged into your app ('connected')
+        // 2. Logged into Facebook, but not your app ('not_authorized')
+        // 3. Not logged into Facebook and can't tell if they are logged into
+        //    your app or not.
+        //
+        // These three cases are handled in the callback function.
+        FB.getLoginStatus(function (response) {
+          this.statusChangeCallback(response);
+        }.bind(this));
+      }.bind(this);
+
+      // Load the SDK asynchronously
+      (function (d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'facebook-jssdk');
+    }
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+
+  }, {
+    key: 'testAPI',
+    value: function testAPI() {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function (response) {
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+      });
+    }
+
+    // This is called with the results from from FB.getLoginStatus().
+
+  }, {
+    key: 'statusChangeCallback',
+    value: function statusChangeCallback(response) {
+      console.log('statusChangeCallback');
+      console.log(response);
+      // The response object is returned with a status field that lets the
+      // app know the current login status of the person.
+      // Full docs on the response object can be found in the documentation
+      // for FB.getLoginStatus().
+      if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        this.testAPI();
+      } else if (response.status === 'not_authorized') {
+        // The person is logged into Facebook, but not your app.
+        document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
+      } else {
+        // The person is not logged into Facebook, so we're not sure if
+        // they are logged into this app or not.
+        document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+      }
+    }
+
+    // This function is called when someone finishes with the Login
+    // Button.  See the onlogin handler attached to it in the sample
+    // code below.
+
+  }, {
+    key: 'checkLoginState',
+    value: function checkLoginState() {
+      FB.getLoginStatus(function (response) {
+        var _this2 = this;
+
+        console.log('heres response! ', response);
+        this.statusChangeCallback(response);
+        if (response.status === 'connected') {
+          FB.api('/me', function (response) {
+            console.log('connected, here we go...', response);
+            var user = { username: response.name,
+              password: '1234' };
+            var userInfo = _this2.state.userInfo;
+            userInfo.name = response.name;
+            _this2.setState({ userInfo: userInfo });
+            _this2.submitSignup(user);
+            //  (e)=>{this.submitSignup(user, e)};
+          });
+        }
+        console.log('RES STATUS: ', response.status);
+      }.bind(this));
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick() {
+      FB.login(this.checkLoginState());
+    }
+  }, {
     key: 'submitSignup',
     value: function submitSignup(signup, e) {
-      var _this2 = this;
+      var _this3 = this;
 
-      e.preventDefault();
+      console.log('in submit: ', signup);
+      if (e) {
+        e.preventDefault();
+      }
       _axios2.default.post('/signup', { username: signup.username, password: signup.password }).then(function (_ref) {
         var response = _ref.response;
 
         //this line will take you to /profile
-        _this2.props.checkUser(_this2.state.userInfo['username']);
-        _this2.props.history.push('/profile');
+        console.log('state username: ', _this3.state.userInfo);
+        console.log('in post, username: ', _this3.state.userInfo.name);
+        _this3.props.checkUser(_this3.state.userInfo.name);
+        _this3.props.history.push('/profile');
       }).catch(function (err) {
         console.error("error in post entries", err);
       });
@@ -14316,7 +14442,7 @@ var Signup = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         'div',
@@ -14339,7 +14465,7 @@ var Signup = function (_React$Component) {
               _react2.default.createElement(
                 'form',
                 { onSubmit: function onSubmit(e) {
-                    return _this3.submitSignup(_this3.state.userInfo, e);
+                    return _this4.submitSignup(_this4.state.userInfo, e);
                   } },
                 _react2.default.createElement(
                   'div',
@@ -14360,6 +14486,11 @@ var Signup = function (_React$Component) {
                     'Password'
                   ),
                   _react2.default.createElement('input', { name: 'password', type: 'password', onChange: this.updateInputs })
+                ),
+                _react2.default.createElement(
+                  'a',
+                  { href: '#', onClick: this.handleClick },
+                  _react2.default.createElement('img', { src: './fbLogo.png', className: 'fbLogo' })
                 ),
                 _react2.default.createElement(
                   'button',
