@@ -23,7 +23,11 @@ class CreateTrip extends React.Component {
       estCost: '',
       votes: 0,
       isInviteFriendModalOpen: false,
-      showReqFields: false
+      showReqFields: false,
+      datePlaceholder: '',
+      activityPlaceholder: '',
+      descriptionPlaceholder: '',
+      costPlaceholder: '',
     };
 
     this.onActivityClick = this.onActivityClick.bind(this);
@@ -58,7 +62,7 @@ class CreateTrip extends React.Component {
        activityCost: this.state.activityCost
     };
     listOfActivities.push(activityObject);
-    this.setState({activities: listOfActivities})
+    this.setState({activities: listOfActivities, activityPlaceholder: '', descriptionPlaceholder: '', costPlaceholder: ''})
   }
 
 
@@ -67,7 +71,7 @@ class CreateTrip extends React.Component {
     e.preventDefault();
     var listOfDates = this.state.dates;
     listOfDates.push(this.state.date);
-    this.setState({dates: listOfDates});
+    this.setState({dates: listOfDates, datePlaceholder: ''});
   }
 
 
@@ -107,7 +111,7 @@ class CreateTrip extends React.Component {
               {this.state.dates.map((date,index) => {
                 return(<div key={index}><li className="dateItem">{date}</li></div>)})}
 
-              <input name="dateRange" placeholder="mm/dd/yyyy - mm/dd/yyyy"type ="text" onChange={e => this.setState({date: e.target.value})}/>
+              <input name="dateRange" placeholder="mm/dd/yyyy - mm/dd/yyyy" value={this.state.datePlaceholder} type ="text" onChange={e => this.setState({date: e.target.value, datePlaceholder: e.target.value})}/>
               <button id="secondary" onClick={this.onDateSubmission}>+</button>
             </div>
 
@@ -126,9 +130,9 @@ class CreateTrip extends React.Component {
               ))}
 
               <label>Activity Ideas</label>
-              <input name="activity" type ="text" placeholder="Activity name" onChange={e => this.setState({activityName: e.target.value})}/>
-              <input name="activity" type ="text" placeholder="Description/Link" onChange={e => this.setState({activityDescription: e.target.value})}/>
-              <input name="activity" type ="text" placeholder="Cost" onChange={e => this.setState({activityCost: e.target.value})}/>
+              <input name="activity" type ="text" placeholder="Activity" value={this.state.activityPlaceholder} onChange={e => this.setState({activityName: e.target.value, activityPlaceholder: e.target.value})}/>
+              <input name="activity" type ="text" placeholder="Description/Link" value={this.state.descriptionPlaceholder} onChange={e => this.setState({activityDescription: e.target.value, descriptionPlaceholder: e.target.value})}/>
+              <input name="activity" type ="text" placeholder="Cost" value={this.state.costPlaceholder} onChange={e => this.setState({activityCost: e.target.value, costPlaceholder: e.target.value})}/>
               <button id="secondary" onClick={this.onActivityClick}>+</button>
             </div>
 
