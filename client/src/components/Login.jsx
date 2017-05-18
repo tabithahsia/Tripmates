@@ -15,16 +15,103 @@ class Login extends React.Component {
     }
     this.submitLogin = this.submitLogin.bind(this);
     this.updateInputs = this.updateInputs.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.testAPI = this.testAPI.bind(this);
+    this.statusChangeCallback = this.statusChangeCallback.bind(this);
+    this.checkLoginState = this.checkLoginState.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
+  componentDidMount() {
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '106404783249150',
+      cookie     : true,  // enable cookies to allow the server to access
+                        // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.1' // use version 2.1
+    });
+
+    // These three cases are handled in the callback function.
+    FB.getLoginStatus(function(response) {
+      this.statusChangeCallback(response);
+    }.bind(this));
+  }.bind(this);
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+}
+
+testAPI() {
+  console.log('Welcome!  Fetching your information.... ');
+  FB.api('/me', function(response) {
+  console.log('Successful login for: ' + response.name);
+  // document.getElementById('status').innerHTML =
+  //   'Thanks for logging in, ' + response.name + '!';
+  });
+}
+// This is called with the results from from FB.getLoginStatus().
+statusChangeCallback(response) {
+  console.log('statusChangeCallback');
+  console.log(response);
+
+  if (response.status === 'connected') {
+    // Logged into your app and Facebook.
+    this.testAPI();
+  } else if (response.status === 'not_authorized') {
+    // The person is logged into Facebook, but not your app.
+    // document.getElementById('status').innerHTML = 'Please log ' +
+    //   'into this app.';
+  } else {
+    // The person is not logged into Facebook, so we're not sure if
+    // they are logged into this app or not.
+    // document.getElementById('status').innerHTML = 'Please log ' +
+    // 'into Facebook.';
+  }
+}
+
+checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    console.log('heres response! ', response)
+    this.statusChangeCallback(response);
+    if(response.status === 'connected') {
+      FB.api('/me', (response) => {
+      console.log('connected, here we go...', response);
+      var user = {username: response.name,
+              password: '1234'}
+      var userInfo = this.state.userInfo;
+      userInfo.name = response.name;
+      this.setState({userInfo})
+      this.submitLogin(user);
+    //  (e)=>{this.submitSignup(user, e)};
+  });
+    }
+    console.log('RES STATUS: ', response.status);
+  }.bind(this));
+}
+
+handleClick() {
+  console.log('clicky');
+  FB.login(this.checkLoginState());
+}
+
 
   submitLogin(login, e) {
-    e.preventDefault();
+    if(e) {
+      e.preventDefault();
+    }
 
     axios.post('/login', {username: login.username, password: login.password})
       .then((response) => {
         //if username and password combo matches
         if (response.data) {
-          this.props.checkUser(this.state.userInfo['username']);
+          console.log(this.state.userInfo)
+          this.props.checkUser(this.state.userInfo.name);
           this.props.history.push('/profile')
         } else {
           this.setState({
