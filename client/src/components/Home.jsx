@@ -10,6 +10,18 @@ import YelpGallery from './YelpGallery';
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    axios.post('/login', null)
+      .then((response) => {
+        
+          if(response.data && typeof response.data !== 'boolean') {
+            this.props.checkUser(response.data);
+            this.props.history.push('/profile');
+          }
+        
+      })
+      .catch(err => {
+        console.error("Error logging in", err);
+      })
   }
 
   render() {
