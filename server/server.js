@@ -77,6 +77,8 @@ app.post('/login', function (req, res) {
 
 
 app.get('/logout',function(req,res){
+  sess = req.session;
+  sess.email = null;
   res.redirect('/');
 });
 
