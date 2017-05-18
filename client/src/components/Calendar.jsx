@@ -7,22 +7,45 @@ class Calendar extends Component {
   constructor() {
     super();
     this.state = {
-      startDate: moment()
+      startDate: moment(),
+      endDate: moment() 
     };
   }
 
   render() {
     return (
-      <DatePicker
-        selected={this.state.startDate}
-        onChange={this.handleChange.bind(this)}
-      />
+        <div>
+        <DatePicker
+            selected={this.state.startDate}
+            selectsStart
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onChange={this.handleChangeStart.bind(this)}
+            monthsShown={2}
+            minDate={moment()}
+        />
+        <DatePicker
+            selected={this.state.endDate}
+            selectsEnd
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onChange={this.handleChangeEnd.bind(this)}
+            monthsShown={2}
+            minDate={moment()}
+        />
+        </div>
     );
   }
 
-  handleChange(date) {
+  handleChangeStart(date) {
     this.setState({
       startDate: date
+    });
+  }
+
+  handleChangeEnd(date) {
+    this.setState({
+      endDate: date
     });
   }
 }
