@@ -110,8 +110,8 @@ handleClick() {
       .then((response) => {
         //if username and password combo matches
         if (response.data) {
-          console.log(this.state.userInfo)
-          this.props.checkUser(this.state.userInfo.name);
+          console.log('userdata',this.state.userInfo)
+          this.props.checkUser(this.state.userInfo.username);
           this.props.history.push('/profile')
         } else {
           this.setState({
