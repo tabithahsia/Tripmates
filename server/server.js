@@ -2,6 +2,7 @@ var express = require('express');
 
 var path = require('path');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var http = require("http");
 
 var db = require('./db/database.js');
@@ -13,7 +14,11 @@ var salt = bcrypt.genSaltSync(10);
 var yelp = require('yelp-fusion');
 var yelpAPI = require('./yelpApi.js');
 
+app.use(session({secret: 'ssshhhhh'}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+var sess;
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -36,8 +41,11 @@ app.post('/signup', function (req, res){
 
 
 app.post('/login', function (req, res) {
+  sess = req.session;
+  if(sess.email) return res.send(sess.email);
   var username = req.body.username;
   var password = req.body.password;
+  sess.email = req.body.username;
 
   // If entered username or password is blank, send back 'false'
   if(!username || !password) {
