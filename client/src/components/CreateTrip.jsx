@@ -6,7 +6,6 @@ import InviteFriends from './InviteFriends';
 import YelpSearch from './YelpSearch';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-// import '../../../node_modules/react-datepicker/dist/react-datepicker.css';
 import Calendar from './Calendar';
 
 class CreateTrip extends React.Component {
